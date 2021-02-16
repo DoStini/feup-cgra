@@ -25,6 +25,12 @@ export class MyInterface extends CGFinterface {
 
         // Diamond checkbox
         this.gui.add(this.scene, 'displayDiamond').name('Display Diamond');
+        
+        // Triangle checkbox
+        this.gui.add(this.scene, 'displayTriangle').name('Display Triangle');
+
+        // Parallelogram checkbox
+        this.gui.add(this.scene, 'displayParallelogram').name('Display Parallelogram');
 
         return true;
     }
