@@ -4,7 +4,8 @@
 
 ## TP 1 Notes
 
-(add your main observations/remarks about your experiments here, in a bulleted list, and remove this line. Some examples below)
+### Exercise 1
+- We observed that the order of the vertices matters to know which side to render.
 
-- In exercise 1 we observed X
-- In exercise 2 we had difficulties in Y
+### Exercise 2
+- We couldn't show both the small and big triangle at the same time, so we took separate images
