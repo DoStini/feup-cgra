@@ -1,9 +1,9 @@
-import { CGFscene, CGFcamera, CGFaxis } from "../lib/CGF.js";
-import { MyDiamond } from "./MyDiamond.js";
-import { MyTriangle } from "./MyTriangle.js";
-import { MyTriangleSmall } from "./MyTriangleSmall.js";
-import { MyTriangleBig } from "./MyTriangleBig.js";
-import { MyParallelogram } from "./MyParallelogram.js";
+import { CGFscene, CGFcamera, CGFaxis } from "../../lib/CGF.js";
+import { MyDiamond } from "../Shapes/MyDiamond.js"
+import { MyTriangle } from "../Shapes/MyTriangle.js"
+import { MyTriangleBig } from "../Shapes/MyTriangleBig.js"
+import { MyTriangleSmall } from "../Shapes/MyTriangleSmall.js"
+import { MyParallelogram } from "../Shapes/MyParallelogram.js"
 
 /**
  * MyScene
@@ -29,11 +29,43 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.diamond = new MyDiamond(this);
-    this.triangle = new MyTriangle(this);
-    this.parallelogram = new MyParallelogram(this);
-    this.smallTriangle = new MyTriangleSmall(this);
-    this.bigTriangle = new MyTriangleBig(this);
+    this.head = new MyDiamond(this);
+    this.body = new MyTriangleBig(this);
+    this.backLeg = new MyTriangle(this);
+    this.frontLeg = new MyTriangleBig(this);
+    this.tail = new MyParallelogram(this);
+
+    this.showAxis = true;
+    this.showHead = true;
+    this.showBody = true;
+    this.showBackLeg = true;
+    this.showFrontLeg = true;
+    this.showTail = true;
+
+    this.degreeToRad = (degree) => Math.PI*degree/180;
+    
+    this.translateMatrix = (x,y,z) => 
+      [
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        x, y, z, 1,
+      ]
+
+    this.rotateZMatrix = (degree) => 
+      [
+        Math.cos(degree), Math.sin(degree), 0, 0,
+        -Math.sin(degree), Math.cos(degree), 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+      ];
+
+    this.mirrorYZ = () => [
+      -1, 0, 0, 0,
+      0, 1, 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1,
+    ]
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -99,6 +131,52 @@ export class MyScene extends CGFscene {
     this.multMatrix(sca);
 
     // ---- BEGIN Primitive drawing section
+
+    this.pushMatrix();
+
+      let tMatrix = this.translateMatrix(-2,0,0);
+
+      this.multMatrix(tMatrix);
+
+      if (this.showBody)
+        this.body.display();
+
+    this.popMatrix();
+
+    this.pushMatrix();
+
+      let rotMatrix = this.rotateZMatrix(this.degreeToRad(-45));
+      tMatrix = this.translateMatrix(-2+Math.sqrt(2),-Math.sqrt(2),0);
+
+      this.multMatrix(tMatrix);
+      this.multMatrix(rotMatrix);
+
+      if (this.showFrontLeg)
+        this.frontLeg.display();
+
+    this.popMatrix();
+
+    
+    this.pushMatrix();
+
+    rotMatrix = this.rotateZMatrix(this.degreeToRad(90));
+
+    let scaMatrix = this.mirrorYZ();
+
+    tMatrix = this.translateMatrix(-2,2,0);
+    
+    this.multMatrix(tMatrix);
+    this.multMatrix(scaMatrix);
+    this.multMatrix(rotMatrix);
+
+    if (this.showTail)
+      this.tail.display();
+
+    this.popMatrix();
+
+    // if (this.showBackLeg)    
+    //   this.backLeg.display();
+
     // ---- END Primitive drawing section
   }
 }
