@@ -34,6 +34,8 @@ export class MyScene extends CGFscene {
     this.backLeg = new MyTriangle(this);
     this.frontLeg = new MyTriangleBig(this);
     this.tail = new MyParallelogram(this);
+    this.leftEar = new MyTriangleSmall(this);
+    this.rightEar = new MyTriangleSmall(this);
 
     this.showAxis = true;
     this.showHead = true;
@@ -41,6 +43,8 @@ export class MyScene extends CGFscene {
     this.showBackLeg = true;
     this.showFrontLeg = true;
     this.showTail = true;
+    this.showRightEar = true;
+    this.showLeftEar = true;
 
     this.degreeToRad = (degree) => Math.PI*degree/180;
     
@@ -171,6 +175,60 @@ export class MyScene extends CGFscene {
 
     if (this.showTail)
       this.tail.display();
+
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    rotMatrix = this.rotateZMatrix(this.degreeToRad(45));
+    tMatrix = this.translateMatrix(-2-Math.sqrt(2), 2, 0);
+
+    this.multMatrix(tMatrix);
+    this.multMatrix(rotMatrix);
+
+    if(this.showBackLeg)
+      this.backLeg.display();
+
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    tMatrix = this.translateMatrix(2*Math.sqrt(2) - 1, -0.5, 0);
+    
+    this.multMatrix(tMatrix);
+
+    if(this.showHead)
+      this.head.display();
+
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    rotMatrix = this.rotateZMatrix(this.degreeToRad(-90));
+    const earX = Math.sqrt(2) - 2 + Math.sqrt(2);
+    tMatrix = this.translateMatrix(earX,0.5,0)
+
+    this.multMatrix(tMatrix);
+
+      this.pushMatrix();
+
+      this.multMatrix(rotMatrix);
+
+      if(this.showLeftEar)
+        this.leftEar.display();
+
+      this.popMatrix();
+
+    rotMatrix = this.rotateZMatrix(this.degreeToRad(90));
+    tMatrix = this.translateMatrix(2,0,0);
+    
+    this.multMatrix(tMatrix);
+    this.multMatrix(rotMatrix);
+
+
+    if(this.showRightEar)
+      this.rightEar.display();
+    
 
     this.popMatrix();
 
