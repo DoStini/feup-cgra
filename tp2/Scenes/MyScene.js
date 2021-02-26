@@ -1,5 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis } from "../../lib/CGF.js";
+import { MyUnitCube } from "../Objects/MyUnitCube.js";
 import { MyTangram } from "../Shapes/MyTangram.js";
+import { scaleMatrix, translateMatrix } from "../Utils/Matrix/MatrixGenerator.js";
 
 /**
  * MyScene
@@ -26,6 +28,7 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);    
     this.myTangram = new MyTangram(this);
+    this.myCube = new MyUnitCube(this);
 
     this.showAxis = true;
 
@@ -33,6 +36,7 @@ export class MyScene extends CGFscene {
     this.displayAxis = true;
     this.scaleFactor = 1;
     this.showTangram = true;
+    this.showCube = true;
   }
   initLights() {
     this.lights[0].setPosition(15, 2, 5, 1);
@@ -93,6 +97,9 @@ export class MyScene extends CGFscene {
     this.multMatrix(sca);
 
     // ---- BEGIN Primitive drawing section
+
+    if(this.showCube)
+      this.myCube.display();
 
     if (this.showTangram) {
       this.myTangram.display();
