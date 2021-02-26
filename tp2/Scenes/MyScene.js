@@ -205,8 +205,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
 
     rotMatrix = this.rotateZMatrix(this.degreeToRad(-90));
-    const earX = Math.sqrt(2) - 2 + Math.sqrt(2);
-    tMatrix = this.translateMatrix(earX,0.5,0)
+    tMatrix = this.translateMatrix(2*Math.sqrt(2) - 2,0.5,0)
 
     this.multMatrix(tMatrix);
 
