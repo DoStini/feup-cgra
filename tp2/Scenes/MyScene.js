@@ -4,6 +4,8 @@ import { MyTriangle } from "../Shapes/MyTriangle.js"
 import { MyTriangleBig } from "../Shapes/MyTriangleBig.js"
 import { MyTriangleSmall } from "../Shapes/MyTriangleSmall.js"
 import { MyParallelogram } from "../Shapes/MyParallelogram.js"
+import { degreeToRad } from "../Utils/Math/MathUtils.js"
+import { translateMatrix, rotateZMatrix, mirrorYZ } from "../Utils/Matrix/MatrixGenerator.js"
 
 /**
  * MyScene
@@ -45,31 +47,6 @@ export class MyScene extends CGFscene {
     this.showTail = true;
     this.showRightEar = true;
     this.showLeftEar = true;
-
-    this.degreeToRad = (degree) => Math.PI*degree/180;
-    
-    this.translateMatrix = (x,y,z) => 
-      [
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        x, y, z, 1,
-      ]
-
-    this.rotateZMatrix = (degree) => 
-      [
-        Math.cos(degree), Math.sin(degree), 0, 0,
-        -Math.sin(degree), Math.cos(degree), 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ];
-
-    this.mirrorYZ = () => [
-      -1, 0, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1,
-    ]
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -138,7 +115,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-      let tMatrix = this.translateMatrix(-2,0,0);
+      let tMatrix = translateMatrix(-2,0,0);
 
       this.multMatrix(tMatrix);
 
@@ -149,8 +126,8 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-      let rotMatrix = this.rotateZMatrix(this.degreeToRad(-45));
-      tMatrix = this.translateMatrix(-2+Math.sqrt(2),-Math.sqrt(2),0);
+      let rotMatrix = rotateZMatrix(degreeToRad(-45));
+      tMatrix = translateMatrix(-2+Math.sqrt(2),-Math.sqrt(2),0);
 
       this.multMatrix(tMatrix);
       this.multMatrix(rotMatrix);
@@ -163,11 +140,11 @@ export class MyScene extends CGFscene {
     
     this.pushMatrix();
 
-    rotMatrix = this.rotateZMatrix(this.degreeToRad(90));
+    rotMatrix = rotateZMatrix(degreeToRad(90));
 
-    let scaMatrix = this.mirrorYZ();
+    let scaMatrix = mirrorYZ();
 
-    tMatrix = this.translateMatrix(-2,2,0);
+    tMatrix = translateMatrix(-2,2,0);
     
     this.multMatrix(tMatrix);
     this.multMatrix(scaMatrix);
@@ -180,8 +157,8 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-    rotMatrix = this.rotateZMatrix(this.degreeToRad(45));
-    tMatrix = this.translateMatrix(-2-Math.sqrt(2), 2, 0);
+    rotMatrix = rotateZMatrix(degreeToRad(45));
+    tMatrix = translateMatrix(-2-Math.sqrt(2), 2, 0);
 
     this.multMatrix(tMatrix);
     this.multMatrix(rotMatrix);
@@ -193,7 +170,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-    tMatrix = this.translateMatrix(2*Math.sqrt(2) - 1, -0.5, 0);
+    tMatrix = translateMatrix(2*Math.sqrt(2) - 1, -0.5, 0);
     
     this.multMatrix(tMatrix);
 
@@ -204,9 +181,9 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-    rotMatrix = this.rotateZMatrix(this.degreeToRad(-90));
+    rotMatrix = rotateZMatrix(degreeToRad(-90));
     const earX = Math.sqrt(2) - 2 + Math.sqrt(2);
-    tMatrix = this.translateMatrix(earX,0.5,0)
+    tMatrix = translateMatrix(earX,0.5,0)
 
     this.multMatrix(tMatrix);
 
@@ -219,8 +196,8 @@ export class MyScene extends CGFscene {
 
       this.popMatrix();
 
-    rotMatrix = this.rotateZMatrix(this.degreeToRad(90));
-    tMatrix = this.translateMatrix(2,0,0);
+    rotMatrix = rotateZMatrix(degreeToRad(90));
+    tMatrix = translateMatrix(2,0,0);
     
     this.multMatrix(tMatrix);
     this.multMatrix(rotMatrix);
