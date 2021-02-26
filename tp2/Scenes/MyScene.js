@@ -1,9 +1,5 @@
 import { CGFscene, CGFcamera, CGFaxis } from "../../lib/CGF.js";
-import { MyDiamond } from "../Shapes/MyDiamond.js"
-import { MyTriangle } from "../Shapes/MyTriangle.js"
-import { MyTriangleBig } from "../Shapes/MyTriangleBig.js"
-import { MyTriangleSmall } from "../Shapes/MyTriangleSmall.js"
-import { MyParallelogram } from "../Shapes/MyParallelogram.js"
+import { MyTangram } from "../Shapes/MyTangram.js";
 
 /**
  * MyScene
@@ -28,53 +24,15 @@ export class MyScene extends CGFscene {
     this.gl.depthFunc(this.gl.LEQUAL);
 
     //Initialize scene objects
-    this.axis = new CGFaxis(this);
-    this.head = new MyDiamond(this);
-    this.body = new MyTriangleBig(this);
-    this.backLeg = new MyTriangle(this);
-    this.frontLeg = new MyTriangleBig(this);
-    this.tail = new MyParallelogram(this);
-    this.leftEar = new MyTriangleSmall(this);
-    this.rightEar = new MyTriangleSmall(this);
+    this.axis = new CGFaxis(this);    
+    this.myTangram = new MyTangram(this);
 
     this.showAxis = true;
-    this.showHead = true;
-    this.showBody = true;
-    this.showBackLeg = true;
-    this.showFrontLeg = true;
-    this.showTail = true;
-    this.showRightEar = true;
-    this.showLeftEar = true;
-
-    this.degreeToRad = (degree) => Math.PI*degree/180;
-    
-    this.translateMatrix = (x,y,z) => 
-      [
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        x, y, z, 1,
-      ]
-
-    this.rotateZMatrix = (degree) => 
-      [
-        Math.cos(degree), Math.sin(degree), 0, 0,
-        -Math.sin(degree), Math.cos(degree), 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ];
-
-    this.mirrorYZ = () => [
-      -1, 0, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1,
-    ]
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
-
+    this.showTangram = true;
   }
   initLights() {
     this.lights[0].setPosition(15, 2, 5, 1);
@@ -136,103 +94,9 @@ export class MyScene extends CGFscene {
 
     // ---- BEGIN Primitive drawing section
 
-    this.pushMatrix();
-
-      let tMatrix = this.translateMatrix(-2,0,0);
-
-      this.multMatrix(tMatrix);
-
-      if (this.showBody)
-        this.body.display();
-
-    this.popMatrix();
-
-    this.pushMatrix();
-
-      let rotMatrix = this.rotateZMatrix(this.degreeToRad(-45));
-      tMatrix = this.translateMatrix(-2+Math.sqrt(2),-Math.sqrt(2),0);
-
-      this.multMatrix(tMatrix);
-      this.multMatrix(rotMatrix);
-
-      if (this.showFrontLeg)
-        this.frontLeg.display();
-
-    this.popMatrix();
-
-    
-    this.pushMatrix();
-
-    rotMatrix = this.rotateZMatrix(this.degreeToRad(90));
-
-    let scaMatrix = this.mirrorYZ();
-
-    tMatrix = this.translateMatrix(-2,2,0);
-    
-    this.multMatrix(tMatrix);
-    this.multMatrix(scaMatrix);
-    this.multMatrix(rotMatrix);
-
-    if (this.showTail)
-      this.tail.display();
-
-    this.popMatrix();
-
-    this.pushMatrix();
-
-    rotMatrix = this.rotateZMatrix(this.degreeToRad(45));
-    tMatrix = this.translateMatrix(-2-Math.sqrt(2), 2, 0);
-
-    this.multMatrix(tMatrix);
-    this.multMatrix(rotMatrix);
-
-    if(this.showBackLeg)
-      this.backLeg.display();
-
-    this.popMatrix();
-
-    this.pushMatrix();
-
-    tMatrix = this.translateMatrix(2*Math.sqrt(2) - 1, -0.5, 0);
-    
-    this.multMatrix(tMatrix);
-
-    if(this.showHead)
-      this.head.display();
-
-    this.popMatrix();
-
-    this.pushMatrix();
-
-    rotMatrix = this.rotateZMatrix(this.degreeToRad(-90));
-    tMatrix = this.translateMatrix(2*Math.sqrt(2) - 2,0.5,0)
-
-    this.multMatrix(tMatrix);
-
-      this.pushMatrix();
-
-      this.multMatrix(rotMatrix);
-
-      if(this.showLeftEar)
-        this.leftEar.display();
-
-      this.popMatrix();
-
-    rotMatrix = this.rotateZMatrix(this.degreeToRad(90));
-    tMatrix = this.translateMatrix(2,0,0);
-    
-    this.multMatrix(tMatrix);
-    this.multMatrix(rotMatrix);
-
-
-    if(this.showRightEar)
-      this.rightEar.display();
-    
-
-    this.popMatrix();
-
-    // if (this.showBackLeg)    
-    //   this.backLeg.display();
+    if (this.showTangram) {
+      this.myTangram.display();
+    }
 
     // ---- END Primitive drawing section
   }
