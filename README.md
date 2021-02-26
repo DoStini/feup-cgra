@@ -1,6 +1,6 @@
 # CGRA 2020/2021
 
-## Group T0xG0y
+## Group T04G02
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
 | André Moreira         | 201904721 | up201904721@fe.up.pt                |
