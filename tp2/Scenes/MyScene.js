@@ -1,5 +1,5 @@
 import { CGFscene, CGFcamera, CGFaxis } from "../../lib/CGF.js";
-import { MyQuad } from "../Shapes/MyQuad.js"
+import { MyUnitCubeQuad } from "../Objects/MyUnitCubeQuad.js"
 
 /**
  * MyScene
@@ -25,12 +25,12 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);    
-    this.myQuad = new MyQuad(this);
-
+    this.myUnitCubeQuad = new MyUnitCubeQuad(this);
     this.showAxis = true;
 
     //Objects connected to MyInterface
     this.displayAxis = true;
+    this.displayUnitCube = true;
     this.scaleFactor = 1;
   }
   initLights() {
@@ -92,8 +92,8 @@ export class MyScene extends CGFscene {
     this.multMatrix(sca);
 
     // ---- BEGIN Primitive drawing section
-
-    this.myQuad.display();
+    if(this.displayUnitCube)
+      this.myUnitCubeQuad.display();
 
     // ---- END Primitive drawing section
   }
