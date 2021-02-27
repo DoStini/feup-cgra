@@ -3,6 +3,7 @@ import { MyUnitCube } from "../Objects/MyUnitCube.js";
 import { MyTangram } from "../Shapes/MyTangram.js";
 import { degreeToRad } from "../Utils/Math/MathUtils.js";
 import { scaleMatrix, translateMatrix, rotateXMatrix } from "../Utils/Matrix/MatrixGenerator.js";
+import { MyUnitCubeQuad } from "../Objects/MyUnitCubeQuad.js"
 
 /**
  * MyScene
@@ -31,10 +32,12 @@ export class MyScene extends CGFscene {
     this.myTangram = new MyTangram(this);
     this.myCube = new MyUnitCube(this);
 
+    this.myUnitCubeQuad = new MyUnitCubeQuad(this);
     this.showAxis = true;
 
     //Objects connected to MyInterface
     this.displayAxis = true;
+    this.displayUnitCube = true;
     this.scaleFactor = 1;
     this.showTangram = true;
     this.showCube = true;

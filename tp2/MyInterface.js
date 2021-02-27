@@ -34,6 +34,7 @@ export class MyInterface extends CGFinterface {
         this.gui.add(this.scene.myTangram, 'showHead').name('Show Head');
         this.gui.add(this.scene.myTangram, 'showLeftEar').name('Show Left Ear');
         this.gui.add(this.scene.myTangram, 'showRightEar').name('Show Right Ear');
+        this.gui.add(this.scene, 'displayUnitCube', 0.1, 5).name('Display Unit Cube');
 
         return true;
     }
