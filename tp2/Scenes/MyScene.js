@@ -1,5 +1,4 @@
 import { CGFscene, CGFcamera, CGFaxis } from "../../lib/CGF.js";
-import { MyUnitCube } from "../Objects/MyUnitCube.js";
 import { MyTangram } from "../Shapes/MyTangram.js";
 import { degreeToRad } from "../Utils/Math/MathUtils.js";
 import { scaleMatrix, translateMatrix, rotateXMatrix } from "../Utils/Matrix/MatrixGenerator.js";
@@ -30,7 +29,6 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);    
     this.myTangram = new MyTangram(this);
-    this.myCube = new MyUnitCube(this);
 
     this.myUnitCubeQuad = new MyUnitCubeQuad(this);
     this.showAxis = true;
@@ -118,7 +116,7 @@ export class MyScene extends CGFscene {
       this.multMatrix(sMatrix);
 
       if(this.showCube)
-        this.myCube.display();
+        this.myUnitCubeQuad.display();
       
     this.popMatrix();
 

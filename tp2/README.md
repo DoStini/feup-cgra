@@ -27,3 +27,8 @@
   - We moved around the cube to better aproximate the center of the figure.
   - Rotate both of the objects at the same time.
   - To move it to the origin, we reversed the translations applied to the cube to be in center with the cat (to center the whole object on the origin) and then apply some simple translations (half of the sides of the "cube").
+
+
+### Exercise 3
+
+- The cube built using geometric transformations over the faces of the cube. The front and back faces of the cube were done in one push/pop sequence.
