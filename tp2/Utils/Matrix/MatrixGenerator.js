@@ -12,6 +12,14 @@ const rotateZMatrix = (degree) =>
         -Math.sin(degree), Math.cos(degree), 0, 0,
         0, 0, 1, 0,
         0, 0, 0, 1
+    ]
+
+const rotateXMatrix = (degree) => 
+    [
+        1, 0, 0, 0,
+        0, Math.cos(degree), Math.sin(degree), 0,
+        0, -Math.sin(degree), Math.cos(degree), 0,
+        0, 0, 0, 1,
     ];
 
 const mirrorYZ = () => 
@@ -35,4 +43,5 @@ export {
     rotateZMatrix,
     mirrorYZ,
     scaleMatrix,
+    rotateXMatrix,
 };

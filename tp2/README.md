@@ -20,4 +20,10 @@
     - -2 + Math.sqrt(2) is the same translation applied to the body triangle.
 
 
-- In exercise 2 we had difficulties in Y
+### Exercise 2
+
+- The cube was easily built, by paying attention to the order of the vertices in the initBuffer function, to choose what side would be visible in each side.
+- To create the painting:
+  - We moved around the cube to better aproximate the center of the figure.
+  - Rotate both of the objects at the same time.
+  - To move it to the origin, we reversed the translations applied to the cube to be in center with the cat (to center the whole object on the origin) and then apply some simple translations (half of the sides of the "cube").
