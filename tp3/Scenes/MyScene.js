@@ -2,6 +2,8 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance } from "../../lib/CGF.js";
 import { MyPyramid } from "../Objects/MyPyramid.js";
 import { MyCone } from "../Objects/MyCone.js";
 import { MyPlane } from "../Shapes/MyPlane.js";
+import { MyTangram } from "../Shapes/MyTangram.js";
+import { MyUnitCube } from "../Objects/MyUnitCube.js";
 
 /**
 * MyScene
@@ -13,6 +15,8 @@ export class MyScene extends CGFscene {
     }
     init(application) {
         super.init(application);
+        this.ambientIntensity = 0.3;
+
         this.initCameras();
         this.initLights();
         this.initMaterials();
@@ -30,24 +34,37 @@ export class MyScene extends CGFscene {
         this.plane = new MyPlane(this, 5);
         this.cone = new MyCone(this, 3, 1);
         this.pyramid = new MyPyramid(this, 3, 1);
-        
-        this.objects = [this.plane, this.pyramid, this.cone];
+        this.tangram = new MyTangram(this);
+        this.cube = new MyUnitCube(this);
+
+        this.objects = [
+            this.plane, 
+            this.pyramid, 
+            this.cone,
+            this.tangram,
+            this.cube,
+        ];
 
         // Labels and ID's for object selection on MyInterface
-        this.objectIDs = { 'Plane': 0 , 'Pyramid': 1, 'Cone': 2};
+        this.objectIDs = {
+            'Plane': 0 , 
+            'Pyramid': 1, 
+            'Cone': 2,
+            'Tangram' : 3,
+            'Cube': 4,
+        };
 
         //Other variables connected to MyInterface
-        this.selectedObject = 0;
+        this.selectedObject = 4;
         this.selectedMaterial = 0;
         this.displayAxis = true;
-        this.displayNormals = false;
+        this.displayNormals = true;
         this.objectComplexity = 0.5;
         this.scaleFactor = 2.0;
-
     }
     initLights() {
-        this.setGlobalAmbientLight(0.3, 0.3, 0.3, 1.0);
-
+        this.setGlobalAmbientLight(this.ambientIntensity, this.ambientIntensity, this.ambientIntensity, 1.0);
+        
         this.lights[0].setPosition(2.0, 2.0, -1.0, 1.0);
         this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
         this.lights[0].setSpecular(1.0, 1.0, 1.0, 1.0);
@@ -99,6 +116,10 @@ export class MyScene extends CGFscene {
 
     updateObjectComplexity(){
         this.objects[this.selectedObject].updateBuffers(this.objectComplexity);
+    }
+
+    updateAmbientIntensity() {
+        this.setGlobalAmbientLight(this.ambientIntensity, this.ambientIntensity, this.ambientIntensity, 1.0);
     }
 
 
