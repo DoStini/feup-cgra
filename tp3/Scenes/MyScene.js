@@ -4,7 +4,7 @@ import { MyCone } from "../Objects/MyCone.js";
 import { MyPlane } from "../Shapes/MyPlane.js";
 import { MyTangram } from "../Shapes/MyTangram.js";
 import { MyUnitCube } from "../Objects/MyUnitCube.js";
-import { Material } from "../Materials/Material.js";
+import { Material } from "../Utils/Material.js";
 import material1Values from "../Materials/Material1.js";
 import material2Values  from "../Materials/Material2.js"
 import material3Values  from "../Materials/Material3.js"
