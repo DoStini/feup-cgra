@@ -6,6 +6,9 @@ import { MyParallelogram } from './MyParallelogram.js';
 import { MyTriangle } from './MyTriangle.js';
 import { MyTriangleBig } from './MyTriangleBig.js';
 import { MyTriangleSmall } from './MyTriangleSmall.js';
+import { Material } from "../Materials/Material.js";
+import TangramMaterials from "../Materials/TangramMaterials/TangramMaterials.js"
+import TailMaterial from '../Materials/TangramMaterials/TailMaterial.js';
 
 /**
  * MyTangram
@@ -13,10 +16,11 @@ import { MyTriangleSmall } from './MyTriangleSmall.js';
  * @param scene - Reference to MyScene object
  */
 export class MyTangram extends CGFobject {
-	constructor(scene) {
+	constructor(scene, defaultMaterial) {
 		super(scene);
         this.scene = scene;
 		this.init();
+        this.defaultMaterial = defaultMaterial;
 	}
 
     init() {
@@ -29,6 +33,13 @@ export class MyTangram extends CGFobject {
         this.rightEar = new MyTriangleSmall(this.scene);
 
         this.normals = [];
+
+        this.tailMaterial = new Material(this.scene, TangramMaterials.TailMaterial);
+        this.backLegMaterial = new Material(this.scene, TangramMaterials.BackLegMaterial);
+        this.bodyMaterial = new Material(this.scene, TangramMaterials.BodyMaterial);
+        this.rightEarMaterial = new Material(this.scene, TangramMaterials.RightEarMaterial);
+        this.leftEarMaterial = new Material(this.scene, TangramMaterials.LeftEarMaterial);
+        this.frontLegMaterial = new Material(this.scene, TangramMaterials.FrontLegMaterial)
     }
 
     updateBuffers() {
@@ -63,7 +74,7 @@ export class MyTangram extends CGFobject {
 
             this.scene.multMatrix(tMatrix);
 
-         
+            this.bodyMaterial.getMaterial().apply();
             this.body.display();
 
         this.scene.popMatrix();
@@ -76,7 +87,8 @@ export class MyTangram extends CGFobject {
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
 
-            
+            this.frontLegMaterial.getMaterial().apply();
+
             this.frontLeg.display();
 
         this.scene.popMatrix();
@@ -94,7 +106,7 @@ export class MyTangram extends CGFobject {
             this.scene.multMatrix(scaMatrix);
             this.scene.multMatrix(rotMatrix);
 
-            
+            this.tailMaterial.getMaterial().apply();
             this.tail.display();
 
         this.scene.popMatrix();
@@ -107,7 +119,7 @@ export class MyTangram extends CGFobject {
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
 
-            
+            this.backLegMaterial.getMaterial().apply();
             this.backLeg.display();
 
         this.scene.popMatrix();
@@ -117,6 +129,8 @@ export class MyTangram extends CGFobject {
             tMatrix = translateMatrix(2*Math.sqrt(2) - 1, -0.5, 0);
             
             this.scene.multMatrix(tMatrix);
+
+            this.defaultMaterial.getMaterial().apply();
 
             this.head.display();
 
@@ -134,7 +148,8 @@ export class MyTangram extends CGFobject {
 
                 this.scene.multMatrix(rotMatrix);
 
-                
+                this.leftEarMaterial.getMaterial().apply();
+
                 this.leftEar.display();
 
             this.scene.popMatrix();
@@ -146,6 +161,7 @@ export class MyTangram extends CGFobject {
             this.scene.multMatrix(rotMatrix);
 
 
+            this.rightEarMaterial.getMaterial().apply();
             
             this.rightEar.display();
         
