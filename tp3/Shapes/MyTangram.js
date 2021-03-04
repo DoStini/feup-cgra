@@ -6,7 +6,7 @@ import { MyParallelogram } from './MyParallelogram.js';
 import { MyTriangle } from './MyTriangle.js';
 import { MyTriangleBig } from './MyTriangleBig.js';
 import { MyTriangleSmall } from './MyTriangleSmall.js';
-import { Material } from "../Materials/Material.js";
+import { Material } from "../Utils/Material.js";
 import TangramMaterials from "../Materials/TangramMaterials/TangramMaterials.js"
 import TailMaterial from '../Materials/TangramMaterials/TailMaterial.js';
 
