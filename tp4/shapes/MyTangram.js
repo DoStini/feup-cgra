@@ -92,7 +92,7 @@ export class MyTangram extends CGFobject {
 
 
         this.tangramMaterial = new CGFappearance(this.scene);
-        this.tangramMaterial.loadTexture("./images/tangram-lines.png");
+        this.tangramMaterial.loadTexture("./images/tangram.png");
         this.tangramMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
     }
