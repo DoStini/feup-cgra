@@ -203,4 +203,7 @@ export class MyTangram extends CGFobject {
 
         this.scene.popMatrix();
     }
+
+    updateTexCoords() {}
+
 }

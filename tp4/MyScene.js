@@ -1,6 +1,9 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
+import DefaultMaterial from "./Materials/DefaultMaterial.js";
+import { MyUnitCubeQuad } from "./Objects/MyUnitCubeQuad.js";
 import { MyQuad } from "./shapes/MyQuad.js";
 import { MyTangram } from "./shapes/MyTangram.js"
+import { Material } from "./Utils/Material.js";
 
 /**
  * MyScene
@@ -29,6 +32,40 @@ export class MyScene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.quad = new MyQuad(this);
         this.tangram = new MyTangram(this);
+        this.cube = new MyUnitCubeQuad(
+            this,
+            [
+                new Material(this, DefaultMaterial, {
+                    tex: 'images/mineTop.png',
+                    SMODE: 'CLAMP_TO_EDGE',
+                    TMODE: 'CLAMP_TO_EDGE',
+                }),
+                new Material(this, DefaultMaterial, {
+                    tex: 'images/mineSide.png',
+                    SMODE: 'CLAMP_TO_EDGE',
+                    TMODE: 'CLAMP_TO_EDGE',
+                }),
+                new Material(this, DefaultMaterial, {
+                    tex: 'images/mineSide.png',
+                    SMODE: 'CLAMP_TO_EDGE',
+                    TMODE: 'CLAMP_TO_EDGE',
+                }),
+                new Material(this, DefaultMaterial, {
+                    tex: 'images/mineSide.png',
+                    SMODE: 'CLAMP_TO_EDGE',
+                    TMODE: 'CLAMP_TO_EDGE',
+                }),
+                new Material(this, DefaultMaterial, {
+                    tex: 'images/mineSide.png',
+                    SMODE: 'CLAMP_TO_EDGE',
+                    TMODE: 'CLAMP_TO_EDGE',
+                }),
+                new Material(this, DefaultMaterial, {
+                    tex: 'images/mineBottom.png',
+                    SMODE: 'CLAMP_TO_EDGE',
+                    TMODE: 'CLAMP_TO_EDGE',
+                }),
+            ]);
 
         //------ Applied Material
         this.quadMaterial = new CGFappearance(this);
@@ -38,6 +75,13 @@ export class MyScene extends CGFscene {
         this.quadMaterial.setShininess(10.0);
         this.quadMaterial.loadTexture('images/default.png');
         this.quadMaterial.setTextureWrap('REPEAT', 'REPEAT');
+        this.defaultMaterial = new CGFappearance(this);
+        this.defaultMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.defaultMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.defaultMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.quadMaterial.setShininess(10.0);
+        this.defaultMaterial.loadTexture('images/default.png');
+        this.defaultMaterial.setTextureWrap('REPEAT', 'REPEAT');
         //------
 
         //------ Textures
@@ -53,16 +97,17 @@ export class MyScene extends CGFscene {
         this.selectedObject = 0;        
         this.wrapS = 0;
         this.wrapT = 0;
+        this.linear = true;
 
         this.textures = [this.texture1, this.texture2, this.texture3];
         this.texCoords = [0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0];
         this.wrappingMethods = ['REPEAT', 'CLAMP_TO_EDGE', 'MIRRORED_REPEAT'];
-        this.objects = [this.tangram, this.quad];
+        this.objects = [this.tangram, this.cube, this.quad];
 
         this.textureIds = { 'Board': 0, 'Floor': 1, 'Window': 2};
         this.wrappingS = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
         this.wrappingT = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
-        this.objectsIds = { 'Tangram' : 0, 'Quad': 1};
+        this.objectsIds = { 'Tangram' : 0, 'Cube': 1, 'Quad': 2};
 
       }
 
@@ -101,7 +146,7 @@ export class MyScene extends CGFscene {
 
     //Function that updates texture coordinates in MyQuad
     updateTexCoords() {
-        //this.quad.updateTexCoords(this.texCoords);
+        this.objects[this.selectedObject].updateTexCoords(this.texCoords);
     }
 
     display() {
@@ -132,7 +177,9 @@ export class MyScene extends CGFscene {
         // Uncomment next line for NEAREST when magnifying, or 
         // add a checkbox in the GUI to alternate in real time
         
-        // this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
+
+        if (!this.linear)
+            this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
 
 
         this.objects[this.selectedObject].display();

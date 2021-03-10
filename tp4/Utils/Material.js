@@ -7,10 +7,10 @@ import { CGFappearance } from "../../lib/CGF.js";
  * @param mat - JSON Object containing information about the material (optional)
  */
 export class Material {
-    constructor(scene, mat) {
+    constructor(scene, mat, tex) {
         this.material = new CGFappearance(scene);
         if (mat)
-            this.initMaterial(mat);
+            this.initMaterial(mat, tex);
     }
 
     hexToRgbA(hex)
@@ -36,11 +36,13 @@ export class Material {
     }
 
 
-    initMaterial(mat) {
+    initMaterial(mat, tex) {
         this.material.setAmbient(...this.hexToRgbA(mat.Ambient));
         this.material.setDiffuse(...this.hexToRgbA(mat.Diffuse));
         this.material.setSpecular(...this.hexToRgbA(mat.Specular));
         this.material.setShininess(mat.Shininess);
+        this.texture = this.material.loadTexture(tex.tex);
+        this.material.setTextureWrap(tex.SMODE, tex.TMODE);
     }
 
     updateMaterial(specular, diffuse, ambient, shininess) {

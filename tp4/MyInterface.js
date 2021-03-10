@@ -21,6 +21,10 @@ export class MyInterface extends CGFinterface {
 
         //Checkbox element in GUI
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
+  
+        this.gui.add(this.scene, 'scaleFactor', 0.1, 10.0).name('Scale');
+
+        this.gui.add(this.scene, 'linear').name('Linear');
 
         //Dropdown for textures
         this.gui.add(this.scene, 'selectedObject', this.scene.objectsIds).name('Selected Object').onChange(this.scene.updateCurrentObject.bind(this.scene));
