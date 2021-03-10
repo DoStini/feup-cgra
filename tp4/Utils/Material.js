@@ -41,7 +41,7 @@ export class Material {
         this.material.setDiffuse(...this.hexToRgbA(mat.Diffuse));
         this.material.setSpecular(...this.hexToRgbA(mat.Specular));
         this.material.setShininess(mat.Shininess);
-        this.texture = this.material.loadTexture(tex.tex);
+        this.material.loadTexture(tex.tex);
         this.material.setTextureWrap(tex.SMODE, tex.TMODE);
     }
 

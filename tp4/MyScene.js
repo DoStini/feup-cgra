@@ -37,23 +37,23 @@ export class MyScene extends CGFscene {
             [
                 new Material(this, DefaultMaterial, {
                     tex: 'images/mineTop.png',
-                    SMODE: 'CLAMP_TO_EDGE',
-                    TMODE: 'CLAMP_TO_EDGE',
+                    SMODE: 'REPEAT',
+                    TMODE: 'REPEAT',
                 }),
                 new Material(this, DefaultMaterial, {
                     tex: 'images/mineSide.png',
-                    SMODE: 'CLAMP_TO_EDGE',
-                    TMODE: 'CLAMP_TO_EDGE',
+                    SMODE: 'REPEAT',
+                    TMODE: 'REPEAT',
                 }),
                 new Material(this, DefaultMaterial, {
                     tex: 'images/mineSide.png',
-                    SMODE: 'CLAMP_TO_EDGE',
-                    TMODE: 'CLAMP_TO_EDGE',
+                    SMODE: 'REPEAT',
+                    TMODE: 'REPEAT',
                 }),
                 new Material(this, DefaultMaterial, {
                     tex: 'images/mineSide.png',
-                    SMODE: 'CLAMP_TO_EDGE',
-                    TMODE: 'CLAMP_TO_EDGE',
+                    SMODE: 'REPEAT',
+                    TMODE: 'REPEAT',
                 }),
                 new Material(this, DefaultMaterial, {
                     tex: 'images/mineSide.png',
@@ -88,6 +88,8 @@ export class MyScene extends CGFscene {
         this.texture1 = new CGFtexture(this, 'images/board.jpg');
         this.texture2 = new CGFtexture(this, 'images/floor.png');
         this.texture3 = new CGFtexture(this, 'images/window.jpg');
+        this.texture4 = new CGFtexture(this, 'images/mineSide.png');
+
         //-------
 
         //-------Objects connected to MyInterface
@@ -99,12 +101,12 @@ export class MyScene extends CGFscene {
         this.wrapT = 0;
         this.linear = true;
 
-        this.textures = [this.texture1, this.texture2, this.texture3];
+        this.textures = [this.texture1, this.texture2, this.texture3, this.texture4];
         this.texCoords = [0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0];
         this.wrappingMethods = ['REPEAT', 'CLAMP_TO_EDGE', 'MIRRORED_REPEAT'];
         this.objects = [this.tangram, this.cube, this.quad];
 
-        this.textureIds = { 'Board': 0, 'Floor': 1, 'Window': 2};
+        this.textureIds = { 'Board': 0, 'Floor': 1, 'Window': 2, 'Mini':3};
         this.wrappingS = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
         this.wrappingT = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
         this.objectsIds = { 'Tangram' : 0, 'Cube': 1, 'Quad': 2};
@@ -177,11 +179,6 @@ export class MyScene extends CGFscene {
         // Uncomment next line for NEAREST when magnifying, or 
         // add a checkbox in the GUI to alternate in real time
         
-
-        if (!this.linear)
-            this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
-
-
         this.objects[this.selectedObject].display();
 
         // ---- END Primitive drawing section

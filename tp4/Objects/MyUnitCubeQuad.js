@@ -40,9 +40,14 @@ export class MyUnitCubeQuad extends CGFobject {
     safeApply(tex) {
         if (!tex) {
             if (this.scene.defaultMaterial) this.scene.defaultMaterial.apply();
-            return;
+        } else {
+            tex.getMaterial().apply();
         }
-        tex.getMaterial().apply();
+
+        if (!this.scene.linear)
+            this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+        else
+            this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
     }
 
     display() {
@@ -59,7 +64,7 @@ export class MyUnitCubeQuad extends CGFobject {
 
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(inv);
-            this.safeApply(this.backTex);
+            this.safeApply(this.backTex);            
             this.backQuad.display();
 
         this.scene.popMatrix();
