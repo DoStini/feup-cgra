@@ -1,5 +1,6 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
 import { MyQuad } from "./shapes/MyQuad.js";
+import { MyTangram } from "./shapes/MyTangram.js"
 
 /**
  * MyScene
@@ -26,7 +27,8 @@ export class MyScene extends CGFscene {
 
         //Initialize scene objects
         this.axis = new CGFaxis(this);
-        this.quad = new MyQuad(this);
+        //this.quad = new MyQuad(this);
+        this.tangram = new MyTangram(this);
 
         //------ Applied Material
         this.quadMaterial = new CGFappearance(this);
@@ -46,7 +48,7 @@ export class MyScene extends CGFscene {
 
         //-------Objects connected to MyInterface
         this.displayAxis = true;
-        this.scaleFactor = 5;
+        this.scaleFactor = 1;
         this.selectedTexture = -1;        
         this.wrapS = 0;
         this.wrapT = 0;
@@ -55,7 +57,7 @@ export class MyScene extends CGFscene {
         this.texCoords = [0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0];
         this.wrappingMethods = ['REPEAT', 'CLAMP_TO_EDGE', 'MIRRORED_REPEAT'];
 
-        this.textureIds = { 'Board': 0, 'Floor': 1, 'Window': 2 };
+        this.textureIds = { 'Board': 0, 'Floor': 1, 'Window': 2};
         this.wrappingS = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
         this.wrappingT = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
 
@@ -91,7 +93,7 @@ export class MyScene extends CGFscene {
 
     //Function that updates texture coordinates in MyQuad
     updateTexCoords() {
-        this.quad.updateTexCoords(this.texCoords);
+        //this.quad.updateTexCoords(this.texCoords);
     }
 
     display() {
@@ -124,7 +126,8 @@ export class MyScene extends CGFscene {
         
         // this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
 
-        this.quad.display();
+
+        this.tangram.display();
 
         // ---- END Primitive drawing section
     }
