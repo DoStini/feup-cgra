@@ -27,7 +27,7 @@ export class MyScene extends CGFscene {
 
         //Initialize scene objects
         this.axis = new CGFaxis(this);
-        //this.quad = new MyQuad(this);
+        this.quad = new MyQuad(this);
         this.tangram = new MyTangram(this);
 
         //------ Applied Material
@@ -50,16 +50,19 @@ export class MyScene extends CGFscene {
         this.displayAxis = true;
         this.scaleFactor = 1;
         this.selectedTexture = -1;        
+        this.selectedObject = 0;        
         this.wrapS = 0;
         this.wrapT = 0;
 
         this.textures = [this.texture1, this.texture2, this.texture3];
         this.texCoords = [0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0];
         this.wrappingMethods = ['REPEAT', 'CLAMP_TO_EDGE', 'MIRRORED_REPEAT'];
+        this.objects = [this.tangram, this.quad];
 
         this.textureIds = { 'Board': 0, 'Floor': 1, 'Window': 2};
         this.wrappingS = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
         this.wrappingT = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
+        this.objectsIds = { 'Tangram' : 0, 'Quad': 1};
 
       }
 
@@ -84,6 +87,11 @@ export class MyScene extends CGFscene {
     //Function that resets selected texture in quadMaterial
     updateAppliedTexture() {
         this.quadMaterial.setTexture(this.textures[this.selectedTexture]);
+    }
+
+    //Function that resets selected texture in quadMaterial
+    updateCurrentObject() {
+        
     }
 
     //Function that updates wrapping mode in quadMaterial
@@ -127,7 +135,7 @@ export class MyScene extends CGFscene {
         // this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
 
 
-        this.tangram.display();
+        this.objects[this.selectedObject].display();
 
         // ---- END Primitive drawing section
     }
