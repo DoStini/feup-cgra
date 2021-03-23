@@ -76,6 +76,8 @@ export class ShaderScene extends CGFscene {
 		this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
 		this.texture2 = new CGFtexture(this, "textures/FEUP.jpg");
+		this.waterMap = new CGFtexture(this, "textures/waterMap.jpg");
+		this.waterTex = new CGFtexture(this, "textures/waterTex.jpg");
 
 		// shaders initialization
 
@@ -91,12 +93,14 @@ export class ShaderScene extends CGFscene {
 			new CGFshader(this.gl, "shaders/texture1.vert", "shaders/grayscale.frag"),
 			new CGFshader(this.gl, "shaders/texture1.vert", "shaders/convolution.frag"),
 			new CGFshader(this.gl, "shaders/teapot.vert", "shaders/teapot.frag"),
+			new CGFshader(this.gl, "shaders/water.vert", "shaders/water.frag"),
 		];
 
 		// additional texture will have to be bound to texture unit 1 later, when using the shader, with "this.texture2.bind(1);"
 		this.testShaders[4].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[5].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[6].setUniformsValues({ uSampler2: 1 });
+		this.testShaders[11].setUniformsValues({ uSampler2: 2 });
 		this.testShaders[6].setUniformsValues({ timeFactor: 0 });
 
 
@@ -113,7 +117,8 @@ export class ShaderScene extends CGFscene {
 			'Sepia': 7,
 			'Grayscale': 8,
 			'Convolution': 9,
-			'Teapot': 10
+			'Teapot': 10,
+			'Water': 11
 		};
 
 		// shader code panels references
@@ -222,14 +227,22 @@ export class ShaderScene extends CGFscene {
 		this.axis.display();
 
 		// aplly main appearance (including texture in default texture unit 0)
-		this.appearance.apply();
+		
+		if (this.selectedExampleShader == this.shadersList.Water) {
+			this.appearance.setTexture(this.waterTex);
+		} else {
+			this.appearance.setTexture(this.texture);
+		}
 
+		this.appearance.apply();
+		
 		// activate selected shader
 		this.setActiveShader(this.testShaders[this.selectedExampleShader]);
 		this.pushMatrix();
 
 		// bind additional texture to texture unit 1
 		this.texture2.bind(1);
+		this.waterMap.bind(2);
 
 		if (this.selectedObject==0) {
 			// teapot (scaled and rotated to conform to our axis)
