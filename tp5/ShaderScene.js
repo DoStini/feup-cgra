@@ -54,7 +54,7 @@ export class ShaderScene extends CGFscene {
 
 		this.objects=[
 			new Teapot(this),
-			new MyPlane(this, 50)
+			new MyPlane(this, 100)
 		];
 
 		// Object interface variables
@@ -100,7 +100,7 @@ export class ShaderScene extends CGFscene {
 		this.testShaders[4].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[5].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[6].setUniformsValues({ uSampler2: 1 });
-		this.testShaders[11].setUniformsValues({ uSampler2: 2 });
+		this.testShaders[11].setUniformsValues({ uSampler2: 2, timeFactor: 0 });
 		this.testShaders[6].setUniformsValues({ timeFactor: 0 });
 
 
@@ -204,6 +204,7 @@ export class ShaderScene extends CGFscene {
 			// Doing the modulus (%) by 100 makes the timeFactor loop between 0 and 99
 			// ( so the loop period of timeFactor is 100 times 100 ms = 10s ; the actual animation loop depends on how timeFactor is used in the shader )
 			this.testShaders[6].setUniformsValues({ timeFactor: t / 100 % 100 });
+			this.testShaders[11].setUniformsValues({ timeFactor: t / 100 % 100 });
 	}
 
 	// main display function
@@ -230,8 +231,12 @@ export class ShaderScene extends CGFscene {
 		
 		if (this.selectedExampleShader == this.shadersList.Water) {
 			this.appearance.setTexture(this.waterTex);
+			this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+
 		} else {
 			this.appearance.setTexture(this.texture);
+			this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+
 		}
 
 		this.appearance.apply();
@@ -267,5 +272,7 @@ export class ShaderScene extends CGFscene {
 
 		// restore default shader (will be needed for drawing the axis in next frame)
 		this.setActiveShader(this.defaultShader);
+
+		this.popMatrix();
 	}
 }
