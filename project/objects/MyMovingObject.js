@@ -24,6 +24,8 @@ export class MyMovingObject extends CGFobject {
         this.velocity = this.baseVelocity;
         this.basePosition = position || new Vector3(0,0,0);
         this.position = (new Vector3(position.x, position.y, position.z));
+        this.accel = 0.005;
+        this.rotSpeed = 2;
     }
 
     accelerate(val) {
@@ -45,19 +47,19 @@ export class MyMovingObject extends CGFobject {
         var text = "Keys pressed: ";
 
         if (this.scene.gui.isKeyPressed("KeyW")) {
-            this.accelerate(0.005);
+            this.accelerate(this.accel);
         }
 
         if (this.scene.gui.isKeyPressed("KeyS")) {
-            this.accelerate(-0.005);
+            this.accelerate(-this.accel);
         }
 
         if (this.scene.gui.isKeyPressed("KeyA")) {
-            this.turn(2);
+            this.turn(this.rotSpeed);
         }
 
         if (this.scene.gui.isKeyPressed("KeyD")) {
-            this.turn(-2);
+            this.turn(-this.rotSpeed);
         }
 
         if (this.scene.gui.isKeyPressed("KeyR")) {

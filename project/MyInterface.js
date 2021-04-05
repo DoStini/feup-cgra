@@ -63,6 +63,10 @@ export class MyInterface extends CGFinterface {
 
         var obj = this;
 
+        const controllable = this.gui.addFolder('Top Left Coords');
+        controllable.add(this.scene.movmObject, 'accel', 0.001, 0.01).name('Accel');
+        controllable.add(this.scene.movmObject, 'rotSpeed', 0.1, 100).name('Rotation Speed');
+
         //Checkbox element in GUI
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
 
