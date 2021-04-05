@@ -2,6 +2,7 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance } from "../lib/CGF.js";
 import { MyMovingObject } from "./objects/MyMovingObject.js";
 import { MyPyramid } from "./objects/MyPyramid.js";
 import { MySphere } from "./objects/MySphere.js";
+import { Vector3 } from "./utils/Vector3.js";
 
 /**
 * MyScene
@@ -19,22 +20,6 @@ export class MyScene extends CGFscene {
         var keysPressed = false;
 
         // Check for key codes e.g. in https://keycode.info/
-
-        if (this.gui.isKeyPressed("KeyW")) {
-
-            text += " W ";
-
-            keysPressed = true;
-
-        }
-
-        if (this.gui.isKeyPressed("KeyS")) {
-
-            text += " S ";
-
-            keysPressed = true;
-
-        }
 
         if (keysPressed)
 
@@ -63,7 +48,10 @@ export class MyScene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.incompleteSphere = new MySphere(this, 16, 8);
 
-        this.movmObject = new MyMovingObject(this, new MyPyramid(this, 3, 1), 30);
+        this.movmObject = new MyMovingObject(
+                this,
+                new MyPyramid(this, 3, 1), 
+                0, 0, new Vector3(0,0,-0.5));
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.2, 0.4, 0.8, 1.0);

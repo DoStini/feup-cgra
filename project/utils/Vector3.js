@@ -6,4 +6,9 @@ export class Vector3 {
     }
     
     magnitude = () => Math.sqrt(Math.pow(this.x,2) + Math.pow(this.y,2) + Math.pow(this.z,2));
+    sum = (vec) => {
+        this.x += vec.x;
+        this.y += vec.y;
+        this.z += vec.z;
+    }
 }
