@@ -63,7 +63,7 @@ export class MyScene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.incompleteSphere = new MySphere(this, 16, 8);
 
-        this.movmObject = new MyMovingObject(this, new MyPyramid(this, 3, 1));
+        this.movmObject = new MyMovingObject(this, new MyPyramid(this, 3, 1), 30);
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.2, 0.4, 0.8, 1.0);
