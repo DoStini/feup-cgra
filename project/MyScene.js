@@ -11,6 +11,37 @@ export class MyScene extends CGFscene {
     constructor() {
         super();
     }
+
+    checkKeys() {
+
+        var text = "Keys pressed: ";
+
+        var keysPressed = false;
+
+        // Check for key codes e.g. in https://keycode.info/
+
+        if (this.gui.isKeyPressed("KeyW")) {
+
+            text += " W ";
+
+            keysPressed = true;
+
+        }
+
+        if (this.gui.isKeyPressed("KeyS")) {
+
+            text += " S ";
+
+            keysPressed = true;
+
+        }
+
+        if (keysPressed)
+
+            console.log(text);
+
+    }
+
     init(application) {
         super.init(application);
         this.initCameras();
@@ -19,33 +50,33 @@ export class MyScene extends CGFscene {
         //Background color 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-        this.gl.clearDepth(100.0);        
+        this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
-        this.gl.enable(this.gl.CULL_FACE);   
+        this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.setUpdatePeriod(50);
-        
+
         this.enableTextures(true);
 
         //Initialize scene objects        // create reference from the scene to the GUI
         this.axis = new CGFaxis(this);
         this.incompleteSphere = new MySphere(this, 16, 8);
 
-        this.movmObject = new MyMovingObject(this, new MyPyramid(this, 3,1));
+        this.movmObject = new MyMovingObject(this, new MyPyramid(this, 3, 1));
 
         this.defaultAppearance = new CGFappearance(this);
-		this.defaultAppearance.setAmbient(0.2, 0.4, 0.8, 1.0);
+        this.defaultAppearance.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.defaultAppearance.setDiffuse(0.2, 0.4, 0.8, 1.0);
         this.defaultAppearance.setSpecular(0.2, 0.4, 0.8, 1.0);
-        this.defaultAppearance.setEmission(0,0,0,1);
-		this.defaultAppearance.setShininess(120);
+        this.defaultAppearance.setEmission(0, 0, 0, 1);
+        this.defaultAppearance.setShininess(120);
 
-		this.sphereAppearance = new CGFappearance(this);
-		this.sphereAppearance.setAmbient(0.3, 0.3, 0.3, 1);
-		this.sphereAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
-		this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
-		this.sphereAppearance.setShininess(120);
+        this.sphereAppearance = new CGFappearance(this);
+        this.sphereAppearance.setAmbient(0.3, 0.3, 0.3, 1);
+        this.sphereAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+        this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
+        this.sphereAppearance.setShininess(120);
 
 
         //Objects connected to MyInterface
@@ -65,13 +96,13 @@ export class MyScene extends CGFscene {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
-        this.setEmission(0,0,0,1);
+        this.setEmission(0, 0, 0, 1);
         this.setShininess(10.0);
     }
 
     // called periodically (as per setUpdatePeriod() in init())
-    update(t){
-        //To be done...
+    update(t) {
+        this.checkKeys();
     }
 
     display() {
@@ -84,8 +115,8 @@ export class MyScene extends CGFscene {
         this.loadIdentity();
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
-        
-        
+
+
         this.defaultAppearance.apply();
         // Draw axis
         if (this.displayAxis)
