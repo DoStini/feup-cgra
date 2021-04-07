@@ -23,9 +23,10 @@ export class MyMovingObject extends CGFobject {
         this.baseVelocity = velocity || 0;
         this.velocity = this.baseVelocity;
         this.basePosition = position || new Vector3(0,0,0);
-        this.position = (new Vector3(position.x, position.y, position.z));
-        this.accel = 0.005;
-        this.rotSpeed = 2;
+        this.position = (new Vector3(this.basePosition.x, this.basePosition.y, this.basePosition.z));
+        this.accel = 0.01;
+        this.maxVelocity = this.accel * 20;
+        this.rotSpeed = 4;
     }
 
     accelerate(val) {
@@ -33,7 +34,7 @@ export class MyMovingObject extends CGFobject {
     }
 
     turn(val) {
-        this.direction += val;
+        this.direction += val * this.velocity/this.maxVelocity;
     }
 
     reset() {
@@ -43,8 +44,6 @@ export class MyMovingObject extends CGFobject {
     }
 
     checkKeys() {
-
-        var text = "Keys pressed: ";
 
         if (this.scene.gui.isKeyPressed("KeyW")) {
             this.accelerate(this.accel);
@@ -67,8 +66,12 @@ export class MyMovingObject extends CGFobject {
         }
     }
 
-    update() {
-        this.checkKeys();
+    update(t) {
+        if (this.velocity > this.maxVelocity)
+            this.velocity = this.maxVelocity;
+        else if (this.velocity < -this.maxVelocity)
+            this.velocity = -this.maxVelocity;
+
         const vel = new Vector3(
                 this.velocity*Math.sin(degreeToRad(this.direction)),
                 0,
@@ -77,7 +80,6 @@ export class MyMovingObject extends CGFobject {
     }
 
     display() {
-        this.update();
         this.scene.pushMatrix();
         
         let matrix = translateMatrix(this.position.x, this.position.y, this.position.z);

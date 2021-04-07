@@ -11,4 +11,9 @@ export class Vector3 {
         this.y += vec.y;
         this.z += vec.z;
     }
+    mult = (val) => {
+        this.x *= val;
+        this.y *= val;
+        this.z *= val;    
+    }
 }

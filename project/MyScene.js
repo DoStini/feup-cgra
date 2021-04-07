@@ -15,15 +15,7 @@ export class MyScene extends CGFscene {
 
     checkKeys() {
 
-        var text = "Keys pressed: ";
-
-        var keysPressed = false;
-
-        // Check for key codes e.g. in https://keycode.info/
-
-        if (keysPressed)
-
-            console.log(text);
+        this.movmObject.checkKeys();
 
     }
 
@@ -40,7 +32,7 @@ export class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
 
-        this.setUpdatePeriod(50);
+        this.setUpdatePeriod(1);
 
         this.enableTextures(true);
 
@@ -91,6 +83,7 @@ export class MyScene extends CGFscene {
     // called periodically (as per setUpdatePeriod() in init())
     update(t) {
         this.checkKeys();
+        this.movmObject.update();
     }
 
     display() {
