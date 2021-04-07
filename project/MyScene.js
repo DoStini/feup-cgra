@@ -14,9 +14,7 @@ export class MyScene extends CGFscene {
     }
 
     checkKeys() {
-
         this.movmObject.checkKeys();
-
     }
 
     init(application) {
@@ -58,7 +56,7 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.sphereAppearance.setShininess(120);
 
-
+        this.initDelta();
         //Objects connected to MyInterface
         this.displayAxis = true;
     }
@@ -80,12 +78,45 @@ export class MyScene extends CGFscene {
         this.setShininess(10.0);
     }
 
-    // called periodically (as per setUpdatePeriod() in init())
-    update(t) {
-        this.checkKeys();
-        this.movmObject.update();
+    /**
+     * Updates the current update delta time
+     * 
+     * @param {*} t Current timeframe
+     */
+    updateDelta(t) {
+        this.lastDelta = (t - this.lastUpdate)/1000;
+        this.lastUpdate = t;
     }
 
+    /**
+     * Initializes auxiliary variables to use with update delta time 
+     */
+    initDelta() {
+        this.lastUpdate = 0;
+        this.lastDelta = 0;
+    }
+
+    /**
+     * Update delta time
+     * 
+     * @returns The last update delta time
+     */
+    getDelta = () => this.lastDelta;
+
+    /**
+     * Updates the scenes objects and properties
+     * 
+     * @param {*} t Current time frame
+     */
+    update(t) {
+        this.updateDelta(t);
+        this.checkKeys();
+        this.movmObject.update(t);
+    }
+
+    /**
+     * Displays the scene objects
+     */
     display() {
         // ---- BEGIN Background, camera and axis setup
         // Clear image and depth buffer everytime we update the scene

@@ -64,8 +64,8 @@ export class MyInterface extends CGFinterface {
         var obj = this;
 
         const controllable = this.gui.addFolder('Vehicle');
-        controllable.add(this.scene.movmObject, 'accel', 0.005, 0.1).name('Acceleration');
-        controllable.add(this.scene.movmObject, 'maxVelocity', 0.005, 1).name('Max Velocity');
+        controllable.add(this.scene.movmObject, 'accel', 0.5, 20).name('Acceleration');
+        controllable.add(this.scene.movmObject, 'maxVelocity',0.5, 50).name('Max Velocity');
         controllable.add(this.scene.movmObject, 'rotSpeed', 0.1, 100).name('Rotation Speed');
 
         //Checkbox element in GUI

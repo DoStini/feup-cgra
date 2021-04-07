@@ -24,17 +24,17 @@ export class MyMovingObject extends CGFobject {
         this.velocity = this.baseVelocity;
         this.basePosition = position || new Vector3(0,0,0);
         this.position = (new Vector3(this.basePosition.x, this.basePosition.y, this.basePosition.z));
-        this.accel = 0.01;
-        this.maxVelocity = this.accel * 20;
-        this.rotSpeed = 4;
+        this.accel = 10;
+        this.maxVelocity = 5;
+        this.rotSpeed = 45;
     }
 
     accelerate(val) {
-        this.velocity += val;
+        this.velocity += val * this.scene.getDelta();
     }
 
     turn(val) {
-        this.direction += val * this.velocity/this.maxVelocity;
+        this.direction += val * this.velocity/this.maxVelocity * this.scene.getDelta();
     }
 
     reset() {
@@ -66,7 +66,7 @@ export class MyMovingObject extends CGFobject {
         }
     }
 
-    update(t) {
+    update() {
         if (this.velocity > this.maxVelocity)
             this.velocity = this.maxVelocity;
         else if (this.velocity < -this.maxVelocity)
@@ -76,6 +76,7 @@ export class MyMovingObject extends CGFobject {
                 this.velocity*Math.sin(degreeToRad(this.direction)),
                 0,
                 this.velocity*Math.cos(degreeToRad(this.direction)));
+        vel.mult(this.scene.getDelta());
         this.position.sum(vel);
     }
 
