@@ -59,6 +59,7 @@ export class MyScene extends CGFscene {
         this.initDelta();
         //Objects connected to MyInterface
         this.displayAxis = true;
+        this.dragCoefficient = 0.5;
     }
     initLights() {
         this.lights[0].setPosition(15, 2, 5, 1);
@@ -92,7 +93,7 @@ export class MyScene extends CGFscene {
      * Initializes auxiliary variables to use with update delta time 
      */
     initDelta() {
-        this.lastUpdate = 0;
+        this.lastUpdate = Date.now();
         this.lastDelta = 0;
     }
 

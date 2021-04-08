@@ -27,14 +27,18 @@ export class MyMovingObject extends CGFobject {
         this.accel = 10;
         this.maxVelocity = 5;
         this.rotSpeed = 45;
+        this.curAccel = 0;
+        this.lastAccel = 0;
     }
 
     accelerate(val) {
-        this.velocity += val * this.scene.getDelta();
+        this.lastAccel = this.curAccel;
+        this.curAccel = val;
+        //this.velocity += val * this.scene.getDelta();
     }
 
     turn(val) {
-        this.direction += val * this.velocity/this.maxVelocity * this.scene.getDelta();
+        this.direction += val * this.scene.getDelta();
     }
 
     reset() {
@@ -44,13 +48,20 @@ export class MyMovingObject extends CGFobject {
     }
 
     checkKeys() {
-
+        let moving = false;
+        
         if (this.scene.gui.isKeyPressed("KeyW")) {
             this.accelerate(this.accel);
+            moving = true;
         }
-
+        
         if (this.scene.gui.isKeyPressed("KeyS")) {
             this.accelerate(-this.accel);
+            moving = true;
+        }
+
+        if(!moving) {
+            this.accelerate(0);
         }
 
         if (this.scene.gui.isKeyPressed("KeyA")) {
@@ -66,7 +77,17 @@ export class MyMovingObject extends CGFobject {
         }
     }
 
-    update() {
+    update(t) {
+        if(this.curAccel != 0) {
+            if(this.lastAccel != 0) {
+                this.velocity += this.curAccel * this.scene.getDelta();
+            }
+        }
+
+        this.velocity -= this.scene.dragCoefficient * this.velocity  * this.scene.getDelta();
+
+        //console.log(this.velocity);
+
         if (this.velocity > this.maxVelocity)
             this.velocity = this.maxVelocity;
         else if (this.velocity < -this.maxVelocity)
