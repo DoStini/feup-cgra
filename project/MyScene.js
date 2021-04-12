@@ -5,7 +5,7 @@ import { MySphere } from "./objects/MySphere.js";
 import { MyCubeMap } from "./objects/MyCubeMap.js";
 import { MyQuad } from "./shapes/MyQuad.js";
 import { Vector3 } from "./utils/Vector3.js";
-import { mirrorXY, mirrorYZ } from "./utils/matrix/MatrixGenerator.js";
+import { mirrorXY, mirrorYZ, scaleMatrix, translateMatrix } from "./utils/matrix/MatrixGenerator.js";
 
 /**
 * MyScene
@@ -158,14 +158,23 @@ export class MyScene extends CGFscene {
         // his.incompleteSphere.display();
 
         this.movmObject.display();
+
         this.pushMatrix();
-            
-            let inv = mirrorYZ();
-            this.multMatrix(inv);
-        this.quad.display();
-        this.popMatrix();
+
+
+        const cameraOffset = translateMatrix(
+            this.camera.position[0],
+            this.camera.position[1],
+            this.camera.position[2]);
+        
+        this.multMatrix(cameraOffset);
+
+        let slMatrix = scaleMatrix(500,500,500);
+        this.multMatrix(slMatrix);
+
         this.skybox.display();
 
+        this.popMatrix();
         // ---- END Primitive drawing section
     }
 }

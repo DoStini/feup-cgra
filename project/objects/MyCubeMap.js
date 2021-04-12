@@ -55,7 +55,7 @@ export class MyCubeMap extends CGFobject {
     safeApply(tex) {
         if (!tex) {
             if (this.scene.defaultMaterial) this.scene.defaultMaterial.apply();
-        } else {
+        } else if(tex.getMaterial().texture.texID != -1)  {
             tex.getMaterial().apply();
 
             if (!this.scene.linearRender)
@@ -72,9 +72,7 @@ export class MyCubeMap extends CGFobject {
         const inv = mirrorYZ();
         const rot2Matrix = rotateYMatrix(degreeToRad(180));
 
-        let slMatrix = scaleMatrix(50,50,50);
-        this.scene.multMatrix(slMatrix);
-        slMatrix = scaleMatrix(1.001,1.001,1.001);
+        let slMatrix = scaleMatrix(1.001,1.001,1.001);
         
         this.scene.pushMatrix();
 
