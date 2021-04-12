@@ -11,3 +11,9 @@
 - When the 'W' or 'S' keys are pressed we want to start accelerating at that exact update period. To do this we record the acceleration of the previous frame, if it was zero then velocity stays the same, if it is non zero and current acceleration is non zero then this means that either the 'W' or 'S' keys were pressed on the last update and so velocity should be updated.
 - We added an aditional movement option which is drag. Under Scene Physics, this value can be tweaked and toggled.
 
+### Part 2
+
+- Some transformation matrices were applied in order to invert the cube inside out
+- We added some cube maps
+  - [Space cubemap generated randombly using this website](https://wwwtyro.github.io/space-3d/)
+  - [Mountain cubemap](http://www.humus.name/index.php?page=Cubemap&item=Ryfjallet)

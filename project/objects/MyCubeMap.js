@@ -4,6 +4,10 @@ import { degreeToRad } from "../utils/math/MathUtils.js";
 import { translateMatrix, rotateYMatrix, mirrorYZ, mirrorXY, rotateXMatrix, scaleMatrix } from "../utils/matrix/MatrixGenerator.js";
 import { Material } from "../utils/Material.js"
 import CubeMaterial from "../materials/cubemap/CubeMaterial.js"
+import SpaceCubemap from "../images/cubemaps/space/SpaceCubemap.js";
+import MountainCubemap from "../images/cubemaps/mountain/MountainCubemap.js";
+import DemoCubemap from "../images/cubemaps/demo_cubemap/DemoCubemap.js";
+import { CubemapTexture } from "../utils/CubemapTexture.js";
 
 /**
  * MyCubeMap
@@ -15,8 +19,25 @@ export class MyCubeMap extends CGFobject {
     constructor(scene) {
 		super(scene);
         this.scene = scene;
-        this.init()
+        this.init();
 	}
+
+    loadCubemaps() {
+        this.texNames = {
+            'Space': 0,
+            'Mountain': 1,
+            'Valley': 2,
+        };
+        this.cubemaps = [
+            new CubemapTexture(this.scene, SpaceCubemap.textures, CubeMaterial),
+            new CubemapTexture(this.scene, MountainCubemap.textures, CubeMaterial),
+            new CubemapTexture(this.scene, DemoCubemap.textures, CubeMaterial),
+        ];
+    }
+
+    updateCubemap(index) {
+        this.texture = this.cubemaps[index];
+    }
 
     init() {
         this.frontQuad = new MyQuad(this.scene);
@@ -25,38 +46,9 @@ export class MyCubeMap extends CGFobject {
         this.rightQuad = new MyQuad(this.scene);
         this.topQuad = new MyQuad(this.scene);
         this.botQuad = new MyQuad(this.scene);
-
-        this.topTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/demo_cubemap/top.png',
-          SMODE: 'REPEAT',
-          TMODE: 'REPEAT',
-        });
-        this.frontTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/demo_cubemap/front.png',
-          SMODE: 'REPEAT',
-          TMODE: 'REPEAT',
-        });
-        this.rightTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/demo_cubemap/right.png',
-          SMODE: 'REPEAT',
-          TMODE: 'REPEAT',
-        });
-        this.backTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/demo_cubemap/back.png',
-          SMODE: 'REPEAT',
-          TMODE: 'REPEAT',
-        });
-        this.leftTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/demo_cubemap/left.png',
-          SMODE: 'REPEAT',
-          TMODE: 'REPEAT',
-        });
-        this.bottomTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/demo_cubemap/bottom.png',
-          SMODE: 'REPEAT',
-          TMODE: 'REPEAT',
-        });
-
+        this.selectedTexture = 0;
+        this.loadCubemaps();
+        this.updateCubemap(0);
     }
 
     // Sets default if tex undefined
@@ -65,12 +57,12 @@ export class MyCubeMap extends CGFobject {
             if (this.scene.defaultMaterial) this.scene.defaultMaterial.apply();
         } else {
             tex.getMaterial().apply();
-        }
 
-        if (!this.scene.linearRender)
-            this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
-        else
-            this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
+            if (!this.scene.linearRender)
+                this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+            else
+                this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
+        }
     }
 
     display() {
@@ -82,6 +74,7 @@ export class MyCubeMap extends CGFobject {
 
         let slMatrix = scaleMatrix(50,50,50);
         this.scene.multMatrix(slMatrix);
+        slMatrix = scaleMatrix(1.001,1.001,1.001);
         
         this.scene.pushMatrix();
 
@@ -92,8 +85,9 @@ export class MyCubeMap extends CGFobject {
             this.scene.pushMatrix();
             
                 this.scene.multMatrix(inv);
-                
-                this.safeApply(this.backTex);
+                this.safeApply(this.texture.backTex);
+
+                this.scene.multMatrix(slMatrix);
                 this.backQuad.display();
                 
              this.scene.popMatrix();
@@ -101,7 +95,9 @@ export class MyCubeMap extends CGFobject {
             tMatrix = translateMatrix(0,0,-1);
 
             this.scene.multMatrix(tMatrix);
-            this.safeApply(this.frontTex);            
+            this.scene.multMatrix(slMatrix);
+
+            this.safeApply(this.texture.frontTex);    
             this.frontQuad.display();
 
         this.scene.popMatrix();
@@ -115,8 +111,9 @@ export class MyCubeMap extends CGFobject {
             this.scene.multMatrix(rot2Matrix);
             this.scene.multMatrix(rotMatrix);
             this.scene.multMatrix(inv);
+            this.scene.multMatrix(slMatrix);
             
-            this.safeApply(this.bottomTex);
+            this.safeApply(this.texture.bottomTex);
             this.botQuad.display();
 
         this.scene.popMatrix();
@@ -130,8 +127,9 @@ export class MyCubeMap extends CGFobject {
             this.scene.multMatrix(rot2Matrix);
             this.scene.multMatrix(rotMatrix);
             this.scene.multMatrix(inv);
+            this.scene.multMatrix(slMatrix);
 
-            this.safeApply(this.topTex);
+            this.safeApply(this.texture.topTex);
             this.topQuad.display();
 
         this.scene.popMatrix();
@@ -144,8 +142,9 @@ export class MyCubeMap extends CGFobject {
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
             this.scene.multMatrix(inv);
+            this.scene.multMatrix(slMatrix);
 
-            this.safeApply(this.rightTex);
+            this.safeApply(this.texture.rightTex);
             this.rightQuad.display();
 
 
@@ -160,8 +159,9 @@ export class MyCubeMap extends CGFobject {
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
             this.scene.multMatrix(inv);
+            this.scene.multMatrix(slMatrix);
 
-            this.safeApply(this.leftTex);
+            this.safeApply(this.texture.leftTex);
             this.leftQuad.display();
 
 
@@ -172,15 +172,4 @@ export class MyCubeMap extends CGFobject {
 
         this.scene.popMatrix();
     }
-
-    updateTexCoords(coords) {
-        [
-            this.frontQuad ,
-            this.backQuad,
-            this.leftQuad,
-            this.rightQuad,
-            this.topQuad,
-            this.botQuad,
-        ].forEach(quad => quad.updateTexCoords(coords))
-	}
 }

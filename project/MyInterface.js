@@ -75,6 +75,10 @@ export class MyInterface extends CGFinterface {
         //Checkbox element in GUI
         this.gui.add(this.scene, 'linearRender').name('Linear Render')
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
+
+        const skybox = this.gui.addFolder('Skybox');
+        skybox.add(this.scene.skybox, 'selectedTexture', this.scene.skybox.texNames).name('Skybox Texture')
+            .onChange(this.scene.skybox.updateCubemap.bind(this.scene.skybox));
         this.initKeys();
         return true;
     }
