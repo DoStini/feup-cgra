@@ -27,32 +27,32 @@ export class MyCubeMap extends CGFobject {
         this.botQuad = new MyQuad(this.scene);
 
         this.topTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/test_cubemap/py.png',
+          tex: 'images/demo_cubemap/top.png',
           SMODE: 'REPEAT',
           TMODE: 'REPEAT',
         });
         this.frontTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/test_cubemap/pz.png',
+          tex: 'images/demo_cubemap/back.png',
           SMODE: 'REPEAT',
           TMODE: 'REPEAT',
         });
         this.rightTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/test_cubemap/px.png',
+          tex: 'images/demo_cubemap/right.png',
           SMODE: 'REPEAT',
           TMODE: 'REPEAT',
         });
         this.backTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/test_cubemap/nz.png',
+          tex: 'images/demo_cubemap/front.png',
           SMODE: 'REPEAT',
           TMODE: 'REPEAT',
         });
         this.leftTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/test_cubemap/nx.png',
+          tex: 'images/demo_cubemap/left.png',
           SMODE: 'REPEAT',
           TMODE: 'REPEAT',
         });
         this.bottomTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/test_cubemap/ny.png',
+          tex: 'images/demo_cubemap/bottom.png',
           SMODE: 'REPEAT',
           TMODE: 'REPEAT',
         });
