@@ -38,8 +38,12 @@ export class MyMovingObject extends CGFobject {
     }
 
     turn(val) {
-        this.direction += val * this.scene.getDelta();
-    }
+        const thresh = val * this.scene.getDelta();
+        if (this.velocity >= 0)
+            this.direction += thresh;
+        else
+            this.direction -= thresh;
+        }
 
     reset() {
         this.direction = this.baseDirection;
@@ -71,10 +75,6 @@ export class MyMovingObject extends CGFobject {
         if (this.scene.gui.isKeyPressed("KeyD")) {
             this.turn(-this.rotSpeed);
         }
-
-        if (this.scene.gui.isKeyPressed("KeyR")) {
-            this.reset();
-        }
     }
 
     update(t) {
@@ -84,9 +84,8 @@ export class MyMovingObject extends CGFobject {
             }
         }
 
-        this.velocity -= this.scene.dragCoefficient * this.velocity  * this.scene.getDelta();
-
-        //console.log(this.velocity);
+        if (this.scene.useDrag)
+            this.velocity -= this.scene.dragCoefficient * this.velocity  * this.scene.getDelta();
 
         if (this.velocity > this.maxVelocity)
             this.velocity = this.maxVelocity;

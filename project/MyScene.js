@@ -13,8 +13,16 @@ export class MyScene extends CGFscene {
         super();
     }
 
+    reset() {
+        this.movmObject.reset();
+    }
+
     checkKeys() {
         this.movmObject.checkKeys();
+
+        if (this.gui.isKeyPressed("KeyR")) {
+            this.reset();
+        }
     }
 
     init(application) {
@@ -60,6 +68,7 @@ export class MyScene extends CGFscene {
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.dragCoefficient = 0.5;
+        this.useDrag = false;
     }
     initLights() {
         this.lights[0].setPosition(15, 2, 5, 1);
