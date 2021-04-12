@@ -32,7 +32,7 @@ export class MyCubeMap extends CGFobject {
           TMODE: 'REPEAT',
         });
         this.frontTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/demo_cubemap/back.png',
+          tex: 'images/demo_cubemap/front.png',
           SMODE: 'REPEAT',
           TMODE: 'REPEAT',
         });
@@ -42,7 +42,7 @@ export class MyCubeMap extends CGFobject {
           TMODE: 'REPEAT',
         });
         this.backTex = new Material(this.scene, CubeMaterial, {
-          tex: 'images/demo_cubemap/front.png',
+          tex: 'images/demo_cubemap/back.png',
           SMODE: 'REPEAT',
           TMODE: 'REPEAT',
         });
@@ -67,7 +67,7 @@ export class MyCubeMap extends CGFobject {
             tex.getMaterial().apply();
         }
 
-        if (!this.scene.linear)
+        if (!this.scene.linearRender)
             this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
         else
             this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
@@ -93,16 +93,16 @@ export class MyCubeMap extends CGFobject {
             
                 this.scene.multMatrix(inv);
                 
-                this.safeApply(this.frontTex);
-                this.frontQuad.display();
+                this.safeApply(this.backTex);
+                this.backQuad.display();
                 
              this.scene.popMatrix();
 
             tMatrix = translateMatrix(0,0,-1);
 
             this.scene.multMatrix(tMatrix);
-            this.safeApply(this.backTex);            
-            this.backQuad.display();
+            this.safeApply(this.frontTex);            
+            this.frontQuad.display();
 
         this.scene.popMatrix();
 

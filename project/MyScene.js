@@ -69,6 +69,8 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.sphereAppearance.setShininess(120);
 
+        this.linearRender = false;
+
         this.initDelta();
         //Objects connected to MyInterface
         this.displayAxis = true;

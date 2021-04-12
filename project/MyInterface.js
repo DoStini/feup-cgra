@@ -73,8 +73,8 @@ export class MyInterface extends CGFinterface {
         scenePhysics.add(this.scene, 'useDrag').name('Use drag coefficient');
 
         //Checkbox element in GUI
+        this.gui.add(this.scene, 'linearRender').name('Linear Render')
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
-
         this.initKeys();
         return true;
     }
