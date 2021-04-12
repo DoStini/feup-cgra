@@ -27,8 +27,6 @@ export class MyCylinder extends CGFobject {
         let angleInc = 2*Math.PI / this.slices;
         let angle = 0;
         let cosAngle;
-        let current = 0;
-        let past = -1;
 
         for(let slice = 0; slice <= this.slices; slice++) {
             cosAngle = Math.cos(angle);
@@ -42,8 +40,6 @@ export class MyCylinder extends CGFobject {
             }
 
             angle += angleInc;
-            past++;
-            current++;
         }
     }
 
