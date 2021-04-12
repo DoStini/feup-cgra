@@ -78,10 +78,8 @@ export class MyMovingObject extends CGFobject {
     }
 
     update(t) {
-        if(this.curAccel != 0) {
-            if(this.lastAccel != 0) {
+        if(this.curAccel != 0 && this.lastAccel == this.curAccel) {
                 this.velocity += this.curAccel * this.scene.getDelta();
-            }
         }
 
         if (this.scene.useDrag)
