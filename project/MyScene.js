@@ -2,7 +2,10 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance } from "../lib/CGF.js";
 import { MyMovingObject } from "./objects/MyMovingObject.js";
 import { MyPyramid } from "./objects/MyPyramid.js";
 import { MySphere } from "./objects/MySphere.js";
+import { MyCubeMap } from "./objects/MyCubeMap.js";
+import { MyQuad } from "./shapes/MyQuad.js";
 import { Vector3 } from "./utils/Vector3.js";
+import { mirrorXY, mirrorYZ } from "./utils/matrix/MatrixGenerator.js";
 
 /**
 * MyScene
@@ -45,6 +48,8 @@ export class MyScene extends CGFscene {
         //Initialize scene objects        // create reference from the scene to the GUI
         this.axis = new CGFaxis(this);
         this.incompleteSphere = new MySphere(this, 16, 8);
+        this.skybox = new MyCubeMap(this);
+        this.quad = new MyQuad(this);
 
         this.movmObject = new MyMovingObject(
                 this,
@@ -151,6 +156,13 @@ export class MyScene extends CGFscene {
         // his.incompleteSphere.display();
 
         this.movmObject.display();
+        this.pushMatrix();
+            
+            let inv = mirrorYZ();
+            this.multMatrix(inv);
+        this.quad.display();
+        this.popMatrix();
+        this.skybox.display();
 
         // ---- END Primitive drawing section
     }

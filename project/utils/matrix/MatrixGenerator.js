@@ -39,6 +39,14 @@ const mirrorYZ = () =>
         0, 0, 0, 1,
     ];
 
+const mirrorXY = () => 
+    [
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, -1, 0,
+        0, 0, 0, 1,
+    ];
+
 const scaleMatrix = (x,y,z) =>
     [
         x, 0, 0, 0,
@@ -51,6 +59,7 @@ export {
     translateMatrix,
     rotateZMatrix,
     mirrorYZ,
+    mirrorXY,
     scaleMatrix,
     rotateXMatrix,
     rotateYMatrix

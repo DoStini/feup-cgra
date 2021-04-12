@@ -37,9 +37,11 @@ export class Material {
 
 
     initMaterial(mat, tex) {
-        this.material.setAmbient(...this.hexToRgbA(mat.Ambient));
-        this.material.setDiffuse(...this.hexToRgbA(mat.Diffuse));
-        this.material.setSpecular(...this.hexToRgbA(mat.Specular));
+        this.material.setAmbient(...this.hexToRgbA(mat.Ambient || 0));
+        this.material.setDiffuse(...this.hexToRgbA(mat.Diffuse || 0));
+        this.material.setSpecular(...this.hexToRgbA(mat.Specular || 0));
+        if(mat.Emission) this.material.setEmission(...this.hexToRgbA(mat.Emission));
+        console.log(mat.Emission);
         this.material.setShininess(mat.Shininess);
         this.material.loadTexture(tex.tex);
         this.material.setTextureWrap(tex.SMODE, tex.TMODE);

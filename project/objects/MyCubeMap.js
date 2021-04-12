@@ -1,23 +1,24 @@
 import { CGFobject } from "../../lib/CGF.js";
 import { MyQuad } from "../shapes/MyQuad.js"
 import { degreeToRad } from "../utils/math/MathUtils.js";
-import { translateMatrix, rotateYMatrix, mirrorYZ, rotateXMatrix } from "../utils/matrix/MatrixGenerator.js";
-
+import { translateMatrix, rotateYMatrix, mirrorYZ, mirrorXY, rotateXMatrix, scaleMatrix } from "../utils/matrix/MatrixGenerator.js";
+import { Material } from "../utils/Material.js"
+import CubeMaterial from "../materials/cubemap/CubeMaterial.js"
 
 /**
- * MyUnitCubeQuad
+ * MyCubeMap
  * @constructor
  * @param scene - Reference to MyScene
  */
 
-export class MyUnitCubeQuad extends CGFobject {
-    constructor(scene, textures, params) {
+export class MyCubeMap extends CGFobject {
+    constructor(scene) {
 		super(scene);
         this.scene = scene;
-        this.init(textures, params)
+        this.init()
 	}
 
-    init(textures, params) {
+    init() {
         this.frontQuad = new MyQuad(this.scene);
         this.backQuad = new MyQuad(this.scene);
         this.leftQuad = new MyQuad(this.scene);
@@ -25,14 +26,36 @@ export class MyUnitCubeQuad extends CGFobject {
         this.topQuad = new MyQuad(this.scene);
         this.botQuad = new MyQuad(this.scene);
 
-        if (!textures)  textures = [];
-
-        this.topTex = textures[0];
-        this.frontTex = textures[1];
-        this.rightTex = textures[2];
-        this.backTex = textures[3];
-        this.leftTex = textures[4];
-        this.bottomTex = textures[5];
+        this.topTex = new Material(this.scene, CubeMaterial, {
+          tex: 'images/test_cubemap/py.png',
+          SMODE: 'REPEAT',
+          TMODE: 'REPEAT',
+        });
+        this.frontTex = new Material(this.scene, CubeMaterial, {
+          tex: 'images/test_cubemap/pz.png',
+          SMODE: 'REPEAT',
+          TMODE: 'REPEAT',
+        });
+        this.rightTex = new Material(this.scene, CubeMaterial, {
+          tex: 'images/test_cubemap/px.png',
+          SMODE: 'REPEAT',
+          TMODE: 'REPEAT',
+        });
+        this.backTex = new Material(this.scene, CubeMaterial, {
+          tex: 'images/test_cubemap/nz.png',
+          SMODE: 'REPEAT',
+          TMODE: 'REPEAT',
+        });
+        this.leftTex = new Material(this.scene, CubeMaterial, {
+          tex: 'images/test_cubemap/nx.png',
+          SMODE: 'REPEAT',
+          TMODE: 'REPEAT',
+        });
+        this.bottomTex = new Material(this.scene, CubeMaterial, {
+          tex: 'images/test_cubemap/ny.png',
+          SMODE: 'REPEAT',
+          TMODE: 'REPEAT',
+        });
 
     }
 
@@ -53,17 +76,31 @@ export class MyUnitCubeQuad extends CGFobject {
     display() {
         this.scene.pushMatrix();
 
+        // Matrices used to invert the cube surface to the inside
+        const inv = mirrorYZ();
+        const rot2Matrix = rotateYMatrix(degreeToRad(180));
+
+        let slMatrix = scaleMatrix(50,50,50);
+        this.scene.multMatrix(slMatrix);
+        
+        this.scene.pushMatrix();
+
             let tMatrix = translateMatrix(0,0,0.5);
             
             this.scene.multMatrix(tMatrix);
-            this.safeApply(this.frontTex);
-            this.frontQuad.display();
+            
+            this.scene.pushMatrix();
+            
+                this.scene.multMatrix(inv);
+                
+                this.safeApply(this.frontTex);
+                this.frontQuad.display();
+                
+             this.scene.popMatrix();
 
             tMatrix = translateMatrix(0,0,-1);
-            let inv = mirrorYZ();
 
             this.scene.multMatrix(tMatrix);
-            this.scene.multMatrix(inv);
             this.safeApply(this.backTex);            
             this.backQuad.display();
 
@@ -75,7 +112,10 @@ export class MyUnitCubeQuad extends CGFobject {
             let rotMatrix = rotateXMatrix(degreeToRad(90));
 
             this.scene.multMatrix(tMatrix);
+            this.scene.multMatrix(rot2Matrix);
             this.scene.multMatrix(rotMatrix);
+            this.scene.multMatrix(inv);
+            
             this.safeApply(this.bottomTex);
             this.botQuad.display();
 
@@ -87,7 +127,10 @@ export class MyUnitCubeQuad extends CGFobject {
             rotMatrix = rotateXMatrix(degreeToRad(-90));
 
             this.scene.multMatrix(tMatrix);
+            this.scene.multMatrix(rot2Matrix);
             this.scene.multMatrix(rotMatrix);
+            this.scene.multMatrix(inv);
+
             this.safeApply(this.topTex);
             this.topQuad.display();
 
@@ -100,6 +143,8 @@ export class MyUnitCubeQuad extends CGFobject {
 
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
+            this.scene.multMatrix(inv);
+
             this.safeApply(this.rightTex);
             this.rightQuad.display();
 
@@ -114,9 +159,16 @@ export class MyUnitCubeQuad extends CGFobject {
 
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
+            this.scene.multMatrix(inv);
+
             this.safeApply(this.leftTex);
             this.leftQuad.display();
 
+
+        this.scene.popMatrix();
+        
+        let sclMatrix = scaleMatrix(0,0,-1);
+        this.scene.multMatrix(sclMatrix);
 
         this.scene.popMatrix();
     }
