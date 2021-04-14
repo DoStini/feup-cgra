@@ -11,11 +11,12 @@ import { Material } from "../utils/Material.js"
  */
 
 export class MyCylinder extends CGFobject {
-    constructor(scene, slices) {
+    constructor(scene, slices, material) {
 		super(scene);
         this.scene = scene;
         this.slices = slices;
-        this.initBuffers()
+        this.material = material;
+        this.initBuffers();
 	}
 
     initBuffers() {
@@ -35,8 +36,10 @@ export class MyCylinder extends CGFobject {
 
             this.vertices.push(cosAngle, 0, sinAngle);
             this.normals.push(cosAngle, 0, sinAngle);
+            this.texCoords.push((this.slices-slice)/this.slices,1);
             this.vertices.push(cosAngle, 1, sinAngle);
             this.normals.push(cosAngle, 0, sinAngle);
+            this.texCoords.push((this.slices-slice)/this.slices,0);
 
             if(slice > 0) {
                 this.indices.push(slice*2+1, slice*2-2, slice*2-1);
@@ -46,8 +49,6 @@ export class MyCylinder extends CGFobject {
             angle += angleInc;
         }
 
-        console.log(this.vertices);
-        console.log(this.indices);
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
@@ -56,13 +57,18 @@ export class MyCylinder extends CGFobject {
     safeApply(tex) {
         if (!tex) {
             if (this.scene.defaultMaterial) this.scene.defaultMaterial.apply();
-        } else {
+        } else if(tex.getMaterial().texture.texID != -1)  {
             tex.getMaterial().apply();
-        }
 
-        if (!this.scene.linearRender)
-            this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
-        else
-            this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
+            if (!this.scene.linearRender)
+                this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+            else
+                this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
+        }
+    }
+
+    display() {
+        this.safeApply(this.material);
+        super.display();
     }
 }

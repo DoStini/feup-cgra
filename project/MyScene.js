@@ -7,6 +7,8 @@ import { MyQuad } from "./shapes/MyQuad.js";
 import { Vector3 } from "./utils/Vector3.js";
 import { mirrorXY, mirrorYZ, scaleMatrix, translateMatrix } from "./utils/matrix/MatrixGenerator.js";
 import { MyCylinder } from "./objects/MyCylinder.js";
+import { Material } from "./utils/Material.js";
+import DefaultMaterial from "./materials/DefaultMaterial.js";
 
 /**
 * MyScene
@@ -51,7 +53,12 @@ export class MyScene extends CGFscene {
         this.incompleteSphere = new MySphere(this, 16, 8);
         this.skybox = new MyCubeMap(this);
         this.quad = new MyQuad(this);
-        this.cylinder = new MyCylinder(this, 50);
+        this.cylinderMaterial = new Material(this, DefaultMaterial, {
+            tex: "/project/textures/FEUP.jpg",
+            SMODE: 'REPEAT',
+            TMODE: 'REPEAT',
+        });
+        this.cylinder = new MyCylinder(this, 25, this.cylinderMaterial);
 
         this.movmObject = new MyMovingObject(
                 this,
@@ -160,8 +167,14 @@ export class MyScene extends CGFscene {
         // his.incompleteSphere.display();
 
         //this.movmObject.display();
+        this.pushMatrix();
+        
+        let cylinderScale = scaleMatrix(1,2,1);
+        this.multMatrix(cylinderScale);
         
         this.cylinder.display();
+
+        this.popMatrix();
 
         this.pushMatrix();
 
