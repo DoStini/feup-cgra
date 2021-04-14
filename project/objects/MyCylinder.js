@@ -27,20 +27,29 @@ export class MyCylinder extends CGFobject {
         let angleInc = 2*Math.PI / this.slices;
         let angle = 0;
         let cosAngle;
+        let sinAngle;
 
         for(let slice = 0; slice <= this.slices; slice++) {
             cosAngle = Math.cos(angle);
             sinAngle = Math.sin(angle);
 
             this.vertices.push(cosAngle, 0, sinAngle);
+            this.normals.push(cosAngle, 0, sinAngle);
             this.vertices.push(cosAngle, 1, sinAngle);
+            this.normals.push(cosAngle, 0, sinAngle);
 
             if(slice > 0) {
-                this.indices.push()
+                this.indices.push(slice*2+1, slice*2-2, slice*2-1);
+                this.indices.push(slice*2, slice*2-2, slice*2+1);
             }
 
             angle += angleInc;
         }
+
+        console.log(this.vertices);
+        console.log(this.indices);
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
     }
 
     // Sets default if tex undefined
@@ -55,9 +64,5 @@ export class MyCylinder extends CGFobject {
             this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
         else
             this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
-    }
-
-    display() {
-
     }
 }

@@ -6,6 +6,7 @@ import { MyCubeMap } from "./objects/MyCubeMap.js";
 import { MyQuad } from "./shapes/MyQuad.js";
 import { Vector3 } from "./utils/Vector3.js";
 import { mirrorXY, mirrorYZ, scaleMatrix, translateMatrix } from "./utils/matrix/MatrixGenerator.js";
+import { MyCylinder } from "./objects/MyCylinder.js";
 
 /**
 * MyScene
@@ -50,6 +51,7 @@ export class MyScene extends CGFscene {
         this.incompleteSphere = new MySphere(this, 16, 8);
         this.skybox = new MyCubeMap(this);
         this.quad = new MyQuad(this);
+        this.cylinder = new MyCylinder(this, 50);
 
         this.movmObject = new MyMovingObject(
                 this,
@@ -157,7 +159,9 @@ export class MyScene extends CGFscene {
         //This sphere does not have defined texture coordinates
         // his.incompleteSphere.display();
 
-        this.movmObject.display();
+        //this.movmObject.display();
+        
+        this.cylinder.display();
 
         this.pushMatrix();
 
