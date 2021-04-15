@@ -67,6 +67,11 @@ export class MyCylinder extends CGFobject {
         }
     }
 
+    updateSlices(slices) {
+        this.slices = slices;
+        this.initBuffers();
+    }
+
     display() {
         this.safeApply(this.material);
         super.display();

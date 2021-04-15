@@ -78,14 +78,19 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.sphereAppearance.setShininess(120);
 
-        this.linearRender = false;
+        this.linearRender = true;
 
         this.initDelta();
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.dragCoefficient = 0.5;
         this.useDrag = false;
+        this.displayVehicle = true;
+        this.displayCylinder = false;
+        this.displaySphere = false;
+        this.displaySkybox = true;
     }
+
     initLights() {
         this.lights[0].setPosition(15, 2, 5, 1);
         this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -160,38 +165,49 @@ export class MyScene extends CGFscene {
         if (this.displayAxis)
             this.axis.display();
 
-        this.sphereAppearance.apply();
-        // ---- BEGIN Primitive drawing section
-
-        //This sphere does not have defined texture coordinates
-        // his.incompleteSphere.display();
-
-        //this.movmObject.display();
-        this.pushMatrix();
+        if(this.displaySphere) {
+            this.sphereAppearance.apply();
+            // ---- BEGIN Primitive drawing section
+    
+            //This sphere does not have defined texture coordinates
+            this.incompleteSphere.display();    
+        }
         
-        let cylinderScale = scaleMatrix(1,2,1);
-        this.multMatrix(cylinderScale);
-        
-        this.cylinder.display();
+        if(this.displayVehicle) {
+            this.sphereAppearance.apply();
 
-        this.popMatrix();
+            this.movmObject.display();
+        } 
 
-        this.pushMatrix();
+        if(this.displayCylinder) {
+            this.pushMatrix();
+    
+            // let cylinderScale = scaleMatrix(1,2,1);
+            // this.multMatrix(cylinderScale);
+            
+            this.cylinder.display();
+    
+            this.popMatrix();    
+        }
 
+        if(this.displaySkybox) {
+            this.pushMatrix();
 
-        const cameraOffset = translateMatrix(
-            this.camera.position[0],
-            this.camera.position[1],
-            this.camera.position[2]);
-        
-        this.multMatrix(cameraOffset);
+            const cameraOffset = translateMatrix(
+                this.camera.position[0],
+                this.camera.position[1],
+                this.camera.position[2]);
+            
+            this.multMatrix(cameraOffset);
+    
+            let slMatrix = scaleMatrix(500,500,500);
+            this.multMatrix(slMatrix);
+    
+            this.skybox.display();
+    
+            this.popMatrix();
+        }
 
-        let slMatrix = scaleMatrix(500,500,500);
-        this.multMatrix(slMatrix);
-
-        this.skybox.display();
-
-        this.popMatrix();
         // ---- END Primitive drawing section
     }
 }
