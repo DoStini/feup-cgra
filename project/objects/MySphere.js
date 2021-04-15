@@ -1,4 +1,4 @@
-import { CGFobject } from "../../lib/CGF.js";
+import { CGFobject, CGFshader, CGFtexture } from "../../lib/CGF.js";
 
 export class MySphere extends CGFobject {
   /**

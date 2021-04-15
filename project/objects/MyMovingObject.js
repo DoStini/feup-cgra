@@ -1,5 +1,5 @@
 import {CGFobject} from '../../lib/CGF.js';
-import { rotateXMatrix, rotateYMatrix, translateMatrix } from '../utils/matrix/MatrixGenerator.js';
+import { rotateXMatrix, rotateYMatrix, translateMatrix, scaleMatrix } from '../utils/matrix/MatrixGenerator.js';
 import { degreeToRad } from '../utils/math/MathUtils.js';
 import { Vector3 } from '../utils/Vector3.js';
 
@@ -29,6 +29,7 @@ export class MyMovingObject extends CGFobject {
         this.rotSpeed = 45;
         this.curAccel = 0;
         this.lastAccel = 0;
+        this.scaleFactor = 1;
     }
 
     accelerate(val) {
@@ -39,11 +40,9 @@ export class MyMovingObject extends CGFobject {
 
     turn(val) {
         const thresh = val * this.scene.getDelta();
-        if (this.velocity >= 0)
-            this.direction += thresh;
-        else
-            this.direction -= thresh;
-        }
+        if(this.velocity < 0) this.direction-=thresh;
+        else this.direction+=thresh;
+    }
 
     reset() {
         this.direction = this.baseDirection;
@@ -110,6 +109,8 @@ export class MyMovingObject extends CGFobject {
         matrix = rotateXMatrix(degreeToRad(90));
         this.scene.multMatrix(matrix);
         
+        matrix = scaleMatrix(this.scaleFactor, this.scaleFactor, this.scaleFactor);
+        this.scene.multMatrix(matrix);
 
         this.object.display();
 

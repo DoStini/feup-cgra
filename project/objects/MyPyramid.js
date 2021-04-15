@@ -35,6 +35,9 @@ export class MyPyramid extends CGFobject {
             this.vertices.push(0,1,0);
             this.vertices.push(ca/2, 0, -sa/2);
             this.vertices.push(caa/2, 0, -saa/2);
+            this.vertices.push(ca/2, 0, -sa/2);
+            this.vertices.push(caa/2, 0, -saa/2);
+            this.vertices.push(0,0,0);
 
             // triangle normal computed by cross product of two edges
             var normal= [
@@ -57,8 +60,12 @@ export class MyPyramid extends CGFobject {
             this.normals.push(...normal);
             this.normals.push(...normal);
             this.normals.push(...normal);
+            this.normals.push(0,-1,0);
+            this.normals.push(0,-1,0);
+            this.normals.push(0,-1,0);
 
-            this.indices.push(3*i, (3*i+1) , (3*i+2) );
+            this.indices.push(6*i, (6*i+1) , (6*i+2) );
+            this.indices.push(6*i+3, 6*i+5, 6*i+4); // ele rebenta se meter esta linha
 
             ang+=alphaAng;
         }

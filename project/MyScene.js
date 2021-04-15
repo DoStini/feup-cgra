@@ -50,7 +50,7 @@ export class MyScene extends CGFscene {
 
         //Initialize scene objects        // create reference from the scene to the GUI
         this.axis = new CGFaxis(this);
-        this.incompleteSphere = new MySphere(this, 16, 16);
+        this.sphere = new MySphere(this, 16, 16);
         this.skybox = new MyCubeMap(this);
         this.quad = new MyQuad(this);
         this.cylinderMaterial = new Material(this, DefaultMaterial, {
@@ -84,6 +84,7 @@ export class MyScene extends CGFscene {
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.dragCoefficient = 0.5;
+        this.speedFactor = 1;
         this.useDrag = false;
         this.displayVehicle = true;
         this.displayCylinder = false;
@@ -111,19 +112,24 @@ export class MyScene extends CGFscene {
 
     /**
      * Updates the current update delta time
+     * lastDelta is the last delta time between updates according to the timeFactor
+     * lastUpdate is the last update that takes in consideration timeFactor. We shall use this for animations
+     * lastFixedUpdate is the real last update value so that the calculation of delta time is accurate
      * 
      * @param {*} t Current timeframe
      */
     updateDelta(t) {
-        this.lastDelta = (t - this.lastUpdate)/1000;
-        this.lastUpdate = t;
+        this.lastDelta = (t - this.lastFixedUpdate)/1000 * this.speedFactor;
+        this.lastUpdate = this.lastUpdate + this.lastDelta;
+        this.lastFixedUpdate = t;
     }
 
     /**
      * Initializes auxiliary variables to use with update delta time 
      */
     initDelta() {
-        this.lastUpdate = Date.now();
+        this.lastFixedUpdate = Date.now();
+        this.lastUpdate = this.lastFixedUpdate;
         this.lastDelta = 0;
     }
 
@@ -166,11 +172,8 @@ export class MyScene extends CGFscene {
             this.axis.display();
 
         if(this.displaySphere) {
-            this.sphereAppearance.apply();
-            // ---- BEGIN Primitive drawing section
-    
-            //This sphere does not have defined texture coordinates
-            this.incompleteSphere.display();    
+            this.sphereAppearance.apply();    
+            this.sphere.display();
         }
         
         if(this.displayVehicle) {
