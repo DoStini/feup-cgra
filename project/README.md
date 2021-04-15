@@ -24,3 +24,11 @@
 #### Cylinder
 
 - To build the cylinder we generated vertices, normals, faces and defined texture coordinates. For this to work, we used a variable number of slices and calculated the angle increment in each step. The vertices had the positions r\*v(cos(θ), 0, sin(θ)) and r\*v(cos(θ), h, sin(θ)) and the normals were n(cos(θ), 0, sin(θ)), according to the Gouraud Smooth Shading method. Finally, to correctly have a texture built into the cylinder, we had to create 2 extra vertices, at the same position of the first 2 vertices, so that the first vertex would have coordinates 0 and 1. We also added a gui entry to controll the number of slices of the cylinder.
+
+### Sphere
+
+- The sphere has texture coordinates as follows:
+  - 0,0 to 1,0 in the north pole. In the top of the sphere, we will find multiple vertices.
+  - 0,1 to 1,1 in the south pole. In the bottom of the sphere, we will find multiple vertices.
+  - According to the code of the sphere, it will create the vertices iterating through the s coordinates of the texture for each iteration of the t coordinates (longitude over each latitude).
+- All we did in this part was to push to the texCoords array the values the percentage of longitude and latitude visited in each iteration of the double for loop. This means that after adding a vertex to the vertices array, we pushed the values longitude/this.longDivs and latitude/this.latDivs to the texCoords array.

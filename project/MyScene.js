@@ -50,7 +50,7 @@ export class MyScene extends CGFscene {
 
         //Initialize scene objects        // create reference from the scene to the GUI
         this.axis = new CGFaxis(this);
-        this.incompleteSphere = new MySphere(this, 16, 8);
+        this.incompleteSphere = new MySphere(this, 16, 16);
         this.skybox = new MyCubeMap(this);
         this.quad = new MyQuad(this);
         this.cylinderMaterial = new Material(this, DefaultMaterial, {
@@ -66,10 +66,9 @@ export class MyScene extends CGFscene {
                 0, 0, new Vector3(0,0,-0.5));
 
         this.defaultAppearance = new CGFappearance(this);
-        this.defaultAppearance.setAmbient(0.2, 0.4, 0.8, 1.0);
-        this.defaultAppearance.setDiffuse(0.2, 0.4, 0.8, 1.0);
-        this.defaultAppearance.setSpecular(0.2, 0.4, 0.8, 1.0);
-        this.defaultAppearance.setEmission(0, 0, 0, 1);
+        this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
+        this.defaultAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+        this.defaultAppearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.defaultAppearance.setShininess(120);
 
         this.sphereAppearance = new CGFappearance(this);
@@ -77,6 +76,7 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
         this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.sphereAppearance.setShininess(120);
+        this.sphereAppearance.loadTexture('textures/earth.jpg');
 
         this.linearRender = true;
 
@@ -174,7 +174,7 @@ export class MyScene extends CGFscene {
         }
         
         if(this.displayVehicle) {
-            this.sphereAppearance.apply();
+            this.defaultAppearance.apply();
 
             this.movmObject.display();
         } 
