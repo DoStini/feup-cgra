@@ -39,10 +39,10 @@
 - We created the scale factor controller which was placed under Vehicle folder. For this, we simply added a scaleFactor variable in the controllable class and applied the scaling transformation matrix. This matrix must be the first one in the transformations chain, therefore it appears right before display.
 - We also added the scene speed controllable under Scene Physics folder. For this matter, we had to create some auxiliary variables. We were already using a function `updateDeltaTime`. As explained before, delta time is the time between update calls. This is used to get an accurate representation of units per second in movement physics. We refactored this function by modifying and creating new variables:
   - fixedLastUpdate, which indicates the last real `t` value. This variable is extremely important to calculate the real time between updates, otherwise this would be affected over and over again by the speed factor.
-  - lastUpdate, which indicates the last `t` value affected by time factor. In the future, instead of passing t to the animations, we shall use this `lastUpdate`, since it is affected by the time factor.
+  - lastPhysicsUpdate, which indicates the last `t` value affected by time factor. In the future, instead of passing t to the animations, we shall use this `lastPhysicsUpdate`, since it is affected by the time factor. We tested with the water shader animation example, passing the value `lastPhysicsUpdate` instead of `t` and the speed of the vehicle and sphere animation are working accordingly to the speedFactor.
 - With this new variables, we can do some important calculations:
-  - lastDeltaTime is now affected by timeFactor: (t - this.lastFixedUpdate)/1000 \* this.speedFactor. This affects the controllable object movement.
-  - lastUpdate is now calculated with this.lastUpdate + this.lastDelta. Since lastDelta is affected by timeFactor, so will lastUpdate.
+  - lastDelta is now affected by timeFactor: (t - this.lastFixedUpdate)/1000 \* this.speedFactor. This affects the controllable object movement.
+  - lastPhysicsUpdate is calculated with this.lastPhysicsUpdate + this.lastDelta. Since lastDelta is affected by timeFactor, so will lastUpdate.
   - lastFixedUpdate is the current timetamp `t`. This is always the real value without being affected by timeFactor.
 - Throughout the project we changed the UI folder structure to be more clean and understandable.
   - Created vehicle folder with parameters like acceleration, max velocity, rotation speed and its size.

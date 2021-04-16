@@ -113,14 +113,15 @@ export class MyScene extends CGFscene {
     /**
      * Updates the current update delta time
      * lastDelta is the last delta time between updates according to the timeFactor
-     * lastUpdate is the last update that takes in consideration timeFactor. We shall use this for animations
+     * lastPhysicsUpdate is the last update that takes in consideration timeFactor. We shall use this for animations
      * lastFixedUpdate is the real last update value so that the calculation of delta time is accurate
      * 
      * @param {*} t Current timeframe
      */
     updateDelta(t) {
-        this.lastDelta = (t - this.lastFixedUpdate)/1000 * this.speedFactor;
-        this.lastUpdate = this.lastUpdate + this.lastDelta;
+        const delta = (t - this.lastFixedUpdate) * this.speedFactor;
+        this.lastDelta = delta/1000;
+        this.lastPhysicsUpdate += delta;
         this.lastFixedUpdate = t;
     }
 
@@ -129,7 +130,7 @@ export class MyScene extends CGFscene {
      */
     initDelta() {
         this.lastFixedUpdate = Date.now();
-        this.lastUpdate = this.lastFixedUpdate;
+        this.lastPhysicsUpdate = this.lastFixedUpdate;
         this.lastDelta = 0;
     }
 
