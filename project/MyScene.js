@@ -9,6 +9,7 @@ import { mirrorXY, mirrorYZ, scaleMatrix, translateMatrix } from "./utils/matrix
 import { MyCylinder } from "./objects/MyCylinder.js";
 import { Material } from "./utils/Material.js";
 import DefaultMaterial from "./materials/DefaultMaterial.js";
+import { MyFish } from "./objects/MyFish.js";
 
 /**
 * MyScene
@@ -64,6 +65,7 @@ export class MyScene extends CGFscene {
                 this,
                 new MyPyramid(this, 3, 1), 
                 0, 0, new Vector3(0,0,-0.5));
+        this.fish = new MyFish(this, 0.5, 0.2, 0.30);
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -168,6 +170,9 @@ export class MyScene extends CGFscene {
 
 
         this.defaultAppearance.apply();
+
+        this.fish.display();
+
         // Draw axis
         if (this.displayAxis)
             this.axis.display();
