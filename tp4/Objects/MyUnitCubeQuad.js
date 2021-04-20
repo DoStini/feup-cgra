@@ -1,7 +1,7 @@
 import { CGFobject } from "../../lib/CGF.js";
 import { MyQuad } from "../shapes/MyQuad.js"
-import { degreeToRad } from "../Utils/Math/MathUtils.js";
-import { translateMatrix, rotateYMatrix, mirrorYZ, rotateXMatrix } from "../Utils/Matrix/MatrixGenerator.js";
+import { degreeToRad } from "../utils/math/MathUtils.js";
+import { translateMatrix, rotateYMatrix, mirrorYZ, rotateXMatrix } from "../utils/matrix/MatrixGenerator.js";
 
 
 /**
