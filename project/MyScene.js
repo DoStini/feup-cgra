@@ -24,7 +24,7 @@ export class MyScene extends CGFscene {
     }
 
     checkKeys() {
-        this.movmObject.checkKeys();
+        this.movmObject.checkKeys(this.lastDelta);
 
         if (this.gui.isKeyPressed("KeyR")) {
             this.reset();
@@ -149,7 +149,7 @@ export class MyScene extends CGFscene {
     update(t) {
         this.updateDelta(t);
         this.checkKeys();
-        this.movmObject.update(t);
+        this.movmObject.update(t, this.lastDelta);
     }
 
     /**
