@@ -79,9 +79,9 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.loadTexture('textures/earth.jpg');
 
         this.fishBodyShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
-        this.fishBodyShader.setUniformsValues({uColor: [1.,1.0,0.0,1.]})
+        this.fishBodyShader.setUniformsValues({uColor: [237/255, 165/255, 21/255, 1.0]})
 
-        this.fishTex = new CGFtexture(this, "textures/earth.jpg");
+        this.fishTex = new CGFtexture(this, "textures/fish.jpg");
 
         this.linearRender = true;
 
