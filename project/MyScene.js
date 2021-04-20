@@ -1,4 +1,4 @@
-import { CGFscene, CGFcamera, CGFaxis, CGFappearance } from "../lib/CGF.js";
+import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyMovingObject } from "./objects/MyMovingObject.js";
 import { MyPyramid } from "./objects/MyPyramid.js";
 import { MySphere } from "./objects/MySphere.js";
@@ -61,9 +61,9 @@ export class MyScene extends CGFscene {
         this.cylinder = new MyCylinder(this, 25, this.cylinderMaterial);
 
         this.movmObject = new MyMovingObject(
-                this,
-                new MyPyramid(this, 3, 1), 
-                0, 0, new Vector3(0,0,-0.5));
+            this,
+            new MySphere(this, 200, 100),
+            0, 0, new Vector3(0, 0, 0));
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -77,6 +77,10 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.sphereAppearance.setShininess(120);
         this.sphereAppearance.loadTexture('textures/earth.jpg');
+
+        this.fishBodyShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
+
+        this.fishTex = new CGFtexture(this, "textures/earth.jpg");
 
         this.linearRender = true;
 
@@ -120,7 +124,7 @@ export class MyScene extends CGFscene {
      */
     updateDelta(t) {
         const delta = (t - this.lastFixedUpdate) * this.speedFactor;
-        this.lastDelta = delta/1000;
+        this.lastDelta = delta / 1000;
         this.lastPhysicsUpdate += delta;
         this.lastFixedUpdate = t;
     }
@@ -172,43 +176,49 @@ export class MyScene extends CGFscene {
         if (this.displayAxis)
             this.axis.display();
 
-        if(this.displaySphere) {
-            this.sphereAppearance.apply();    
+        if (this.displaySphere) {
+            this.sphereAppearance.apply();
             this.sphere.display();
         }
-        
-        if(this.displayVehicle) {
+
+        if (this.displayVehicle) {
             this.defaultAppearance.apply();
 
-            this.movmObject.display();
-        } 
+            this.fishTex.bind(0);
 
-        if(this.displayCylinder) {
-            this.pushMatrix();
-    
-            // let cylinderScale = scaleMatrix(1,2,1);
-            // this.multMatrix(cylinderScale);
-            
-            this.cylinder.display();
-    
-            this.popMatrix();    
+            this.setActiveShader(this.fishBodyShader);
+
+            this.movmObject.display();
+
+            this.setActiveShader(this.defaultShader);
         }
 
-        if(this.displaySkybox) {
+        if (this.displayCylinder) {
+            this.pushMatrix();
+
+            // let cylinderScale = scaleMatrix(1,2,1);
+            // this.multMatrix(cylinderScale);
+
+            this.cylinder.display();
+
+            this.popMatrix();
+        }
+
+        if (this.displaySkybox) {
             this.pushMatrix();
 
             const cameraOffset = translateMatrix(
                 this.camera.position[0],
                 this.camera.position[1],
                 this.camera.position[2]);
-            
+
             this.multMatrix(cameraOffset);
-    
-            let slMatrix = scaleMatrix(500,500,500);
+
+            let slMatrix = scaleMatrix(500, 500, 500);
             this.multMatrix(slMatrix);
-    
+
             this.skybox.display();
-    
+
             this.popMatrix();
         }
 
