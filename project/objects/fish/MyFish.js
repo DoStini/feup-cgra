@@ -16,14 +16,16 @@ import { MyAnimatedTail } from './AnimatedTail.js';
  * @param width - width of the fish
 */
 export class MyFish extends CGFobject {
-    constructor(scene, shader, tex, length, width, height, position) {
+    constructor(scene, bodyShader, tailShader, eyeShader, length, width, height, position) {
         super(scene);
         this.scene = scene;
-        this.shader = shader;
-        this.tex = tex;
+        this.bodyShader = bodyShader;
+        this.tailShader = tailShader;
+        this.eyeShader = eyeShader;
         this.length = length;
         this.width = width;
         this.height = height;
+        this.tex = new CGFtexture(this, "textures/fish_texture.jpg");
         this.position = position || new Vector3(0, 3, 0);
         this.init();
     }
@@ -35,13 +37,13 @@ export class MyFish extends CGFobject {
         this.tail = new MyAnimatedTail(this.scene, -40, 40);
         this.leftWing = new MyAnimatedWing(this.scene, -40, -20);
         this.rightWing = new MyAnimatedWing(this.scene, -40, -20);
+        this.dorsal = new MyRectTriangle(this.scene);
     }
 
     display() {
         this.scene.pushMatrix();
 
-        this.scene.setActiveShader(this.shader);
-        this.tex.bind(2);
+        this.scene.setActiveShader(this.bodyShader);
 
         this.scene.pushMatrix();
         // The sphere used has a radius of 1 (diameter of 2), hence the division by 2
@@ -50,24 +52,28 @@ export class MyFish extends CGFobject {
         this.scene.multMatrix(rotateXMatrix(degreeToRad(90)));
         this.scene.activeTexture = this.tex;
         this.body.display();
-        this.scene.activeTexture = null;
         
         this.scene.popMatrix();
 
-        this.scene.setActiveShader(this.scene.defaultShader);
+        this.scene.setActiveShader(this.eyeShader);
 
         this.scene.pushMatrix();
         this.scene.multMatrix(translateMatrix(this.position.x + this.width*0.4, this.position.y + this.height/10, this.position.z + this.length/4));
         this.scene.multMatrix(scaleMatrix(this.width/8, this.width/8, this.width/8));
+
         this.leftEye.display();
         this.scene.popMatrix();
-
+        
         this.scene.pushMatrix();
         this.scene.multMatrix(translateMatrix(this.position.x-this.width*0.4, this.position.y + this.height/10, this.position.z + this.length/4));
         this.scene.multMatrix(scaleMatrix(this.width/8, this.width/8, this.width/8));
         this.rightEye.display();
         this.scene.popMatrix();
 
+        this.scene.activeTexture = null;
+
+        this.scene.setActiveShader(this.tailShader);
+        
         this.scene.pushMatrix();
         this.scene.multMatrix(translateMatrix(this.position.x, this.position.y, this.position.z-this.length/2));
         this.scene.multMatrix(scaleMatrix(this.length/3, this.length/3, this.length/3));
@@ -90,7 +96,17 @@ export class MyFish extends CGFobject {
         this.rightWing.display();
         this.scene.popMatrix();
 
+        this.scene.pushMatrix();
+        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z + 0.1*this.length));
+        this.scene.multMatrix(scaleMatrix(-0.25*this.length, 0.25*this.length, 0.25*this.length));
+        this.scene.multMatrix(rotateYMatrix(degreeToRad(90)));
+        this.dorsal.display();
+
         this.scene.popMatrix();
+
+        this.scene.popMatrix();
+
+        this.scene.setActiveShader(this.scene.defaultShader);
     }
 
 }

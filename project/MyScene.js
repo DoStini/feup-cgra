@@ -79,15 +79,16 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setShininess(120);
         this.sphereAppearance.loadTexture('textures/earth.jpg');
 
-        this.fishApperance = new CGFappearance(this);
-        this.fishApperance.loadTexture('textures/fish_good.jpg');
-
-        this.fishTex = new CGFtexture(this, "textures/fish_good.jpg");
+        this.fishTex = new CGFtexture(this, "textures/fish_texture.jpg");
+        this.fishEyeTex = new CGFtexture(this, "textures/fish_texture.jpg");
 
         this.fishBodyShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
-        this.fishTex.bind(2);
+        this.fishEyeShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_eye.frag");
+        this.fishColoredShader = new CGFshader(this.gl, "shaders/fish_colored.vert", "shaders/fish_colored.frag");
         this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: [237 / 255, 165 / 255, 21 / 255, 1.0] });
-        this.fish = new MyFish(this, this.fishBodyShader, this.fishTex, 5 * 0.5, 5 * 0.2, 5 * 0.30, new Vector3(5, 5, 5));
+        this.fishColoredShader.setUniformsValues({ uColor: [237 / 255, 165 / 255, 21 / 255, 1.0] });
+        this.fishEyeShader.setUniformsValues({ uSampler3: 3});
+        this.fish = new MyFish(this, this.fishBodyShader, this.fishColoredShader, this.fishEyeShader, 5 * 0.5, 5 * 0.2, 5 * 0.30, new Vector3(5, 5, 5));
 
         this.linearRender = true;
 
@@ -177,11 +178,14 @@ export class MyScene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
+        this.fishTex.bind(2);
+        this.fishEyeTex.bind(3);
+
         this.defaultAppearance.apply();
 
-        this.fishApperance.apply();
         this.fish.display();
-        this.defaultAppearance.apply();
+
+        this.setActiveShader(this.defaultShader);
 
         // Draw axis
         if (this.displayAxis)
