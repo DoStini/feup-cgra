@@ -5,29 +5,24 @@ import { degreeToRad } from '../../utils/math/MathUtils.js';
 import { rotateYMatrix, scaleMatrix, translateMatrix } from '../../utils/matrix/MatrixGenerator.js';
 import { Vector3 } from '../../utils/Vector3.js';
 import { MySphere } from '../MySphere.js';
+import { MyRotationAnimatedObject } from './MyRotationAnimatedObject.js';
 /**
-* MyFish
+* MyAnimatedWing
 * @constructor
  * @param scene - Reference to MyScene object
  * @param minRot - minimum animation rotation of the fish
  * @param maxRot - maximum animation rotation of the fish
+ * @param rotSpeed - rotation speed
 */
-export class MyAnimatedWing extends CGFobject {
-    constructor(scene, minRot, maxRot) {
-        super(scene);
-        this.scene = scene;
-        this.minRot = minRot;
-        this.maxRot = maxRot;
+export class MyAnimatedWing extends MyRotationAnimatedObject {
+    constructor(scene, minRot, maxRot, rotSpeed) {
+        super(scene, minRot, maxRot, rotSpeed);
         this.init();
     }
 
     init() {
+        super.init();
         this.element = new MyRectTriangle(this.scene);
-        this.rotation = (this.minRot + this.maxRot)/2;
-    }
-
-    update(t) {
-
     }
 
     display() {

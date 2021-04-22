@@ -36,9 +36,9 @@ export class MyFish extends CGFobject {
         this.body = new MySphere(this.scene, 32, 16);
         this.leftEye = new MySphere(this.scene, 8, 4);
         this.rightEye = new MySphere(this.scene, 8, 4);
-        this.tail = new MyAnimatedTail(this.scene, -40, 40);
-        this.leftWing = new MyAnimatedWing(this.scene, -40, -20);
-        this.rightWing = new MyAnimatedWing(this.scene, -40, -20);
+        this.tail = new MyAnimatedTail(this.scene, -40, 40, 80);
+        this.leftWing = new MyAnimatedWing(this.scene, -40, -20, 40);
+        this.rightWing = new MyAnimatedWing(this.scene, -40, -20, 40);
         this.dorsal = new MyRectTriangle(this.scene);
     }
 
@@ -108,6 +108,12 @@ export class MyFish extends CGFobject {
         this.scene.popMatrix();
     }
     
+    update(t, lastDelta) {
+        this.leftWing.update(t, lastDelta);
+        this.rightWing.update(t, lastDelta);
+        this.tail.update(t, lastDelta);
+    }
+
     display() {
         this.scene.pushMatrix();
 

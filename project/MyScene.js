@@ -93,7 +93,10 @@ export class MyScene extends CGFscene {
         this.fishColoredShader.setUniformsValues({ uColor: fishColor });
         this.fishEyeShader.setUniformsValues({ uSampler3: 3});
         this.fish = new MyFish(this, this.fishBodyShader, this.fishColoredShader, this.fishEyeShader, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
-
+        this.movmObject = new MyMovingObject(
+            this,
+            new MyFish(this, this.fishBodyShader, this.fishColoredShader, this.fishEyeShader, 0.5, 0.2, 0.30, new Vector3(0, 0, 0)),
+            0, 0, new Vector3(0, 0, -0.5));
         this.linearRender = true;
 
         this.initDelta();
@@ -166,7 +169,8 @@ export class MyScene extends CGFscene {
     update(t) {
         this.updateDelta(t);
         this.checkKeys();
-        this.movmObject.update(t, this.lastDelta);
+        this.movmObject.update(this.lastPhysicsUpdate, this.lastDelta);
+        this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
     }
 
     /**
