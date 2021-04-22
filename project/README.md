@@ -50,3 +50,10 @@
   - Under Scene Physics we added drag coefficient and a checkbox to activate and deactivate this simulation option. The speed factor of the scene is also located in this folder.
   - All of the checkboxes related to choosing what objects to render are located under Display Scene Objects.
   - Under Skybox folder, the skybox's texture can be chosen, as previously said.
+
+
+### Part 3
+
+- To create the fish, we used a sphere to serve as a body. The orientation chosen was the z-Axis as the front facing direction of the fish. The sphere used had a radius of 1 unit, therefore we had to normalize it dividing by 2. After this, we scaled the spehere according to the parameters of the constructor. Later we had to rotate the sphere so that the axis connecting poles would be parallel to the z-Axis, so that the texture closes on the front and back part, and not in the top and bottom, which looked strange. After this, we separated the tails and wings in different animated classes, so that in the future it is easier to animate and controll them. We applied transformations according to the scale and position parameters, so that the fish has the wings, eyes, tail and head in the correct place, no matter those values.
+- Since the sphere ranges in any axis from [-1,1] then 60% of the sphere is (1-(-1))*0.6 = 1.2, meaning (-1 + 1.2)=0.2 is the point where the texture of the fish stops being drawn.
+- Because CGF disables sending the texture coordinates to the vertex shaders if a texture is not set (via the appearance applied for example) we set the scene.activeTexture to any texture to bypass that restriction.
