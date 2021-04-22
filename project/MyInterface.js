@@ -87,6 +87,7 @@ export class MyInterface extends CGFinterface {
         const selectBox = this.gui.addFolder('Display Scene Objects');
         selectBox.add(this.scene, 'displayAxis').name('Display Axis');
         selectBox.add(this.scene, 'displayVehicle').name('Display Vehicle');
+        selectBox.add(this.scene, 'displayFish').name('Display Fish');
         selectBox.add(this.scene, 'displayCylinder').name('Display Cylinder');
         selectBox.add(this.scene, 'displaySphere').name('Display Sphere');
         selectBox.add(this.scene, 'displaySkybox').name('Display Skybox');

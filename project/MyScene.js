@@ -5,11 +5,12 @@ import { MySphere } from "./objects/MySphere.js";
 import { MyCubeMap } from "./objects/MyCubeMap.js";
 import { MyQuad } from "./shapes/MyQuad.js";
 import { Vector3 } from "./utils/Vector3.js";
-import { mirrorXY, mirrorYZ, scaleMatrix, translateMatrix } from "./utils/matrix/MatrixGenerator.js";
+import { mirrorXY, mirrorYZ, rotateYMatrix, scaleMatrix, translateMatrix } from "./utils/matrix/MatrixGenerator.js";
 import { MyCylinder } from "./objects/MyCylinder.js";
 import { Material } from "./utils/Material.js";
 import DefaultMaterial from "./materials/DefaultMaterial.js";
 import { MyFish } from "./objects/fish/MyFish.js";
+import { degreeToRad } from "./utils/math/MathUtils.js";
 
 /**
 * MyScene
@@ -80,15 +81,18 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.loadTexture('textures/earth.jpg');
 
         this.fishTex = new CGFtexture(this, "textures/fish_texture.jpg");
-        this.fishEyeTex = new CGFtexture(this, "textures/fish_texture.jpg");
+        this.fishEyeTex = new CGFtexture(this, "textures/fish_eye.jpg");
 
         this.fishBodyShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
-        this.fishEyeShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_eye.frag");
+        this.fishEyeShader = new CGFshader(this.gl, "shaders/fish_eye.vert", "shaders/fish_eye.frag");
         this.fishColoredShader = new CGFshader(this.gl, "shaders/fish_colored.vert", "shaders/fish_colored.frag");
-        this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: [237 / 255, 165 / 255, 21 / 255, 1.0] });
-        this.fishColoredShader.setUniformsValues({ uColor: [237 / 255, 165 / 255, 21 / 255, 1.0] });
+        
+        const fishColor = [237 / 255, 165 / 255, 21 / 255, 1.0];
+
+        this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
+        this.fishColoredShader.setUniformsValues({ uColor: fishColor });
         this.fishEyeShader.setUniformsValues({ uSampler3: 3});
-        this.fish = new MyFish(this, this.fishBodyShader, this.fishColoredShader, this.fishEyeShader, 5 * 0.5, 5 * 0.2, 5 * 0.30, new Vector3(5, 5, 5));
+        this.fish = new MyFish(this, this.fishBodyShader, this.fishColoredShader, this.fishEyeShader, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
 
         this.linearRender = true;
 
@@ -98,7 +102,8 @@ export class MyScene extends CGFscene {
         this.dragCoefficient = 0.5;
         this.speedFactor = 1;
         this.useDrag = false;
-        this.displayVehicle = true;
+        this.displayVehicle = false;
+        this.displayFish = true;
         this.displayCylinder = false;
         this.displaySphere = false;
         this.displaySkybox = true;
@@ -183,7 +188,9 @@ export class MyScene extends CGFscene {
 
         this.defaultAppearance.apply();
 
-        this.fish.display();
+        if (this.displayFish) {
+            this.fish.display();
+        }
 
         this.setActiveShader(this.defaultShader);
 
