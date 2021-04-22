@@ -1,4 +1,4 @@
-import { CGFscene, CGFcamera, CGFaxis, CGFappearance } from "../lib/CGF.js";
+import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyMovingObject } from "./objects/MyMovingObject.js";
 import { MyPyramid } from "./objects/MyPyramid.js";
 import { MySphere } from "./objects/MySphere.js";
@@ -62,10 +62,9 @@ export class MyScene extends CGFscene {
         this.cylinder = new MyCylinder(this, 25, this.cylinderMaterial);
 
         this.movmObject = new MyMovingObject(
-                this,
-                new MyPyramid(this, 3, 1), 
-                0, 0, new Vector3(0,0,-0.5));
-        this.fish = new MyFish(this, 5*0.5, 5*0.2, 5*0.30, new Vector3(5,5,5));
+            this,
+            new MyPyramid(this, 3, 1),
+            0, 0, new Vector3(0, 0, -0.5));
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -79,6 +78,16 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.sphereAppearance.setShininess(120);
         this.sphereAppearance.loadTexture('textures/earth.jpg');
+
+        this.fishApperance = new CGFappearance(this);
+        this.fishApperance.loadTexture('textures/fish_good.jpg');
+
+        this.fishTex = new CGFtexture(this, "textures/fish_good.jpg");
+
+        this.fishBodyShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
+        this.fishTex.bind(2);
+        this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: [237 / 255, 165 / 255, 21 / 255, 1.0] });
+        this.fish = new MyFish(this, this.fishBodyShader, this.fishTex, 5 * 0.5, 5 * 0.2, 5 * 0.30, new Vector3(5, 5, 5));
 
         this.linearRender = true;
 
@@ -122,7 +131,7 @@ export class MyScene extends CGFscene {
      */
     updateDelta(t) {
         const delta = (t - this.lastFixedUpdate) * this.speedFactor;
-        this.lastDelta = delta/1000;
+        this.lastDelta = delta / 1000;
         this.lastPhysicsUpdate += delta;
         this.lastFixedUpdate = t;
     }
@@ -168,52 +177,53 @@ export class MyScene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
-
         this.defaultAppearance.apply();
 
+        this.fishApperance.apply();
         this.fish.display();
+        this.defaultAppearance.apply();
 
         // Draw axis
         if (this.displayAxis)
             this.axis.display();
 
-        if(this.displaySphere) {
-            this.sphereAppearance.apply();    
+        if (this.displaySphere) {
+            this.sphereAppearance.apply();
             this.sphere.display();
         }
-        
-        if(this.displayVehicle) {
+
+        if (this.displayVehicle) {
             this.defaultAppearance.apply();
 
             this.movmObject.display();
-        } 
-
-        if(this.displayCylinder) {
-            this.pushMatrix();
-    
-            // let cylinderScale = scaleMatrix(1,2,1);
-            // this.multMatrix(cylinderScale);
-            
-            this.cylinder.display();
-    
-            this.popMatrix();    
         }
 
-        if(this.displaySkybox) {
+        if (this.displayCylinder) {
+            this.pushMatrix();
+
+            // let cylinderScale = scaleMatrix(1,2,1);
+            // this.multMatrix(cylinderScale);
+
+            this.cylinder.display();
+
+            this.popMatrix();
+        }
+
+        if (this.displaySkybox) {
             this.pushMatrix();
 
             const cameraOffset = translateMatrix(
                 this.camera.position[0],
                 this.camera.position[1],
                 this.camera.position[2]);
-            
+
             this.multMatrix(cameraOffset);
-    
-            let slMatrix = scaleMatrix(500,500,500);
+
+            let slMatrix = scaleMatrix(500, 500, 500);
             this.multMatrix(slMatrix);
-    
+
             this.skybox.display();
-    
+
             this.popMatrix();
         }
 

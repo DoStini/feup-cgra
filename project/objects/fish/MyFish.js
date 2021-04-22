@@ -1,4 +1,4 @@
-import {CGFobject} from '../../../lib/CGF.js';
+import {CGFobject, CGFshader, CGFtexture} from '../../../lib/CGF.js';
 import { rotateXMatrix } from '../../../tp4/Utils/Matrix/MatrixGenerator.js';
 import { MyRectTriangle } from '../../shapes/MyRectTriangle.js';
 import { degreeToRad } from '../../utils/math/MathUtils.js';
@@ -16,9 +16,11 @@ import { MyAnimatedTail } from './AnimatedTail.js';
  * @param width - width of the fish
 */
 export class MyFish extends CGFobject {
-    constructor(scene, length, width, height, position) {
+    constructor(scene, shader, tex, length, width, height, position) {
         super(scene);
         this.scene = scene;
+        this.shader = shader;
+        this.tex = tex;
         this.length = length;
         this.width = width;
         this.height = height;
@@ -38,12 +40,21 @@ export class MyFish extends CGFobject {
     display() {
         this.scene.pushMatrix();
 
+        this.scene.setActiveShader(this.shader);
+        this.tex.bind(2);
+
         this.scene.pushMatrix();
         // The sphere used has a radius of 1 (diameter of 2), hence the division by 2
         this.scene.multMatrix(translateMatrix(this.position.x, this.position.y, this.position.z));
         this.scene.multMatrix(scaleMatrix(this.width/2, this.height/2, this.length/2));
+        this.scene.multMatrix(rotateXMatrix(degreeToRad(90)));
+        this.scene.activeTexture = this.tex;
         this.body.display();
+        this.scene.activeTexture = null;
+        
         this.scene.popMatrix();
+
+        this.scene.setActiveShader(this.scene.defaultShader);
 
         this.scene.pushMatrix();
         this.scene.multMatrix(translateMatrix(this.position.x + this.width*0.4, this.position.y + this.height/10, this.position.z + this.length/4));
