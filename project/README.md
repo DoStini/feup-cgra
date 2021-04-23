@@ -57,5 +57,6 @@
 - Since the sphere ranges in any axis from [-1,1] then 60% of the sphere is (1-(-1))\*0.6 = 1.2, meaning (-1 + 1.2)=0.2 is the point where the texture of the fish stops being drawn.
 - Because CGF disables sending the texture coordinates to the vertex shaders if a texture is not set (via the appearance applied for example) we set the scene.activeTexture to any texture to bypass that restriction.
 - Fish Texture from https://gumroad.com/juliosillet?sort=page_layout#ufEtG
+- The shader used for the body is being also used to the rest of the fish, by setting an uniform boolean value indicating if the texture should be drawn or only the color.
 - We created a simple eye by using a shader, painting black near the top of the sphere.
 - To enable animations, we created a class `MyRotationAnimatedObject`.The two derived classes `MyAnimatedWing` and `MyAnimatedTail` work the same way in terms of updating the rotation, so it made sense to use a parent class that `update` worked the same way, according to some variables like minimum and maximum rotation and its speed, which can be set in the constructor. This value is updated using the previously explained variable `lastDelta` so that animation speed is controlled by the whole scene speed.

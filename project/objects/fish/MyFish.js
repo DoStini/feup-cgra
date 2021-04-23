@@ -14,20 +14,21 @@ import DefaultMaterial from '../../materials/DefaultMaterial.js';
 * MyFish
 * @constructor
  * @param scene - Reference to MyScene object
+ * @param bodyShader - Shader of the fish
  * @param lenght - lenght of the fish
  * @param width - width of the fish
 */
 export class MyFish extends CGFobject {
-    constructor(scene, bodyShader, tailShader, eyeShader, length, width, height, position) {
+    constructor(scene, bodyShader, eyeShader, fishColor, tex, length, width, height, position) {
         super(scene);
         this.scene = scene;
         this.bodyShader = bodyShader;
-        this.tailShader = tailShader;
         this.eyeShader = eyeShader;
+        this.fishColor = fishColor;
         this.length = length;
         this.width = width;
         this.height = height;
-        this.tex = new CGFtexture(this.scene, "textures/fish_texture.jpg");
+        this.tex = tex;
         this.position = position || new Vector3(0, 3, 0);
         this.init();
     }
@@ -117,6 +118,7 @@ export class MyFish extends CGFobject {
     display() {
         this.scene.pushMatrix();
 
+        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: true });
         this.scene.setActiveShader(this.bodyShader);
 
         this.displayBody();
@@ -126,7 +128,8 @@ export class MyFish extends CGFobject {
 
         this.scene.activeTexture = null;
 
-        this.scene.setActiveShader(this.tailShader);
+        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: false });
+        this.scene.setActiveShader(this.bodyShader);
         
         this.displayTail();
 

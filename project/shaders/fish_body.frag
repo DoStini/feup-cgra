@@ -7,11 +7,12 @@ varying vec3 vVertexPosition;
 
 uniform sampler2D uSampler2;
 uniform vec4 uColor;
+uniform bool drawTex;
 
 void main() {
     vec4 color = uColor;
 
-    if(vVertexPosition.y < 0.2) {
+    if(drawTex && vVertexPosition.y < 0.2) {
         vec2 tex = vec2(vVertexPosition.x, vVertexPosition.y);
         color = texture2D(uSampler2, vTextureCoord);
         //color = vec4(vTextureCoord, 1., 1.);
