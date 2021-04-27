@@ -9,6 +9,9 @@ uniform mat4 uNMatrix;
 varying vec2 vTextureCoord;
 varying vec3 vVertexPosition;
 
+uniform sampler2D uSandSampler;
+uniform float maxHeight;
+
 void main(){
     vec3 vertex=aVertexPosition;
     vTextureCoord=aTextureCoord;
