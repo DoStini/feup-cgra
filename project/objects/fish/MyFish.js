@@ -5,8 +5,8 @@ import { degreeToRad } from '../../utils/math/MathUtils.js';
 import { rotateYMatrix, scaleMatrix, translateMatrix } from '../../utils/matrix/MatrixGenerator.js';
 import { Vector3 } from '../../utils/Vector3.js';
 import { MySphere } from '../MySphere.js';
-import { MyAnimatedWing } from './AnimatedWing.js';
-import { MyAnimatedTail } from './AnimatedTail.js';
+import { MyAnimatedWing } from './MyAnimatedWing.js';
+import { MyAnimatedTail } from './MyAnimatedTail.js';
 import { Material } from '../../utils/Material.js';
 import DefaultMaterial from '../../materials/DefaultMaterial.js';
 
