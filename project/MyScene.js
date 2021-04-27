@@ -80,7 +80,7 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setShininess(120);
         this.sphereAppearance.loadTexture('textures/earth.jpg');
 
-        this.fishTex = new CGFtexture(this, "textures/fish_texture.jpg");
+        this.fishTex = new CGFtexture(this, "textures/fish_texture.jpg"); // https://gumroad.com/juliosillet?sort=page_layout#ufEtG
 
         this.fishBodyShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
         this.fishEyeShader = new CGFshader(this.gl, "shaders/fish_eye.vert", "shaders/fish_eye.frag");
@@ -88,7 +88,7 @@ export class MyScene extends CGFscene {
         const fishColor = [237 / 255, 165 / 255, 21 / 255, 1.0];
 
         this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
-        this.fish = new MyFish(this, this.fishBodyShader, this.fishEyeShader, fishColor, this.fishTex, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
+        this.fish = new MyFish(this, this.fishBodyShader, this.fishEyeShader, fishColor, this.fishTex, 0.5*5, 0.2*5, 0.30*5, new Vector3(0, 3, 0));
 
 
         this.linearRender = true;
@@ -186,6 +186,7 @@ export class MyScene extends CGFscene {
         this.defaultAppearance.apply();
 
         if (this.displayFish) {
+            
             this.fish.display();
         }
 

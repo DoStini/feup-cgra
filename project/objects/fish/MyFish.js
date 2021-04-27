@@ -15,8 +15,13 @@ import DefaultMaterial from '../../materials/DefaultMaterial.js';
 * @constructor
  * @param scene - Reference to MyScene object
  * @param bodyShader - Shader of the fish
- * @param lenght - lenght of the fish
+ * @param eyeShader - Shader of the eye
+ * @param fishColor - Color of the body of the fish
+ * @param tex - Fish's texture
+ * @param length - length of the fish
  * @param width - width of the fish
+ * @param height - Height of the fish
+ * @param postion - Starting position of the fish
 */
 export class MyFish extends CGFobject {
     constructor(scene, bodyShader, eyeShader, fishColor, tex, length, width, height, position) {
@@ -75,9 +80,9 @@ export class MyFish extends CGFobject {
 
     displayDorsal() {
         this.scene.pushMatrix();
-        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z + 0.1*this.length));
+        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z - 0.12*this.length));
         this.scene.multMatrix(scaleMatrix(-0.25*this.length, 0.25*this.length, 0.25*this.length));
-        this.scene.multMatrix(rotateYMatrix(degreeToRad(90)));
+        this.scene.multMatrix(rotateYMatrix(degreeToRad(-90)));
         this.dorsal.display();
 
         this.scene.popMatrix();
