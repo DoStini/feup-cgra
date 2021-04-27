@@ -25,7 +25,7 @@ export class MyWaterCeiling extends CGFobject {
 
     update(t) {
         this.shader.setUniformsValues({
-            timeFactor: t/1000
+            timeFactor: t/100000%1
         });
     }
 
