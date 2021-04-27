@@ -11,6 +11,7 @@ import { Material } from "./utils/Material.js";
 import DefaultMaterial from "./materials/DefaultMaterial.js";
 import { MyFish } from "./objects/fish/MyFish.js";
 import { degreeToRad } from "./utils/math/MathUtils.js";
+import { MySandFloor } from "./shapes/MySandFloor.js";
 
 /**
 * MyScene
@@ -66,6 +67,8 @@ export class MyScene extends CGFscene {
             this,
             new MyPyramid(this, 3, 1),
             0, 0, new Vector3(0, 0, -0.5));
+
+        this.sandFloor = new MySandFloor(this, 10, 10);
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -191,6 +194,8 @@ export class MyScene extends CGFscene {
         }
 
         this.setActiveShader(this.defaultShader);
+
+        this.sandFloor.display();
 
         // Draw axis
         if (this.displayAxis)
