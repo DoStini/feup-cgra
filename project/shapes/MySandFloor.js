@@ -10,37 +10,45 @@ import { Vector3 } from '../utils/Vector3.js';
  * @param scene - Reference to MyScene object
  * @param nDivs - number of divisions in both directions of the surface
  * @param maxHeight - max height of the sand used in the shader.
+ * @param length - length of side.
 */
 export class MySandFloor extends CGFobject {
-	constructor(scene, nrDivs, maxHeight) {
+	constructor(scene, nrDivs, maxHeight, length) {
 		super(scene);
 		this.scene = scene;
         this.nrDivs = nrDivs;
         this.maxHeight = maxHeight;
+        this.length = length;
+
         this.init();
 	}
 
     init() {
         this.plane = new MyPlane(this.scene, this.nrDivs);
+        this.sandTex = new CGFtexture(this.scene, '/project/textures/sand.png');
+        this.sandBump = new CGFtexture(this.scene, '/project/textures/maps/sandMap.png');
+
         this.planeShader = new CGFshader(this.scene.gl, '/project/shaders/sand.vert', '/project/shaders/sand.frag');
-        this.planeShader.setUniformsValues({uSandSampler: 1, maxHeight: this.maxHeight});
-        this.sandTex = new CGFtexture(this.scene, '/project/textures/sand.png')
+        this.planeShader.setUniformsValues({uSandSampler: 1, uSandBumpSampler: 2, maxHeight: this.maxHeight});
     }
 
     display() {
+        let oldTex = this.scene.activeTexture;
+        this.scene.activeTexture = this.sandTex;
+
         this.scene.pushMatrix();
         
         this.scene.setActiveShader(this.planeShader);
         
-        const scale = scaleMatrix(10, 10, 10);
+        const scale = scaleMatrix(this.length, this.length, this.length);
         const rotatePlane = rotateXMatrix(degreeToRad(-90));
 
         this.scene.multMatrix(scale);
         this.scene.multMatrix(rotatePlane);
 
-        let oldTex = this.scene.activeTexture;
-        this.scene.activeTexture = this.sandTex;
+        this.sandBump.bind(2);
         this.sandTex.bind(1);
+        
         this.plane.display();
 
         this.scene.popMatrix();

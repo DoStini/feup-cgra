@@ -57,6 +57,8 @@ export class MyPlane extends CGFobject {
 		}
 		this.primitiveType = this.scene.gl.TRIANGLE_STRIP;
 		this.initGLBuffers();
+
+        console.log(this.texCoords);
 	}
 
 	setFillMode() { 

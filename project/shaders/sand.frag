@@ -9,5 +9,5 @@ uniform sampler2D uSandSampler;
 uniform float maxHeight;
 
 void main() {
-	gl_FragColor = texture2D(uSandSampler, vTextureCoord);;
+	gl_FragColor = texture2D(uSandSampler, vTextureCoord);
 }

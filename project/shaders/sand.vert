@@ -10,12 +10,17 @@ varying vec2 vTextureCoord;
 varying vec3 vVertexPosition;
 
 uniform sampler2D uSandSampler;
+uniform sampler2D uSandBumpSampler;
 uniform float maxHeight;
 
 void main(){
     vec3 vertex=aVertexPosition;
     vTextureCoord=aTextureCoord;
     vVertexPosition=aVertexPosition;
+
+    vec4 bumpColor = texture2D(uSandBumpSampler, vTextureCoord);
+
+    vertex.z += bumpColor.r*0.05*maxHeight - 0.03*maxHeight;
     
     gl_Position=uPMatrix*uMVMatrix*vec4(vertex,1.);
 }

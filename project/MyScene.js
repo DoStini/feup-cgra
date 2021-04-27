@@ -68,7 +68,7 @@ export class MyScene extends CGFscene {
             new MyPyramid(this, 3, 1),
             0, 0, new Vector3(0, 0, -0.5));
 
-        this.sandFloor = new MySandFloor(this, 10, 10);
+        this.sandFloor = new MySandFloor(this, 20, 10, 50);
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
