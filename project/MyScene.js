@@ -1,14 +1,16 @@
-import { CGFscene, CGFcamera, CGFaxis, CGFappearance } from "../lib/CGF.js";
+import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyMovingObject } from "./objects/MyMovingObject.js";
 import { MyPyramid } from "./objects/MyPyramid.js";
 import { MySphere } from "./objects/MySphere.js";
 import { MyCubeMap } from "./objects/MyCubeMap.js";
 import { MyQuad } from "./shapes/MyQuad.js";
 import { Vector3 } from "./utils/Vector3.js";
-import { mirrorXY, mirrorYZ, scaleMatrix, translateMatrix } from "./utils/matrix/MatrixGenerator.js";
+import { mirrorXY, mirrorYZ, rotateYMatrix, scaleMatrix, translateMatrix } from "./utils/matrix/MatrixGenerator.js";
 import { MyCylinder } from "./objects/MyCylinder.js";
 import { Material } from "./utils/Material.js";
 import DefaultMaterial from "./materials/DefaultMaterial.js";
+import { MyFish } from "./objects/fish/MyFish.js";
+import { degreeToRad } from "./utils/math/MathUtils.js";
 
 /**
 * MyScene
@@ -24,7 +26,7 @@ export class MyScene extends CGFscene {
     }
 
     checkKeys() {
-        this.movmObject.checkKeys();
+        this.movmObject.checkKeys(this.lastDelta);
 
         if (this.gui.isKeyPressed("KeyR")) {
             this.reset();
@@ -61,9 +63,9 @@ export class MyScene extends CGFscene {
         this.cylinder = new MyCylinder(this, 25, this.cylinderMaterial);
 
         this.movmObject = new MyMovingObject(
-                this,
-                new MyPyramid(this, 3, 1), 
-                0, 0, new Vector3(0,0,-0.5));
+            this,
+            new MyPyramid(this, 3, 1),
+            0, 0, new Vector3(0, 0, -0.5));
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -78,6 +80,17 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setShininess(120);
         this.sphereAppearance.loadTexture('textures/earth.jpg');
 
+        this.fishTex = new CGFtexture(this, "textures/fish_texture.jpg"); // https://gumroad.com/juliosillet?sort=page_layout#ufEtG
+
+        this.fishBodyShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
+        this.fishEyeShader = new CGFshader(this.gl, "shaders/fish_eye.vert", "shaders/fish_eye.frag");
+        
+        const fishColor = [237 / 255, 165 / 255, 21 / 255, 1.0];
+
+        this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
+        this.fish = new MyFish(this, this.fishBodyShader, this.fishEyeShader, fishColor, this.fishTex, 0.5*5, 0.2*5, 0.30*5, new Vector3(0, 3, 0));
+
+
         this.linearRender = true;
 
         this.initDelta();
@@ -86,7 +99,8 @@ export class MyScene extends CGFscene {
         this.dragCoefficient = 0.5;
         this.speedFactor = 1;
         this.useDrag = false;
-        this.displayVehicle = true;
+        this.displayVehicle = false;
+        this.displayFish = true;
         this.displayCylinder = false;
         this.displaySphere = false;
         this.displaySkybox = true;
@@ -120,7 +134,7 @@ export class MyScene extends CGFscene {
      */
     updateDelta(t) {
         const delta = (t - this.lastFixedUpdate) * this.speedFactor;
-        this.lastDelta = delta/1000;
+        this.lastDelta = delta / 1000;
         this.lastPhysicsUpdate += delta;
         this.lastFixedUpdate = t;
     }
@@ -149,7 +163,8 @@ export class MyScene extends CGFscene {
     update(t) {
         this.updateDelta(t);
         this.checkKeys();
-        this.movmObject.update(t);
+        this.movmObject.update(this.lastPhysicsUpdate, this.lastDelta);
+        this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
     }
 
     /**
@@ -166,49 +181,58 @@ export class MyScene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
+        this.fishTex.bind(2);
 
         this.defaultAppearance.apply();
+
+        if (this.displayFish) {
+            
+            this.fish.display();
+        }
+
+        this.setActiveShader(this.defaultShader);
+
         // Draw axis
         if (this.displayAxis)
             this.axis.display();
 
-        if(this.displaySphere) {
-            this.sphereAppearance.apply();    
+        if (this.displaySphere) {
+            this.sphereAppearance.apply();
             this.sphere.display();
         }
-        
-        if(this.displayVehicle) {
+
+        if (this.displayVehicle) {
             this.defaultAppearance.apply();
 
             this.movmObject.display();
-        } 
-
-        if(this.displayCylinder) {
-            this.pushMatrix();
-    
-            // let cylinderScale = scaleMatrix(1,2,1);
-            // this.multMatrix(cylinderScale);
-            
-            this.cylinder.display();
-    
-            this.popMatrix();    
         }
 
-        if(this.displaySkybox) {
+        if (this.displayCylinder) {
+            this.pushMatrix();
+
+            // let cylinderScale = scaleMatrix(1,2,1);
+            // this.multMatrix(cylinderScale);
+
+            this.cylinder.display();
+
+            this.popMatrix();
+        }
+
+        if (this.displaySkybox) {
             this.pushMatrix();
 
             const cameraOffset = translateMatrix(
                 this.camera.position[0],
                 this.camera.position[1],
                 this.camera.position[2]);
-            
+
             this.multMatrix(cameraOffset);
-    
-            let slMatrix = scaleMatrix(500,500,500);
+
+            let slMatrix = scaleMatrix(500, 500, 500);
             this.multMatrix(slMatrix);
-    
+
             this.skybox.display();
-    
+
             this.popMatrix();
         }
 
