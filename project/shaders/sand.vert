@@ -20,8 +20,11 @@ void main(){
 
     vec4 bumpColor = texture2D(uSandBumpSampler, vTextureCoord);
 
-    vertex.z += bumpColor.r*0.03*maxHeight - 0.015*maxHeight;
+    vertex.z += bumpColor.r*maxHeight - 0.5*maxHeight;
+
+    vec4 gVertex = uMVMatrix*vec4(vertex,1.);
+    //if(gVertex.y > 1.) gVertex.y = 1.;
     
-    gl_Position=uPMatrix*uMVMatrix*vec4(vertex,1.);
+    gl_Position=uPMatrix*gVertex;
 }
 

@@ -73,6 +73,12 @@ export class MyInterface extends CGFinterface {
         const cylinder = this.gui.addFolder('Cylinder');
         cylinder.add(this.scene.cylinder, 'slices',3, 50, 1).name('Slices')
         .onChange(this.scene.cylinder.updateSlices.bind(this.scene.cylinder));
+
+        const sandFloor = this.gui.addFolder('Sand');
+        sandFloor.add(this.scene.sandFloor, 'nrDivs',5, 50, 1).name('Divisions')
+        .onChange(this.scene.sandFloor.updateDivs.bind(this.scene.sandFloor));
+        sandFloor.add(this.scene.sandFloor, 'maxHeight',0, 40).name('Max Height Displacement')
+        .onChange(this.scene.sandFloor.updateHeight.bind(this.scene.sandFloor));
         
         
         const scenePhysics = this.gui.addFolder('Scene Physics');

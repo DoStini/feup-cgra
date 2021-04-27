@@ -32,6 +32,16 @@ export class MySandFloor extends CGFobject {
         this.planeShader.setUniformsValues({uSandSampler: 1, uSandBumpSampler: 2, maxHeight: this.maxHeight});
     }
 
+    updateDivs(nrDivs) {
+        this.nrDivs = nrDivs;
+        this.plane = new MyPlane(this.scene, this.nrDivs);
+    }
+
+    updateHeight(height) {
+        this.maxHeight = height;
+        this.planeShader.setUniformsValues({maxHeight: this.maxHeight});
+    }
+
     display() {
         let oldTex = this.scene.activeTexture;
         this.scene.activeTexture = this.sandTex;
@@ -40,7 +50,7 @@ export class MySandFloor extends CGFobject {
         
         this.scene.setActiveShader(this.planeShader);
         
-        const scale = scaleMatrix(this.length, this.length, this.length);
+        const scale = scaleMatrix(this.length, 1, this.length);
         const rotatePlane = rotateXMatrix(degreeToRad(-90));
 
         this.scene.multMatrix(scale);
