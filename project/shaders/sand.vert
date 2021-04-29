@@ -11,7 +11,8 @@ varying vec3 vVertexPosition;
 
 uniform sampler2D uSandSampler;
 uniform sampler2D uSandBumpSampler;
-uniform float displacement;
+uniform float uDisplacement;
+uniform float uMaxHeight;
 
 void main(){
     vec3 vertex=aVertexPosition;
@@ -20,8 +21,10 @@ void main(){
 
     vec4 bumpColor = texture2D(uSandBumpSampler, vTextureCoord);
 
+    float displacement = uDisplacement * 2.; // beacause we remove half of the displacement to keep the floor in the same height when applying the bump map, we mult by 2 to keep the displacement value.
     vertex.z += bumpColor.r*displacement - 0.5*displacement;
-    if(vertex.z > 1.) vertex.z = 1.;
+    if(vertex.z > uMaxHeight) vertex.z = uMaxHeight;
+    if(vertex.z < -uMaxHeight) vertex.z = -uMaxHeight;
 
     //vec4 gVertex = uMVMatrix*vec4(vertex,1.);
     //if(gVertex.y > 1.) vertex.y = 1.;
