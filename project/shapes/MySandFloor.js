@@ -9,15 +9,15 @@ import { Vector3 } from '../utils/Vector3.js';
 * @constructor
  * @param scene - Reference to MyScene object
  * @param nDivs - number of divisions in both directions of the surface
- * @param maxHeight - max height of the sand used in the shader.
+ * @param displacement - max height displacement of the sand used in the shader.
  * @param length - length of side.
 */
 export class MySandFloor extends CGFobject {
-	constructor(scene, nrDivs, maxHeight, length) {
+	constructor(scene, nrDivs, displacement, length) {
 		super(scene);
 		this.scene = scene;
         this.nrDivs = nrDivs;
-        this.maxHeight = maxHeight;
+        this.displacement = displacement;
         this.length = length;
 
         this.init();
@@ -29,7 +29,7 @@ export class MySandFloor extends CGFobject {
         this.sandBump = new CGFtexture(this.scene, '/project/textures/maps/sandMap.png');
 
         this.planeShader = new CGFshader(this.scene.gl, '/project/shaders/sand.vert', '/project/shaders/sand.frag');
-        this.planeShader.setUniformsValues({uSandSampler: 1, uSandBumpSampler: 2, maxHeight: this.maxHeight});
+        this.planeShader.setUniformsValues({uSandSampler: 1, uSandBumpSampler: 2, displacement: this.displacement});
     }
 
     updateDivs(nrDivs) {
@@ -37,9 +37,9 @@ export class MySandFloor extends CGFobject {
         this.plane = new MyPlane(this.scene, this.nrDivs);
     }
 
-    updateHeight(height) {
-        this.maxHeight = height;
-        this.planeShader.setUniformsValues({maxHeight: this.maxHeight});
+    updateHeight(displacement) {
+        this.displacement = displacement;
+        this.planeShader.setUniformsValues({displacement: this.displacement});
     }
 
     display() {
