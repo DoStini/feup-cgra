@@ -81,6 +81,8 @@ export class MyInterface extends CGFinterface {
         .onChange(this.scene.sandFloor.updateHeight.bind(this.scene.sandFloor));
         sandFloor.add(this.scene.sandFloor, 'maxHeight',0, 5).name('Max Height')
         .onChange(this.scene.sandFloor.updateMaxHeight.bind(this.scene.sandFloor));
+        sandFloor.add(this.scene.sandFloor, 'blendMultiplier',0, 5).name('Texture Blend')
+        .onChange(this.scene.sandFloor.updateBlend.bind(this.scene.sandFloor));
         
         
         const scenePhysics = this.gui.addFolder('Scene Physics');

@@ -20,6 +20,7 @@ export class MySandFloor extends CGFobject {
         this.displacement = displacement;
         this.length = length;
         this.maxHeight = 1;
+        this.blendMultiplier = 1.4;
         this.init();
 	}
 
@@ -29,7 +30,7 @@ export class MySandFloor extends CGFobject {
         this.sandBump = new CGFtexture(this.scene, '/project/textures/maps/sandMap.png');
 
         this.planeShader = new CGFshader(this.scene.gl, '/project/shaders/sand.vert', '/project/shaders/sand.frag');
-        this.planeShader.setUniformsValues({uSandSampler: 1, uSandBumpSampler: 2, uDisplacement: this.displacement, uMaxHeight: this.maxHeight});
+        this.planeShader.setUniformsValues({uSandSampler: 1, uSandBumpSampler: 2, uDisplacement: this.displacement, uMaxHeight: this.maxHeight, uBlendMultiplier : this.blendMultiplier});
     }
 
     updateDivs(nrDivs) {
@@ -45,6 +46,11 @@ export class MySandFloor extends CGFobject {
     updateMaxHeight(maxHeight) {
         this.maxHeight = maxHeight;
         this.planeShader.setUniformsValues({uMaxHeight: this.maxHeight});
+    }
+
+    updateBlend(blend) {
+        this.blendMultiplier = blend;
+        this.planeShader.setUniformsValues({uBlendMultiplier: this.blendMultiplier});
     }
 
     display() {
