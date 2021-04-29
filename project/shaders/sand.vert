@@ -21,8 +21,11 @@ void main(){
 
     vec4 bumpColor = texture2D(uSandBumpSampler, vTextureCoord);
 
-    float displacement = uDisplacement * 2.; // beacause we remove half of the displacement to keep the floor in the same height when applying the bump map, we mult by 2 to keep the displacement value.
-    vertex.z += bumpColor.r*displacement - 0.5*displacement;
+    //float displacement = uDisplacement * 2.; // beacause we remove half of the displacement to keep the floor in the same height when applying the bump map, we mult by 2 to keep the displacement value.
+    //vertex.z += bumpColor.r*displacement - 0.5*displacement;
+    vertex.z = bumpColor.r*2. - 1.; // normalizes the displacement so the object doesn't move 
+    vertex.z *= uDisplacement;
+    
     if(vertex.z > uMaxHeight) vertex.z = uMaxHeight;
     if(vertex.z < -uMaxHeight) vertex.z = -uMaxHeight;
 
