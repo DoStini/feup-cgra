@@ -7,6 +7,7 @@ varying vec2 vTextureCoord;
 uniform sampler2D uWaterSampler;
 uniform sampler2D uWaterSampler2;
 uniform float timeFactor;
+uniform float weight;
 
 vec2 offset(vec4 mask, vec2 limits) {
     float m = limits.y - limits.x;
@@ -22,7 +23,7 @@ void main() {
 	vec4 mask = texture2D(uWaterSampler2, texCoord);
 
     vec2 limits = vec2(-0.5, 0.5);
-    texCoord = vTextureCoord + offset(mask, limits);
+    texCoord = vTextureCoord + weight*offset(mask, limits);
 
     if (texCoord.y < 0.0) texCoord.y = -texCoord.y;
     if (texCoord.x < 0.0) texCoord.x = -texCoord.x;

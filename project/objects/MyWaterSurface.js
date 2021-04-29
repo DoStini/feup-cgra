@@ -1,10 +1,13 @@
 import { CGFobject, CGFshader, CGFtexture } from "../../lib/CGF.js";
 import { MyPlane } from "../shapes/MyPlane.js";
+import { rotateXMatrix, rotateYMatrix, scaleMatrix, translateMatrix } from "../utils/matrix/MatrixGenerator.js"
+import { degreeToRad } from "../utils/math/MathUtils.js"
 
 /**
  * MyWaterCeiling
  * @constructor
  * @param scene - Reference to MyScene
+ * @param divs - Number of divisions of the plane
  */
 
 export class MyWaterCeiling extends CGFobject {
@@ -12,6 +15,7 @@ export class MyWaterCeiling extends CGFobject {
 		super(scene);
         this.scene = scene;
         this.divs = divs;
+        this.distortion = 0.5;
         this.init();
 	}
 
@@ -37,12 +41,17 @@ export class MyWaterCeiling extends CGFobject {
         this.shader.setUniformsValues({
             uWaterSampler: 1,
             uWaterSampler2: 2,
+            weight: this.distortion
         });
 
         this.scene.activeTexture = this.texture;
         this.scene.setActiveShader(this.shader);
 
         this.scene.pushMatrix();
+        this.scene.multMatrix(translateMatrix(0,10,0));
+        this.scene.multMatrix(rotateYMatrix(degreeToRad(180)));
+        this.scene.multMatrix(rotateXMatrix(degreeToRad(90)));
+        this.scene.multMatrix(scaleMatrix(50,50,50));
         this.object.display();
         this.scene.popMatrix();
  

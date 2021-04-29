@@ -95,7 +95,10 @@ export class MyInterface extends CGFinterface {
         const skybox = this.gui.addFolder('Skybox');
         skybox.add(this.scene.skybox, 'selectedTexture', this.scene.skybox.texNames).name('Skybox Texture')
             .onChange(this.scene.skybox.updateCubemap.bind(this.scene.skybox));
+        skybox.add(this.scene.waterCeiling, 'distortion',0.1, 1.0).name('Water distortion');
+
         this.initKeys();
+
         return true;
     }
 }
