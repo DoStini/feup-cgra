@@ -1,4 +1,6 @@
 import {CGFobject} from '../../../lib/CGF.js';
+import { Material } from "../../utils/Material.js"
+
 /**
 * MyCone
 * @constructor
@@ -7,10 +9,11 @@ import {CGFobject} from '../../../lib/CGF.js';
  * @param stacks - number of divisions along the Y axis
 */
 export class MyCone extends CGFobject {
-    constructor(scene, slices, stacks) {
+    constructor(scene, slices, stacks, material) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
+        this.material = material;
         this.initBuffers();
     }
     initBuffers() {
@@ -45,6 +48,13 @@ export class MyCone extends CGFobject {
         // reinitialize buffers
         this.initBuffers();
         this.initNormalVizBuffers();
+    }
+
+    display() {
+        //console.log(this.scene.activeShader.getUniformsValues());
+        this.material.safeApply();
+        //console.log(this.scene.activeShader.getUniformsValues());
+        super.display();
     }
 }
 

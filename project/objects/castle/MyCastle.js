@@ -5,12 +5,13 @@ import { translateMatrix, rotateYMatrix, mirrorYZ, mirrorXY, rotateXMatrix, scal
 import { Material } from "../../utils/Material.js"
 import { MyCylinder } from "../MyCylinder.js"
 import CastleWall from "../../materials/castle/CastleWall.js";
+import CastleRoof from "../../materials/castle/CastleRoof.js";
 import { MyPlane } from "../../shapes/MyPlane.js";
 import { MyUnitCube } from "./MyUnitCube.js";
 import { MyCone } from "./MyCone.js";
 
 /**
- * MyCylinder
+ * MyCylindert
  * @constructor
  * @param scene - Reference to MyScene
  */
@@ -39,10 +40,12 @@ import { MyCone } from "./MyCone.js";
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           } );
+        this.roofMat = new Material(this.scene, CastleRoof);
+
+        this.door = new MyUnitCube(this.scene, this.doorMat);
         this.towers = new Array(4).fill(0).map(_ => new MyCylinder(this.scene, 8, this.towerMat));
-        console.log(this.towers);
         this.walls = new Array(4).fill(0).map(_ => new MyUnitCube(this.scene, this.wallMat));
-        this.roofs = new Array(4).fill(0).map(_ => new MyCone(this.scene, 8, 8));
+        this.roofs = new Array(4).fill(0).map(_ => new MyCone(this.scene, 8, 8, this.roofMat));
     }
 
     display() {
@@ -85,6 +88,10 @@ import { MyCone } from "./MyCone.js";
 
             this.scene.popMatrix();
         }
+
+        this.scene.multMatrix(translateMatrix(0, wallHeight/2, 5+0.42));
+        this.scene.multMatrix(scaleMatrix(2,wallHeight*0.9,0.5));
+        this.door.display();
 
         this.scene.popMatrix();
     }

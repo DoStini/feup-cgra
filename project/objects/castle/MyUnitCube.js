@@ -1,7 +1,9 @@
 import { CGFobject } from "../../../lib/CGF.js";
 import { MyQuad } from "../../shapes/MyQuad.js"
 import { degreeToRad } from "../../utils/math/MathUtils.js";
-import { translateMatrix, rotateYMatrix, mirrorYZ, rotateXMatrix } from "../../utils/matrix/MatrixGenerator.js";
+import { translateMatrix, rotateYMatrix, mirrorYZ, rotateXMatrix, rotateZMatrix } from "../../utils/matrix/MatrixGenerator.js";
+import { Material } from "../../utils/Material.js"
+
 
 
 /**
@@ -20,42 +22,36 @@ export class MyUnitCube extends CGFobject {
 
     init() {
         this.frontQuad = new MyQuad(this.scene);
+        this.frontQuad.disableNormalViz();
         this.backQuad = new MyQuad(this.scene);
+        this.backQuad.disableNormalViz();
         this.leftQuad = new MyQuad(this.scene);
+        this.leftQuad.disableNormalViz();
         this.rightQuad = new MyQuad(this.scene);
+        this.rightQuad.disableNormalViz();
         this.topQuad = new MyQuad(this.scene);
+        this.topQuad.disableNormalViz();
         this.botQuad = new MyQuad(this.scene);
-    }
-
-    // Sets default if tex undefined
-    safeApply(tex) {
-        if (!tex) {
-            if (this.scene.defaultMaterial) this.scene.defaultMaterial.apply();
-        } else if(tex.getMaterial().texture.texID != -1)  {
-            tex.getMaterial().apply();
-
-            if (!this.scene.linearRender)
-                this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
-            else
-                this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
-        }
+        this.botQuad.disableNormalViz();
     }
 
     display() {
+        this.material.safeApply();
+
         this.scene.pushMatrix();
 
             let tMatrix = translateMatrix(0,0,0.5);
             
             this.scene.multMatrix(tMatrix);
-            this.safeApply(this.material);
             this.frontQuad.display();
 
-            tMatrix = translateMatrix(0,0,-1);
-            let inv = mirrorYZ();
+        this.scene.popMatrix();
 
-            this.scene.multMatrix(tMatrix);
-            this.scene.multMatrix(inv);
-            this.safeApply(this.material);            
+        this.scene.pushMatrix();
+
+            this.scene.multMatrix(translateMatrix(0,0,-0.5));
+            this.scene.multMatrix(rotateYMatrix(degreeToRad(180)));
+        
             this.backQuad.display();
 
         this.scene.popMatrix();
@@ -67,7 +63,7 @@ export class MyUnitCube extends CGFobject {
 
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
-            this.safeApply(this.material);
+            
             this.botQuad.display();
 
         this.scene.popMatrix();
@@ -79,7 +75,6 @@ export class MyUnitCube extends CGFobject {
 
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
-            this.safeApply(this.material);
             this.topQuad.display();
 
         this.scene.popMatrix();
@@ -91,7 +86,6 @@ export class MyUnitCube extends CGFobject {
 
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
-            this.safeApply(this.material);
             this.rightQuad.display();
 
 
@@ -105,7 +99,6 @@ export class MyUnitCube extends CGFobject {
 
             this.scene.multMatrix(tMatrix);
             this.scene.multMatrix(rotMatrix);
-            this.safeApply(this.material);
             this.leftQuad.display();
 
 
