@@ -12,6 +12,7 @@ import DefaultMaterial from "./materials/DefaultMaterial.js";
 import { MyFish } from "./objects/fish/MyFish.js";
 import { degreeToRad } from "./utils/math/MathUtils.js";
 import { MySandFloor } from "./shapes/MySandFloor.js";
+import { MyCastle } from "./objects/castle/MyCastle.js";
 
 /**
 * MyScene
@@ -69,6 +70,7 @@ export class MyScene extends CGFscene {
             0, 0, new Vector3(0, 0, -0.5));
 
         this.sandFloor = new MySandFloor(this, 20, 10, 50);
+        this.castle = new MyCastle(this, 2);
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -91,7 +93,7 @@ export class MyScene extends CGFscene {
         const fishColor = [237 / 255, 165 / 255, 21 / 255, 1.0];
 
         this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
-        this.fish = new MyFish(this, this.fishBodyShader, this.fishEyeShader, fishColor, this.fishTex, 0.5*5, 0.2*5, 0.30*5, new Vector3(0, 3, 0));
+        this.fish = new MyFish(this, this.fishBodyShader, this.fishEyeShader, fishColor, this.fishTex, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
 
 
         this.linearRender = true;
@@ -196,6 +198,8 @@ export class MyScene extends CGFscene {
         this.setActiveShader(this.defaultShader);
 
         this.sandFloor.display();
+
+        this.castle.display();
 
         // Draw axis
         if (this.displayAxis)
