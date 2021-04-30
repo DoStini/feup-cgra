@@ -17,12 +17,17 @@ import { MyCone } from "./MyCone.js";
  */
 
  export class MyCastle extends CGFobject { 
-    constructor(scene, length) {
+    constructor(scene, position, length) {
 		super(scene);
         this.scene = scene;
         this.length = length;
+        this.area = length*length;
+        this.position = position;
         this.init();
 	}
+
+    getArea = () => this.area;
+    getCenterPosition = () => this.position;
 
     init() {
         this.wallMat = new Material(this.scene, CastleWall, {
@@ -50,7 +55,8 @@ import { MyCone } from "./MyCone.js";
 
     display() {
         this.scene.pushMatrix();
-        this.scene.multMatrix(scaleMatrix(this.length/5,this.length/5,this.length/5));
+        this.scene.multMatrix(translateMatrix(this.position.x,this.position.y,this.position.z));
+        this.scene.multMatrix(scaleMatrix(this.length/10,this.length/10,this.length/10));
 
         let idx = 0;
         const towerHeight = 7.;

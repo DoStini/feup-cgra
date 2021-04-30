@@ -20,7 +20,7 @@ export class MySandFloor extends CGFobject {
         this.displacement = displacement;
         this.length = length;
         this.maxHeight = 1;
-        this.blendMultiplier = 1.4;
+        this.blendMultiplier = 1.8;
         this.init();
 	}
 
