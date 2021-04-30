@@ -13,6 +13,7 @@ import { MyFish } from "./objects/fish/MyFish.js";
 import { degreeToRad } from "./utils/math/MathUtils.js";
 import { MySandFloor } from "./shapes/MySandFloor.js";
 import { MyCastle } from "./objects/castle/MyCastle.js";
+import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
 
 /**
 * MyScene
@@ -95,6 +96,7 @@ export class MyScene extends CGFscene {
         this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
         this.fish = new MyFish(this, this.fishBodyShader, this.fishEyeShader, fishColor, this.fishTex, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
 
+        this.waterCeiling = new MyWaterCeiling(this, 20);
 
         this.linearRender = true;
 
@@ -171,6 +173,7 @@ export class MyScene extends CGFscene {
         this.checkKeys();
         this.movmObject.update(this.lastPhysicsUpdate, this.lastDelta);
         this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
+        this.waterCeiling.update(this.lastPhysicsUpdate);
     }
 
     /**
@@ -192,18 +195,21 @@ export class MyScene extends CGFscene {
         this.fishTex.bind(2);
 
         this.defaultAppearance.apply();
-
+        
         if (this.displayFish) {
             
             this.fish.display();
         }
-
+        
+        this.waterCeiling.display();
+        
         this.setActiveShader(this.defaultShader);
 
         this.sandFloor.display();
 
         this.castle.display();
 
+        
         // Draw axis
         if (this.displayAxis)
             this.axis.display();
