@@ -14,6 +14,7 @@ import { degreeToRad } from "./utils/math/MathUtils.js";
 import { MySandFloor } from "./shapes/MySandFloor.js";
 import { MyCastle } from "./objects/castle/MyCastle.js";
 import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
+import { MyRockSet } from "./objects/rock/MyRockSet.js";
 
 /**
 * MyScene
@@ -71,6 +72,7 @@ export class MyScene extends CGFscene {
             0, 0, new Vector3(0, 0, -0.5));
 
         this.sandFloor = new MySandFloor(this, 30, 4, 50);
+        this.rocks = new MyRockSet(this, 50, 20);
         this.castle = new MyCastle(this, new Vector3(-2, 0, -2), 2);
 
         this.defaultAppearance = new CGFappearance(this);
@@ -209,7 +211,8 @@ export class MyScene extends CGFscene {
 
         this.castle.display();
 
-        
+        this.rocks.display();
+
         // Draw axis
         if (this.displayAxis)
             this.axis.display();
