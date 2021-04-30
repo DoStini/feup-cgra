@@ -2,7 +2,7 @@ import { CGFobject, CGFshader, CGFtexture } from "../../../lib/CGF.js";
 import RockMaterial from "../../materials/rock/RockMaterial.js";
 import { Material } from "../../utils/Material.js";
 import { degreeToRad, random } from "../../utils/math/MathUtils.js";
-import { rotateXMatrix, scaleMatrix, translateMatrix } from "../../utils/matrix/MatrixGenerator.js";
+import { rotateXMatrix, rotateYMatrix, rotateZMatrix, scaleMatrix, translateMatrix } from "../../utils/matrix/MatrixGenerator.js";
 
 export class MyRock extends CGFobject {
   /**
@@ -17,16 +17,14 @@ export class MyRock extends CGFobject {
     this.scene = scene;
     this.latDivs = stacks * 2;
     this.longDivs = slices;
-    this.minRand = minRand || 1; // Reassuring that the rock doesnt exceed 0.2 units size
-    this.maxRand = maxRand || 0.5;
+    this.minRand = minRand || 0.6;
+    this.maxRand = maxRand || 1.0; // Reassuring that the rock doesnt exceed 0.2 units size
     this.position = position;
-    this.scale = random(0.05, 0.1); // The sphere has a preset radius of 1, so to get 0.2 rock diameter, we need to divide by 2
+    this.scale = random(0.01, 0.1); // The sphere has a preset radius of 1, so to get 0.2 rock diameter, we need to divide by 2
     this.rotation = rotation;
     this.material = new Material(this.scene, RockMaterial);
     this.initBuffers();
   }
-
-  getRandomVertex = () => random(this.minRand, this.maxRand);
 
   /**
    * @method initBuffers
@@ -58,8 +56,9 @@ export class MyRock extends CGFobject {
         var y = cosPhi;
         var z = Math.sin(-theta) * sinPhi;
 
-        const random = this.getRandomVertex;
-        this.vertices.push(x*random, y*random, z*random);
+        const factor = random(this.minRand, this.maxRand);
+        // console.log("fac" + this.minRand, this.maxRand, factor);
+        this.vertices.push(x*factor, y*factor, z*factor);
 
         //--- Indices
         if (latitude < this.latDivs && longitude < this.longDivs) {

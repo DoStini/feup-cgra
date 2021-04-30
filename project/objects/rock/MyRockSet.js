@@ -3,7 +3,7 @@ import RockMaterial from "../../materials/rock/RockMaterial.js";
 import { Material } from "../../utils/Material.js";
 import { random } from "../../utils/math/MathUtils.js";
 import { Vector3 } from "../../utils/Vector3.js";
-import { MyRock } from "./MyRock..js";
+import { MyRock } from "./MyRock.js";
 
 export class MyRockSet extends CGFobject {
     /**
@@ -15,14 +15,14 @@ export class MyRockSet extends CGFobject {
     constructor(scene, baseNumRocks, threshold) {
         super(scene);
         this.scene = scene;
-        this.numRocks = baseNumRocks + Math.floor(Math.random() * -threshold) + threshold;
+        this.numRocks = baseNumRocks + Math.round(random(-threshold, threshold));
         this.genRocks();
     }
 
     genRocks() {
         this.rocks = new Array(this.numRocks).fill(0)
-                        .map(_ => new MyRock(this.scene, 16, 8, 
-                            new Vector3().setRandomX(-50, 50).setRandomZ(-50, 50),
+                        .map(_ => new MyRock(this.scene, 4, 4, 
+                            new Vector3().setRandomX(-25, 25).setRandomZ(-25, 25),
                             [random(0, 360),random(0, 360),random(0, 360)]));
     }
 

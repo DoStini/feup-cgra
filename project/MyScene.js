@@ -72,7 +72,7 @@ export class MyScene extends CGFscene {
             0, 0, new Vector3(0, 0, -0.5));
 
         this.sandFloor = new MySandFloor(this, 30, 4, 50);
-        this.rocks = new MyRockSet(this, 50, 20);
+        this.rocks = new MyRockSet(this, 500, 200);
         this.castle = new MyCastle(this, new Vector3(-2, 0, -2), 2);
 
         this.defaultAppearance = new CGFappearance(this);
