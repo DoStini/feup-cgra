@@ -63,6 +63,10 @@
 - We created a simple eye by using a shader, painting black near the top of the sphere.
 - To enable animations, we created a class `MyRotationAnimatedObject`.The two derived classes `MyAnimatedWing` and `MyAnimatedTail` work the same way in terms of updating the rotation, so it made sense to use a parent class that `update` worked the same way, according to some variables like minimum and maximum rotation and its speed, which can be set in the constructor. This value is updated using the previously explained variable `lastDelta` so that animation speed is controlled by the whole scene speed.
 
+### Part 5
+
+- We created a simple castle using cubes, spheres and cylinders to server as the fish's nest.
+
 ## Screenshots
 
 ### 1 - MyFish
