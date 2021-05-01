@@ -73,6 +73,16 @@ export class MyInterface extends CGFinterface {
         const cylinder = this.gui.addFolder('Cylinder');
         cylinder.add(this.scene.cylinder, 'slices',3, 50, 1).name('Slices')
         .onChange(this.scene.cylinder.updateSlices.bind(this.scene.cylinder));
+
+        const sandFloor = this.gui.addFolder('Sand');
+        sandFloor.add(this.scene.sandFloor, 'nrDivs',5, 50, 1).name('Divisions')
+        .onChange(this.scene.sandFloor.updateDivs.bind(this.scene.sandFloor));
+        sandFloor.add(this.scene.sandFloor, 'displacement',0, 60).name('Max Displacement')
+        .onChange(this.scene.sandFloor.updateHeight.bind(this.scene.sandFloor));
+        sandFloor.add(this.scene.sandFloor, 'maxHeight',0, 1).name('Max Height')
+        .onChange(this.scene.sandFloor.updateMaxHeight.bind(this.scene.sandFloor));
+        sandFloor.add(this.scene.sandFloor, 'blendMultiplier',0, 5).name('Texture Blend')
+        .onChange(this.scene.sandFloor.updateBlend.bind(this.scene.sandFloor));
         
         
         const scenePhysics = this.gui.addFolder('Scene Physics');
@@ -95,7 +105,10 @@ export class MyInterface extends CGFinterface {
         const skybox = this.gui.addFolder('Skybox');
         skybox.add(this.scene.skybox, 'selectedTexture', this.scene.skybox.texNames).name('Skybox Texture')
             .onChange(this.scene.skybox.updateCubemap.bind(this.scene.skybox));
+        skybox.add(this.scene.waterCeiling, 'distortion',0.1, 1.0).name('Water distortion');
+
         this.initKeys();
+
         return true;
     }
 }

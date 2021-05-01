@@ -1,3 +1,5 @@
+import { random } from "./math/MathUtils.js";
+
 export class Vector3 {
     constructor(x,y,z) {
         this.x = x || 0;
@@ -16,4 +18,17 @@ export class Vector3 {
         this.y *= val;
         this.z *= val;    
     }
+    setRandomX = (min, max) => {
+        this.x = random(min, max); 
+        return this;
+    }
+    setRandomY = (min, max) => {
+        this.y = random(min, max); 
+        return this;
+    }
+    setRandomZ = (min, max) => {
+        this.z = random(min, max); 
+        return this;
+    }
+
 }

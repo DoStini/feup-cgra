@@ -53,27 +53,13 @@ export class MyCylinder extends CGFobject {
         this.initGLBuffers();
     }
 
-    // Sets default if tex undefined
-    safeApply(tex) {
-        if (!tex) {
-            if (this.scene.defaultMaterial) this.scene.defaultMaterial.apply();
-        } else if(tex.getMaterial().texture.texID != -1)  {
-            tex.getMaterial().apply();
-
-            if (!this.scene.linearRender)
-                this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
-            else
-                this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
-        }
-    }
-
     updateSlices(slices) {
         this.slices = slices;
         this.initBuffers();
     }
 
     display() {
-        this.safeApply(this.material);
+        this.material.safeApply();
         super.display();
     }
 }

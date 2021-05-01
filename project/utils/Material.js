@@ -5,10 +5,13 @@ import { CGFappearance } from "../../lib/CGF.js";
  * @constructor
  * @param scene - Reference to MyScene object
  * @param mat - JSON Object containing information about the material (optional)
+ * @param tex - JSON Object containing information about the texture (optional)
  */
 export class Material {
     constructor(scene, mat, tex) {
         this.material = new CGFappearance(scene);
+        this.tex = tex;
+        this.scene = scene;
         if (mat)
             this.initMaterial(mat, tex);
     }
@@ -16,6 +19,7 @@ export class Material {
     hexToRgbA(hex)
     {
         var ret;
+        if(hex === 0) hex = "#000000";
         //either we receive a html/css color or a RGB vector
         if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
             ret=[
@@ -40,10 +44,12 @@ export class Material {
         this.material.setAmbient(...this.hexToRgbA(mat.Ambient || 0));
         this.material.setDiffuse(...this.hexToRgbA(mat.Diffuse || 0));
         this.material.setSpecular(...this.hexToRgbA(mat.Specular || 0));
-        if(mat.Emission) this.material.setEmission(...this.hexToRgbA(mat.Emission));
+        this.material.setEmission(...this.hexToRgbA(mat.Emission || 0));
         this.material.setShininess(mat.Shininess);
-        this.material.loadTexture(tex.tex);
-        this.material.setTextureWrap(tex.SMODE, tex.TMODE);
+        if(tex) {
+            this.material.loadTexture(tex.tex);
+            this.material.setTextureWrap(tex.SMODE, tex.TMODE);
+        }
     }
 
     updateMaterial(specular, diffuse, ambient, shininess) {
@@ -55,5 +61,20 @@ export class Material {
 
     getMaterial() {
         return this.material;
+    }
+
+    safeApply() {
+        if(this.tex)  {
+            if(this.material.texture.texID != -1) {
+                this.material.apply();
+
+                if (!this.scene.linearRender)
+                    this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+                else
+                    this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.LINEAR);
+            }
+        } else {
+            this.material.apply();
+        }
     }
 }

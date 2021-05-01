@@ -10,7 +10,10 @@ import { MyCylinder } from "./objects/MyCylinder.js";
 import { Material } from "./utils/Material.js";
 import DefaultMaterial from "./materials/DefaultMaterial.js";
 import { MyFish } from "./objects/fish/MyFish.js";
-import { degreeToRad } from "./utils/math/MathUtils.js";
+import { MySandFloor } from "./shapes/MySandFloor.js";
+import { MyCastle } from "./objects/castle/MyCastle.js";
+import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
+import { MyRockSet } from "./objects/rock/MyRockSet.js";
 
 /**
 * MyScene
@@ -67,6 +70,13 @@ export class MyScene extends CGFscene {
             new MyPyramid(this, 3, 1),
             0, 0, new Vector3(0, 0, -0.5));
 
+        this.sandFloor = new MySandFloor(this, 30, 4, 50);
+        this.castle = new MyCastle(this, new Vector3(-2, 0, -2), 2);
+        this.rocks = new MyRockSet(this, {
+            position: this.castle.getCenterPosition(),
+            area: this.castle.getArea(),
+        }, 500, 200, -25, 25);
+
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
         this.defaultAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
@@ -90,6 +100,7 @@ export class MyScene extends CGFscene {
         this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
         this.fish = new MyFish(this, this.fishBodyShader, this.fishEyeShader, fishColor, this.fishTex, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
 
+        this.waterCeiling = new MyWaterCeiling(this, 20);
 
         this.linearRender = true;
 
@@ -110,10 +121,11 @@ export class MyScene extends CGFscene {
         this.lights[0].setPosition(15, 2, 5, 1);
         this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
         this.lights[0].enable();
+        this.lights[0].setVisible(true);
         this.lights[0].update();
     }
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.camera = new CGFcamera(1.75, 0.1, 500, vec3.fromValues(2, 2, 2), vec3.fromValues(0, 2, 0));
     }
 
     setDefaultAppearance() {
@@ -165,6 +177,7 @@ export class MyScene extends CGFscene {
         this.checkKeys();
         this.movmObject.update(this.lastPhysicsUpdate, this.lastDelta);
         this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
+        this.waterCeiling.update(this.lastPhysicsUpdate);
     }
 
     /**
@@ -181,16 +194,26 @@ export class MyScene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
+        this.lights[0].update();
+
         this.fishTex.bind(2);
 
         this.defaultAppearance.apply();
-
+        
         if (this.displayFish) {
             
             this.fish.display();
         }
-
+        
+        this.waterCeiling.display();
+        
         this.setActiveShader(this.defaultShader);
+
+        this.sandFloor.display();
+
+        this.castle.display();
+
+        this.rocks.display();
 
         // Draw axis
         if (this.displayAxis)

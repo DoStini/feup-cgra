@@ -63,6 +63,20 @@
 - We created a simple eye by using a shader, painting black near the top of the sphere.
 - To enable animations, we created a class `MyRotationAnimatedObject`.The two derived classes `MyAnimatedWing` and `MyAnimatedTail` work the same way in terms of updating the rotation, so it made sense to use a parent class that `update` worked the same way, according to some variables like minimum and maximum rotation and its speed, which can be set in the constructor. This value is updated using the previously explained variable `lastDelta` so that animation speed is controlled by the whole scene speed.
 
+### Part 5
+
+- We created a simple castle using cubes, spheres and cylinders to server as the fish's nest.
+
+#### Water surface shader
+
+- To create this shader, we created a simple mathematical function, a linear regression, `offset=m*x+b`, where m is (upperLim - lowerLim) / 1.0 and b = lowerLim. This creates a line where the domain x[0,1] returns distortion\*[-0.5,0.5] (the offset). This distortion variable can be controlled in the interface.
+- We noticed that the shader would not behave well if the offset + the current texture position would exceed the limits. We tested and found that subtracting (or summing if the calculated position result was less than 0) the remaining. For example if the calculated result was texture position 1.2, we would subtract the remainder (0.2), meaning that the result would be 0.8.
+
+#### Rocks
+
+- To build the rocks, we used a random function between values. We had a problem where the rock was not being closed. This was happening because the last vertex was having a different random value from the first vertex. This problem was was solved by storing the first vertex of each iteration through the stacks, so that the last longitude value would be the same vertex.
+- The rock set class generates random rocks with random values, like position and rotation, and receives some values. One of them is the forbidden area (which should be the nest) where no rock will be placed.
+
 ## Screenshots
 
 ### 1 - MyFish
