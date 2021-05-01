@@ -77,6 +77,10 @@
 - To build the rocks, we used a random function between values. We had a problem where the rock was not being closed. This was happening because the last vertex was having a different random value from the first vertex. This problem was was solved by storing the first vertex of each iteration through the stacks, so that the last longitude value would be the same vertex.
 - The rock set class generates random rocks with random values, like position and rotation, and receives some values. One of them is the forbidden area (which should be the nest) where no rock will be placed.
 
+#### Pillars
+
+- Texture from https://texturehaven.com/tex/?t=wooden_rough_planks
+
 ## Screenshots
 
 ### 1 - MyFish

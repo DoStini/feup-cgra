@@ -31,17 +31,17 @@ import { MyCone } from "./MyCone.js";
 
     init() {
         this.wallMat = new Material(this.scene, CastleWall, {
-            tex: '/project/textures/castleWall.jpg',
+            tex: '/project/textures/castle/castleWall.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           });
         this.towerMat = new Material(this.scene, CastleWall, {
-            tex: '/project/textures/castleTower.jpg',
+            tex: '/project/textures/castle/castleTower.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           } );
         this.doorMat = new Material(this.scene, CastleWall, {
-            tex: '/project/textures/castleDoor.jpg',
+            tex: '/project/textures/castle/castleDoor.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           } );

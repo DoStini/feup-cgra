@@ -14,6 +14,7 @@ import { MySandFloor } from "./shapes/MySandFloor.js";
 import { MyCastle } from "./objects/castle/MyCastle.js";
 import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
 import { MyRockSet } from "./objects/rock/MyRockSet.js";
+import { MyPillar } from "./objects/MyPillar.js";
 
 /**
 * MyScene
@@ -76,6 +77,15 @@ export class MyScene extends CGFscene {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
         }, 500, 200, -25, 25);
+
+        this.pillars = [
+            new MyPillar(this, new Vector3(-20, 0, 2), 0.5, 10),
+            new MyPillar(this, new Vector3(-20, 0, 0), 0.5, 10),
+            new MyPillar(this, new Vector3(-10, 0, 2), 0.5, 10),
+            new MyPillar(this, new Vector3(-10, 0, 0), 0.5, 10),
+            new MyPillar(this, new Vector3(-5, 0, 2), 0.5, 10),
+            new MyPillar(this, new Vector3(-5, 0, 0), 0.5, 10),
+        ];
 
         this.defaultAppearance = new CGFappearance(this);
         this.defaultAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -214,6 +224,8 @@ export class MyScene extends CGFscene {
         this.castle.display();
 
         this.rocks.display();
+
+        this.pillars.forEach(pillar => pillar.display());
 
         // Draw axis
         if (this.displayAxis)
