@@ -10,7 +10,6 @@ import { MyCylinder } from "./objects/MyCylinder.js";
 import { Material } from "./utils/Material.js";
 import DefaultMaterial from "./materials/DefaultMaterial.js";
 import { MyFish } from "./objects/fish/MyFish.js";
-import { degreeToRad } from "./utils/math/MathUtils.js";
 import { MySandFloor } from "./shapes/MySandFloor.js";
 import { MyCastle } from "./objects/castle/MyCastle.js";
 import { MyWaterCeiling } from "./objects/MyWaterSurface.js";

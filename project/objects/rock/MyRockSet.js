@@ -26,8 +26,6 @@ export class MyRockSet extends CGFobject {
                             [random(0, 360),random(0, 360),random(0, 360)]));
     }
 
-    getRandom = () => Math.floor(Math.random() * this.maxRand) + this.minRand;
-
     display() {
         this.rocks.forEach(rock => rock.display());
     }

@@ -17,10 +17,10 @@ export class MyRock extends CGFobject {
     this.scene = scene;
     this.latDivs = stacks * 2;
     this.longDivs = slices;
-    this.minRand = minRand || 0.6;
+    this.minRand = minRand || 0.7;
     this.maxRand = maxRand || 1.0; // Reassuring that the rock doesnt exceed 0.2 units size
     this.position = position;
-    this.scale = random(0.01, 0.1); // The sphere has a preset radius of 1, so to get 0.2 rock diameter, we need to divide by 2
+    this.scale = [random(0.05, 0.1),random(0.05, 0.1),random(0.05, 0.1)]; // The sphere has a preset radius of 1, so to get 0.2 rock diameter, we need to divide by 2
     this.rotation = rotation;
     this.material = new Material(this.scene, RockMaterial);
     this.initBuffers();
@@ -47,7 +47,7 @@ export class MyRock extends CGFobject {
     for (let latitude = 0; latitude <= this.latDivs; latitude++) {
       var sinPhi = Math.sin(phi);
       var cosPhi = Math.cos(phi);
-
+      let first;
       // in each stack, build all the slices around, starting on longitude 0
       theta = 0;
       for (let longitude = 0; longitude <= this.longDivs; longitude++) {
@@ -56,9 +56,17 @@ export class MyRock extends CGFobject {
         var y = cosPhi;
         var z = Math.sin(-theta) * sinPhi;
 
-        const factor = random(this.minRand, this.maxRand);
-        // console.log("fac" + this.minRand, this.maxRand, factor);
-        this.vertices.push(x*factor, y*factor, z*factor);
+        if (longitude === this.longDivs) {
+            this.vertices.push(first[0], first[1], first[2]);
+        } else {
+            const factor = random(this.minRand, this.maxRand);
+            this.vertices.push(x*factor, y*factor, z*factor);
+            
+            if (longitude === 0) {
+                first = [x*factor, y*factor, z*factor];
+            }
+        }
+        
 
         //--- Indices
         if (latitude < this.latDivs && longitude < this.longDivs) {
@@ -100,7 +108,7 @@ export class MyRock extends CGFobject {
       this.scene.multMatrix(rotateZMatrix(degreeToRad(this.rotation[2])));
       this.scene.multMatrix(rotateYMatrix(degreeToRad(this.rotation[1])));
       this.scene.multMatrix(rotateXMatrix(degreeToRad(this.rotation[0])));
-      this.scene.multMatrix(scaleMatrix(this.scale, this.scale, this.scale));
+      this.scene.multMatrix(scaleMatrix(this.scale[0], this.scale[1], this.scale[2]));
       super.display();
       
       this.scene.popMatrix()
