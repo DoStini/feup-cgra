@@ -5,13 +5,11 @@ import { rotateXMatrix } from '../../tp4/Utils/Matrix/MatrixGenerator.js';
 * @constructor
  * @param scene - Reference to MyScene object
  * @param slices - number of divisions around the Y axis
- * @param stacks - number of divisions along the Y axis
 */
 export class MyPyramid extends CGFobject {
-    constructor(scene, slices, stacks) {
+    constructor(scene, slices) {
         super(scene);
         this.slices = slices;
-        this.stacks = stacks;
         this.initBuffers();
     }
     initBuffers() {

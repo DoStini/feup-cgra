@@ -15,6 +15,7 @@ import { MyCastle } from "./objects/castle/MyCastle.js";
 import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
 import { MyRockSet } from "./objects/rock/MyRockSet.js";
 import { MyPillar } from "./objects/MyPillar.js";
+import {MyAlgae} from "./objects/algae/MyAlgae.js";
 
 /**
 * MyScene
@@ -68,7 +69,7 @@ export class MyScene extends CGFscene {
 
         this.movmObject = new MyMovingObject(
             this,
-            new MyPyramid(this, 3, 1),
+            new MyPyramid(this, 3),
             0, 0, new Vector3(0, 0, -0.5));
 
         this.sandFloor = new MySandFloor(this, 30, 6.5, 1, 50);
@@ -77,6 +78,7 @@ export class MyScene extends CGFscene {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
         }, 500, 200, -25, 25);
+        this.algae = new MyAlgae(this, new Vector3(0.2,0,0.2));
 
         this.pillars = [
             new MyPillar(this, new Vector3(-20, 0, 2), 0.5, 10),
@@ -220,6 +222,8 @@ export class MyScene extends CGFscene {
         this.setActiveShader(this.defaultShader);
 
         this.sandFloor.display();
+
+        this.algae.display();
 
         this.castle.display();
 
