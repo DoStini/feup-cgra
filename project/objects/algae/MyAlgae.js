@@ -16,7 +16,7 @@ export class MyAlgae extends CGFobject {
     super(scene);
     this.scene = scene;
     this.position = position;
-    this.scale = [random(0.1, 0.3),random(0.4, 0.6),random(0.1, 0.3)];
+    this.scale = [random(0.07, 0.12),random(0.4, 0.6),random(0.07, 0.12)];
     this.rotation = random(0, 360);
     this.material = new Material(this.scene, AlgaeMaterial);
     this.shape = new MyPyramid(this.scene, 3);

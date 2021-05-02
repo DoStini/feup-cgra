@@ -15,7 +15,7 @@ import { MyCastle } from "./objects/castle/MyCastle.js";
 import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
 import { MyRockSet } from "./objects/rock/MyRockSet.js";
 import { MyPillar } from "./objects/MyPillar.js";
-import {MyAlgae} from "./objects/algae/MyAlgae.js";
+import {MyAlgaeSet} from "./objects/algae/MyAlgaeSet.js";
 
 /**
 * MyScene
@@ -78,7 +78,10 @@ export class MyScene extends CGFscene {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
         }, 500, 200, -25, 25);
-        this.algae = new MyAlgae(this, new Vector3(0.2,0,0.2));
+        this.algae = new MyAlgaeSet(this, {
+            position: this.castle.getCenterPosition(),
+            area: this.castle.getArea(),
+        }, 180, 50, -25, 25);
 
         this.pillars = [
             new MyPillar(this, new Vector3(-20, 0, 2), 0.5, 10),

@@ -12,7 +12,6 @@ export class MyRock extends CGFobject {
    * @param  {integer} stacks - number of stacks along Y axis, from the center to the poles (half of sphere)
    */
   constructor(scene, slices, stacks, position, rotation, minRand, maxRand) {
-    console.log("hello")
     super(scene);
     this.scene = scene;
     this.latDivs = stacks * 2;
