@@ -27,7 +27,7 @@ void main(){
     vertex.z *= uDisplacement;
     
     if(vertex.z > uMaxHeight) vertex.z = uMaxHeight;
-    if(vertex.z < -uMaxHeight) vertex.z = -uMaxHeight;
+    if(vertex.z < 0.) vertex.z = 0.;
 
     //vec4 gVertex = uMVMatrix*vec4(vertex,1.);
     //if(gVertex.y > 1.) vertex.y = 1.;

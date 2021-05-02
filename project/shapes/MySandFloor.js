@@ -2,7 +2,6 @@ import { CGFshader, CGFobject, CGFtexture } from '../../lib/CGF.js';
 import {MyPlane} from './MyPlane.js';
 import { degreeToRad } from '../utils/math/MathUtils.js';
 import { rotateXMatrix, scaleMatrix, translateMatrix } from '../utils/matrix/MatrixGenerator.js';
-import { Vector3 } from '../utils/Vector3.js';
 
 /**
 * MyPlane
@@ -13,13 +12,13 @@ import { Vector3 } from '../utils/Vector3.js';
  * @param length - length of side.
 */
 export class MySandFloor extends CGFobject {
-	constructor(scene, nrDivs, displacement, length) {
+	constructor(scene, nrDivs, displacement, maxHeight, length) {
 		super(scene);
 		this.scene = scene;
         this.nrDivs = nrDivs;
         this.displacement = displacement;
         this.length = length;
-        this.maxHeight = 1;
+        this.maxHeight = maxHeight;
         this.blendMultiplier = 1.8;
         this.init();
 	}

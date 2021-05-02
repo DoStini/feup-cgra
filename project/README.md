@@ -65,7 +65,15 @@
 
 ### Part 5
 
-- We created a simple castle using cubes, spheres and cylinders to server as the fish's nest.
+- We created a simple castle using cubes, spheres and cylinders to serve as the fish's nest. Instead of a radius, the nest's area is calculated by the castle's wall length.
+
+#### Sand surface shader
+
+- The sand surface is a MyPlane object which has its face turned to the Z positive axis. This is the reason why the shader changes the vertice's Z position when using the displacement map. The sand surface is shifted to its correct position using matrix transformations.
+- To make it so the sand surface doesn't rise when using the displacement map (and updating the max displacement using the interface) we use the red value of the displacement texture, multiply by two and removing one. This effectively changes the displacement interval from [0, 1] to [-1, 1], keeping the middle values on z=0. After that, we multiply by the uDisplacement uniform variable to change the interval to [-uDisplacement, uDisplacement].
+- To implement the restriction that the floor can't exceed a certain Y max value, which is passed by parameter and changeable through the interface, we used a conditional checking if after displacing the vertex its Z coordinate (Z not Y since MyPlane is facing +Z) was higher than the max value, setting it back if it is. At first we would apply the same conditional on the negative Z axis, however we changed it to check if it was lower than 0 so as to not have floating objects.
+- To merge the colors of the displacement map and the sand texture we used a variable, split, that would represent the percentage of the sand texture in the blend, making 1.-split the percentage of the displacement texture.
+- The split variable is calculated using the red value of the displacement map and multiplied by a constant, changeable through the interface, uTextureBlend. We use the red value of the displacement texture because this makes the split variable closer to 1 (giving more weight to the sand texture) in the more white areas of the displacement texture. This makes the darker areas of the displacement texture more visible and the whiter areas less visible, keeping the sand texture as unchanged as possible.
 
 #### Water surface shader
 

@@ -71,7 +71,7 @@ export class MyScene extends CGFscene {
             new MyPyramid(this, 3, 1),
             0, 0, new Vector3(0, 0, -0.5));
 
-        this.sandFloor = new MySandFloor(this, 30, 4, 50);
+        this.sandFloor = new MySandFloor(this, 30, 6.5, 1, 50);
         this.castle = new MyCastle(this, new Vector3(-2, 0, -2), 2);
         this.rocks = new MyRockSet(this, {
             position: this.castle.getCenterPosition(),
