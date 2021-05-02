@@ -9,6 +9,7 @@ import MountainCubemap from "../images/cubemaps/mountain/MountainCubemap.js";
 import DemoCubemap from "../images/cubemaps/demo_cubemap/DemoCubemap.js";
 import { CubemapTexture } from "../utils/CubemapTexture.js";
 import WaterCubemap from "../images/cubemaps/underwater/WaterCubemap.js";
+import Underwater from "../images/cubemaps/water/Underwater.js";
 
 /**
  * MyCubeMap
@@ -34,7 +35,8 @@ export class MyCubeMap extends CGFobject {
             new CubemapTexture(this.scene, SpaceCubemap.textures, CubeMaterial),
             new CubemapTexture(this.scene, MountainCubemap.textures, CubeMaterial),
             new CubemapTexture(this.scene, DemoCubemap.textures, CubeMaterial),
-            new CubemapTexture(this.scene, WaterCubemap.textures, CubeMaterial)
+            new CubemapTexture(this.scene, WaterCubemap.textures, CubeMaterial),
+            new CubemapTexture(this.scene, Underwater.textures, CubeMaterial),
         ];
     }
 
@@ -49,7 +51,7 @@ export class MyCubeMap extends CGFobject {
         this.rightQuad = new MyQuad(this.scene);
         this.topQuad = new MyQuad(this.scene);
         this.botQuad = new MyQuad(this.scene);
-        this.selectedTexture = 3;
+        this.selectedTexture = 4;
         this.loadCubemaps();
         this.updateCubemap(this.selectedTexture);
     }
