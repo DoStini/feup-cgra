@@ -3,6 +3,7 @@ import { translateMatrix, rotateYMatrix, mirrorYZ, mirrorXY, rotateXMatrix, scal
 import { Material } from "../utils/Material.js"
 import DefaultMaterial from "../materials/DefaultMaterial.js";
 import { MyCylinder } from "./MyCylinder.js";
+import PillarMaterial from "../materials/pillar/PillarMaterial.js";
 
 /**
  * MyPillar
@@ -17,7 +18,7 @@ export class MyPillar extends CGFobject {
         this.position = position;
         this.radius = radius;
         this.height = height;
-        this.material = new Material(scene, DefaultMaterial,{
+        this.material = new Material(scene, PillarMaterial,{
             tex: '/project/textures/wood_moss.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',

@@ -1,5 +1,5 @@
 export default {
-    "Ambient": "#000000",
+    "Ambient": "#AAAAAA",
     "Diffuse": "#AAAAAA",
     "Specular": "#000000",
     "Shininess": 10
