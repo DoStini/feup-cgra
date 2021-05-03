@@ -1,6 +1,4 @@
 import { CGFobject, CGFshader, CGFtexture } from "../../../lib/CGF.js";
-import AlgaeMaterial from "../../materials/algae/AlgaeMaterial.js";
-import { Material } from "../../utils/Material.js";
 import { degreeToRad, random } from "../../utils/math/MathUtils.js";
 import { rotateXMatrix, rotateYMatrix, rotateZMatrix, scaleMatrix, translateMatrix } from "../../utils/matrix/MatrixGenerator.js";
 import {MyPyramid} from "../../objects/MyPyramid.js";
@@ -18,17 +16,20 @@ export class MyAlgae extends CGFobject {
     this.position = position;
     this.scale = [random(0.07, 0.12),random(0.4, 0.6),random(0.07, 0.12)];
     this.rotation = random(0, 360);
-    this.material = new Material(this.scene, AlgaeMaterial);
     this.shape = new MyPyramid(this.scene, 3);
+
+
+    this.finalMatrix = mat4.create();
+
+    mat4.multiply(this.finalMatrix, this.finalMatrix, translateMatrix(this.position.x,this.position.y,this.position.z));
+    mat4.multiply(this.finalMatrix, this.finalMatrix, rotateYMatrix(degreeToRad(this.rotation)));
+    mat4.multiply(this.finalMatrix, this.finalMatrix, scaleMatrix(this.scale[0], this.scale[1], this.scale[2]));
   }
 
   display() {
-      this.material.safeApply();
-
       this.scene.pushMatrix();
-      this.scene.multMatrix(translateMatrix(this.position.x,this.position.y,this.position.z));
-      this.scene.multMatrix(rotateYMatrix(degreeToRad(this.rotation)));
-      this.scene.multMatrix(scaleMatrix(this.scale[0], this.scale[1], this.scale[2]));
+
+      this.scene.multMatrix(this.finalMatrix);
       this.shape.display();
       
       this.scene.popMatrix()

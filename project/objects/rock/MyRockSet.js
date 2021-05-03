@@ -20,6 +20,7 @@ export class MyRockSet extends CGFobject {
         this.numRocks = baseNumRocks + Math.round(random(-threshold, threshold));
         this.minLim = minLim;
         this.maxLim = maxLim;
+        this.material = new Material(this.scene, RockMaterial);
         this.genRocks();
     }
 
@@ -41,6 +42,7 @@ export class MyRockSet extends CGFobject {
     }
 
     display() {
+        this.material.safeApply();
         this.rocks.forEach(rock => rock.display());
     }
 }

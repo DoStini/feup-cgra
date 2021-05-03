@@ -1,8 +1,7 @@
 import { CGFobject, CGFshader, CGFtexture } from "../../../lib/CGF.js";
-import RockMaterial from "../../materials/rock/RockMaterial.js";
-import { Material } from "../../utils/Material.js";
 import { degreeToRad, random } from "../../utils/math/MathUtils.js";
 import { rotateXMatrix, rotateYMatrix, rotateZMatrix, scaleMatrix, translateMatrix } from "../../utils/matrix/MatrixGenerator.js";
+//import { exports } from "../../../lib/CGF.js"
 
 export class MyRock extends CGFobject {
   /**
@@ -21,7 +20,6 @@ export class MyRock extends CGFobject {
     this.position = position;
     this.scale = [random(0.05, 0.1),random(0.05, 0.1),random(0.05, 0.1)]; // The sphere has a preset radius of 1, so to get 0.2 rock diameter, we need to divide by 2
     this.rotation = rotation;
-    this.material = new Material(this.scene, RockMaterial);
     this.initBuffers();
   }
 
@@ -95,19 +93,22 @@ export class MyRock extends CGFobject {
     }
 
     this.primitiveType = this.scene.gl.TRIANGLES;
+
+    this.finalMatrix = mat4.create();
+
+    mat4.multiply(this.finalMatrix, this.finalMatrix, translateMatrix(this.position.x,this.position.y,this.position.z));
+    mat4.multiply(this.finalMatrix, this.finalMatrix, rotateZMatrix(degreeToRad(this.rotation[2])));
+    mat4.multiply(this.finalMatrix, this.finalMatrix, rotateYMatrix(degreeToRad(this.rotation[1])));
+    mat4.multiply(this.finalMatrix, this.finalMatrix, rotateXMatrix(degreeToRad(this.rotation[0])));
+    mat4.multiply(this.finalMatrix, this.finalMatrix, scaleMatrix(this.scale[0], this.scale[1], this.scale[2]));
+    
     this.initGLBuffers();
   }
 
   display() {
-      this.material.safeApply();
-
       this.scene.pushMatrix();
       
-      this.scene.multMatrix(translateMatrix(this.position.x,this.position.y,this.position.z));
-      this.scene.multMatrix(rotateZMatrix(degreeToRad(this.rotation[2])));
-      this.scene.multMatrix(rotateYMatrix(degreeToRad(this.rotation[1])));
-      this.scene.multMatrix(rotateXMatrix(degreeToRad(this.rotation[0])));
-      this.scene.multMatrix(scaleMatrix(this.scale[0], this.scale[1], this.scale[2]));
+      this.scene.multMatrix(this.finalMatrix);
       super.display();
       
       this.scene.popMatrix()

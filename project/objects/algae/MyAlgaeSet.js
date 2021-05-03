@@ -1,4 +1,6 @@
 import { CGFobject, CGFshader, CGFtexture } from "../../../lib/CGF.js";
+import AlgaeMaterial from "../../materials/algae/AlgaeMaterial.js";
+import { Material } from "../../utils/Material.js";
 import { random } from "../../utils/math/MathUtils.js";
 import { Vector3 } from "../../utils/Vector3.js";
 import { MyAlgae } from "./MyAlgae.js";
@@ -20,6 +22,7 @@ export class MyAlgaeSet extends CGFobject {
         this.maxLim = maxLim;
         this.algaePerGroup = 5;
         this.algaeRadius = 0.2;
+        this.material = new Material(this.scene, AlgaeMaterial);
         this.genAlgae();
     }
 
@@ -52,6 +55,7 @@ export class MyAlgaeSet extends CGFobject {
     }
 
     display() {
+        this.material.safeApply();
         this.algae.forEach(algae_ => algae_.display());
     }
 }
