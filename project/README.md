@@ -25,7 +25,7 @@
 
 - To build the cylinder we generated vertices, normals, faces and defined texture coordinates. For this to work, we used a variable number of slices and calculated the angle increment in each step. The vertices had the positions r\*v(cos(θ), 0, sin(θ)) and r\*v(cos(θ), h, sin(θ)) and the normals were n(cos(θ), 0, sin(θ)), according to the Gouraud Smooth Shading method. Finally, to correctly have a texture built into the cylinder, we had to create 2 extra vertices, at the same position of the first 2 vertices, so that the first vertex would have coordinates 0 and 1. We also added a gui entry to controll the number of slices of the cylinder.
 
-### Sphere
+#### Sphere
 
 - The sphere has texture coordinates as follows:
   - 0,0 to 1,0 in the north pole. In the top of the sphere, we will find multiple vertices.
@@ -33,9 +33,9 @@
   - According to the code of the sphere, it will create the vertices iterating through the s coordinates of the texture for each iteration of the t coordinates (longitude over each latitude).
 - All we did in this part was to push to the texCoords array the values the percentage of longitude and latitude visited in each iteration of the double for loop. This means that after adding a vertex to the vertices array, we pushed the values longitude/this.longDivs and latitude/this.latDivs to the texCoords array.
 
-## Part 3
+### Part 3
 
-### Additional controls
+#### Additional controls
 
 - Some controls were already in effect in previous version of the code such as selection of the cubemap textures. That option is under Skybox folder.
 - We created the scale factor controller which was placed under Vehicle folder. For this, we simply added a scaleFactor variable in the controllable class and applied the scaling transformation matrix. This matrix must be the first one in the transformations chain, therefore it appears right before display.
@@ -89,8 +89,40 @@
 
 - Texture from https://texturehaven.com/tex/?t=wooden_rough_planks
 
+#### New Cubemap
+
+- Texture from https://scontent.fopo2-2.fna.fbcdn.net/v/t31.18172-8/12309485_566273546856505_7486047898896512292_o.jpg?_nc_cat=106&ccb=1-3&_nc_sid=e3f864&_nc_ohc=b7xYMOhVz90AX_amnWn&_nc_ht=scontent.fopo2-2.fna&oh=610683026c446f0af60699e2553ae3f0&oe=60B637AD
+
+#### Algae
+
+- Algae are generated in groups. Just like the rocks, their positions are generated and can't spawn in the forbidden area. However, in each position, a random number of algae from 1 to 5 are generated around that position in an area of a square of 0.2 units width.
+
 ## Screenshots
 
 ### 1 - MyFish
 
 ![Screenshot 1](docs/images/proj-t4g02-1.png)
+
+### 2 - MySandFloor (sand) and MyCastle (nest)
+
+![Screenshot 1](docs/images/proj-t4g02-2-1.png)
+![Screenshot 2](docs/images/proj-t4g02-2-2.png)
+
+### 3 - MyWaterSurface (water)
+
+![Screenshot 1](docs/images/proj-t4g02-3.png)
+
+### 4 - MyRock (rock) and MyRockSet
+
+![Screenshot 1](docs/images/proj-t4g02-4-1.png)
+![Screenshot 2](docs/images/proj-t4g02-4-2.png)
+
+### 5 - MyPillar
+
+![Screenshot 1](docs/images/proj-t4g02-5.png)
+
+### 6 - Other elements (MyAlgaeSet)
+
+![Screenshot 1](docs/images/proj-t4g02-6-1.png)
+![Screenshot 1](docs/images/proj-t4g02-6-2.png)
+
