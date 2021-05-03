@@ -10,7 +10,7 @@ import { MyCylinder } from "./objects/MyCylinder.js";
 import { Material } from "./utils/Material.js";
 import DefaultMaterial from "./materials/DefaultMaterial.js";
 import { MyFish } from "./objects/fish/MyFish.js";
-import { MySandFloor } from "./shapes/MySandFloor.js";
+import { MySandFloor } from "./objects/MySandFloor.js";
 import { MyCastle } from "./objects/castle/MyCastle.js";
 import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
 import { MyRockSet } from "./objects/rock/MyRockSet.js";
