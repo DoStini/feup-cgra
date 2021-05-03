@@ -1,5 +1,5 @@
 import { CGFshader, CGFobject, CGFtexture } from '../../lib/CGF.js';
-import {MyPlane} from './MyPlane.js';
+import {MyPlane} from '../shapes/MyPlane.js';
 import { degreeToRad } from '../utils/math/MathUtils.js';
 import { rotateXMatrix, scaleMatrix, translateMatrix } from '../utils/matrix/MatrixGenerator.js';
 
