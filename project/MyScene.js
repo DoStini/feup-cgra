@@ -106,7 +106,7 @@ export class MyScene extends CGFscene {
         this.fish = new MyFish(this, fishColor, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
 
         this.movmFish = new MyMovingFish(
-            this, 0, 0, new Vector3(0, 3, 0), fishColor);
+            this, 0, 0, new Vector3(0, 3, 0), fishColor, 0.5, 3);
 
         this.waterCeiling = new MyWaterCeiling(this, 20);
 
