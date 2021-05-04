@@ -56,7 +56,6 @@
 ### Part 4
 
 - To create the fish, we used a sphere to serve as a body. The orientation chosen was the z-Axis as the front facing direction of the fish. The sphere used had a radius of 1 unit, therefore we had to normalize it dividing by 2. After this, we scaled the spehere according to the parameters of the constructor. Later we had to rotate the sphere so that the axis connecting poles would be parallel to the z-Axis, so that the texture closes on the front and back part, and not in the top and bottom, which looked strange. After this, we separated the tails and wings in different animated classes, so that in the future it is easier to animate and controll them. We applied transformations according to the scale and position parameters, so that the fish has the wings, eyes, tail and head in the correct place, no matter those values.
-- Since the sphere ranges in any axis from [-1,1] then 60% of the sphere is (1-(-1))\*0.6 = 1.2, meaning (-1 + 1.2)=0.2 is the point where the texture of the fish stops being drawn.
 - Because CGF disables sending the texture coordinates to the vertex shaders if a texture is not set (via the appearance applied for example) we set the scene.activeTexture to any texture to bypass that restriction.
 - Fish Texture from https://gumroad.com/juliosillet?sort=page_layout#ufEtG
 - The shader used for the body is being also used to the rest of the fish, by setting an uniform boolean value indicating if the texture should be drawn or only the color.
@@ -102,6 +101,7 @@
 ### 1 - MyFish
 
 ![Screenshot 1](docs/images/proj-t4g02-1.png)
+<<<<<<< HEAD
 
 ### 2 - MySandFloor (sand) and MyCastle (nest)
 
@@ -126,3 +126,5 @@
 ![Screenshot 1](docs/images/proj-t4g02-6-1.png)
 ![Screenshot 1](docs/images/proj-t4g02-6-2.png)
 
+=======
+>>>>>>> 8f6db23ebccd7e4e0b98d944fe9e44734f5f54f1
