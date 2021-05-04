@@ -1,7 +1,7 @@
-import {CGFobject} from '../../lib/CGF.js';
-import { rotateXMatrix, rotateYMatrix, translateMatrix, scaleMatrix } from '../utils/matrix/MatrixGenerator.js';
-import { degreeToRad } from '../utils/math/MathUtils.js';
-import { Vector3 } from '../utils/Vector3.js';
+import {CGFobject} from '../../../lib/CGF.js';
+import { rotateXMatrix, rotateYMatrix, translateMatrix, scaleMatrix } from '../../utils/matrix/MatrixGenerator.js';
+import { degreeToRad } from '../../utils/math/MathUtils.js';
+import { Vector3 } from '../../utils/Vector3.js';
 
 /**
 * MyMovingObject
@@ -103,9 +103,6 @@ export class MyMovingObject extends CGFobject {
         this.scene.multMatrix(matrix);
 
         matrix = rotateYMatrix(degreeToRad(this.direction));
-        this.scene.multMatrix(matrix);
-
-        matrix = rotateXMatrix(degreeToRad(90));
         this.scene.multMatrix(matrix);
         
         matrix = scaleMatrix(this.scaleFactor, this.scaleFactor, this.scaleFactor);

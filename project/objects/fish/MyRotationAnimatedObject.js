@@ -4,6 +4,7 @@ import { MyRectTriangle } from '../../shapes/MyRectTriangle.js';
 import { degreeToRad } from '../../utils/math/MathUtils.js';
 import { rotateYMatrix, scaleMatrix, translateMatrix } from '../../utils/matrix/MatrixGenerator.js';
 import { Vector3 } from '../../utils/Vector3.js';
+import MovementState from '../movable/MovementState.js';
 import { MySphere } from '../MySphere.js';
 /**
 * MyRotationAnimatedObject

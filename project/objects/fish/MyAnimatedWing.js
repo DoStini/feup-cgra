@@ -4,6 +4,7 @@ import { MyRectTriangle } from '../../shapes/MyRectTriangle.js';
 import { degreeToRad } from '../../utils/math/MathUtils.js';
 import { rotateYMatrix, scaleMatrix, translateMatrix } from '../../utils/matrix/MatrixGenerator.js';
 import { Vector3 } from '../../utils/Vector3.js';
+import MovementState from '../movable/MovementState.js';
 import { MySphere } from '../MySphere.js';
 import { MyRotationAnimatedObject } from './MyRotationAnimatedObject.js';
 /**
@@ -23,6 +24,12 @@ export class MyAnimatedWing extends MyRotationAnimatedObject {
     init() {
         super.init();
         this.element = new MyRectTriangle(this.scene);
+    }
+
+    update(t, lastDelta, movementState) {
+        movementState = movementState || MovementState.FORWARD;
+        if (movementState === MovementState.FORWARD)
+            super.update(t, lastDelta);
     }
 
     display() {
