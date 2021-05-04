@@ -84,7 +84,9 @@ export class MyInterface extends CGFinterface {
         sandFloor.add(this.scene.sandFloor, 'blendMultiplier',0, 5).name('Texture Blend')
         .onChange(this.scene.sandFloor.updateBlend.bind(this.scene.sandFloor));
         
-        
+        const waterCeiling = this.gui.addFolder('Water');
+        waterCeiling.add(this.scene.waterCeiling, 'speed',0.5, 3.0).name('Divisions')
+
         const scenePhysics = this.gui.addFolder('Scene Physics');
         scenePhysics.add(this.scene, 'dragCoefficient',0.0, 2.0).name('Drag Coefficient');
         scenePhysics.add(this.scene, 'useDrag').name('Use drag coefficient');

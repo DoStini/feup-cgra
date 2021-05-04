@@ -32,9 +32,9 @@ export class MyRockSet extends CGFobject {
     genRocks() {
         this.rocks = new Array(this.numRocks).fill(0)
                         .map(_ => {
-                            let pos = new Vector3().setRandomX(this.minLim, this.maxLim).setRandomZ(this.minLim, this.maxLim);
+                            let pos = new Vector3(0, 0.1, 0).setRandomX(this.minLim, this.maxLim).setRandomZ(this.minLim, this.maxLim);
                             while (!this.validPosition(pos)) {
-                                pos = new Vector3().setRandomX(this.minLim, this.maxLim).setRandomZ(this.minLim, this.maxLim);
+                                pos = new Vector3(0, 0.1, 0).setRandomX(this.minLim, this.maxLim).setRandomZ(this.minLim, this.maxLim);
                             }
                             return new MyRock(this.scene, 4, 4, pos,
                                             [random(0, 360),random(0, 360),random(0, 360)]);  

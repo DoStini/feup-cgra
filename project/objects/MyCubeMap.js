@@ -29,7 +29,8 @@ export class MyCubeMap extends CGFobject {
             'Space': 0,
             'Mountain': 1,
             'Valley': 2,
-            'Water': 3
+            'Water': 3,
+            'Water 2': 4
         };
         this.cubemaps = [
             new CubemapTexture(this.scene, SpaceCubemap.textures, CubeMaterial),

@@ -21,6 +21,7 @@ export class MyWaterCeiling extends CGFobject {
 
 
     init() {
+        this.speed = 1.0;
         this.object = new MyPlane(this.scene, this.divs);
         this.texture = new CGFtexture(this.scene, "textures/water-ceil/pier.jpg");
         this.bump = new CGFtexture(this.scene, "textures/water-ceil/distortionmap.png");
@@ -29,7 +30,7 @@ export class MyWaterCeiling extends CGFobject {
 
     update(t) {
         this.shader.setUniformsValues({
-            timeFactor: t/100000%1
+            timeFactor: t*this.speed/100000%1,
         });
     }
 
