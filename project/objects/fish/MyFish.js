@@ -7,6 +7,7 @@ import { Vector3 } from '../../utils/Vector3.js';
 import { MySphere } from '../MySphere.js';
 import { MyAnimatedWing } from './MyAnimatedWing.js';
 import { MyAnimatedTail } from './MyAnimatedTail.js';
+import HorizontalMovementState from '../movable/HorizontalMovementState.js';
 
 /**
 * MyFish
@@ -41,10 +42,12 @@ export class MyFish extends CGFobject {
         this.body = new MySphere(this.scene, 32, 16);
         this.leftEye = new MySphere(this.scene, 8, 4);
         this.rightEye = new MySphere(this.scene, 8, 4);
-        this.tail = new MyAnimatedTail(this.scene, -40, 40, 80);
+        this.tail = new MyAnimatedTail(this.scene, -40, 40, 120);
         this.leftWing = new MyAnimatedWing(this.scene, -40, -20, 40);
         this.rightWing = new MyAnimatedWing(this.scene, -40, -20, 40);
         this.dorsal = new MyRectTriangle(this.scene);
+        this.lRotVel = 1;
+        this.rRotVel = 1;
     }
 
     displayBody() {
@@ -113,9 +116,37 @@ export class MyFish extends CGFobject {
         this.scene.popMatrix();
     }
     
+    aproximateValue(v1, v2, interval) {
+        return Math.abs(v2 - v1) < interval;
+    }
+
     update(t, lastDelta, velocityFactor, movementState) {
-        this.leftWing.update(t, lastDelta, movementState);
-        this.rightWing.update(t, lastDelta, movementState);
+        const rRot = this.rightWing.rotation, lRot = this.leftWing.rotation;
+        if (movementState !== HorizontalMovementState.RIGHT) {
+            if (this.rRotVel === 0) {
+                if (this.aproximateValue(rRot, lRot, 1) 
+                    && this.leftWing.direction === this.rightWing.direction) {
+                        this.leftWing.rotation = this.rightWing.direction;
+                        this.rRotVel = 1;
+                    } // Waiting until both of the wings are in the same rotation
+            }
+        } else {
+            this.rRotVel = 0;
+        }
+        if (movementState !== HorizontalMovementState.LEFT) {
+            if (this.lRotVel === 0) {
+                if (this.aproximateValue(rRot, lRot, 1)
+                    && this.leftWing.direction === this.rightWing.direction) {
+                        this.leftWing.rotation = this.rightWing.direction;
+                        this.rRotVel = 1;
+                } // Waiting until both of the wings are in the same rotation
+            }
+        }
+        else {
+            this.lRotVel = 0;
+        }
+        this.leftWing.update(t, lastDelta, this.lRotVel);
+        this.rightWing.update(t, lastDelta, this.rRotVel);
         this.tail.update(t, lastDelta, velocityFactor);
     }
 
@@ -149,5 +180,3 @@ export class MyFish extends CGFobject {
     }
 
 }
-
-

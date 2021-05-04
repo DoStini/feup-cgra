@@ -2,6 +2,7 @@ import {CGFobject} from '../../../lib/CGF.js';
 import { rotateXMatrix, rotateYMatrix, translateMatrix, scaleMatrix } from '../../utils/matrix/MatrixGenerator.js';
 import { degreeToRad } from '../../utils/math/MathUtils.js';
 import { Vector3 } from '../../utils/Vector3.js';
+import HorizontalMovementState from './HorizontalMovementState.js';
 
 /**
 * MyMovingObject
@@ -24,8 +25,8 @@ export class MyMovingObject extends CGFobject {
         this.velocity = this.baseVelocity;
         this.basePosition = position || new Vector3(0,0,0);
         this.position = (new Vector3(this.basePosition.x, this.basePosition.y, this.basePosition.z));
-        this.accel = 10;
-        this.maxVelocity = 5;
+        this.accel = 1;
+        this.maxVelocity = 2;
         this.rotSpeed = 45;
         this.curAccel = 0;
         this.lastAccel = 0;
@@ -41,6 +42,12 @@ export class MyMovingObject extends CGFobject {
         const thresh = val;
         if(this.velocity < 0) this.direction-=thresh;
         else this.direction+=thresh;
+    
+        if (thresh < 0)
+            this.horizontalState = HorizontalMovementState.LEFT;
+        else
+            this.horizontalState = HorizontalMovementState.RIGHT;
+
     }
 
     reset() {
@@ -51,7 +58,8 @@ export class MyMovingObject extends CGFobject {
 
     checkKeys(delta) {
         let moving = false;
-        
+        this.horizontalState = HorizontalMovementState.FORWARD;
+
         if (this.scene.gui.isKeyPressed("KeyW")) {
             this.accelerate(this.accel);
             moving = true;

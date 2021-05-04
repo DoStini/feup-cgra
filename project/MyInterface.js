@@ -66,6 +66,7 @@ export class MyInterface extends CGFinterface {
         const controllable = this.gui.addFolder('Vehicle');
         controllable.add(this.scene.movmFish, 'accel', 0.5, 20).name('Acceleration');
         controllable.add(this.scene.movmFish, 'maxVelocity',0.5, 50).name('Max Velocity');
+        controllable.add(this.scene.movmFish, 'verticalVelocity', 2.0, 4.0).name('Vertical Velocity');
         controllable.add(this.scene.movmFish, 'rotSpeed', 0.1, 100).name('Rotation Speed');
         controllable.add(this.scene.movmFish, 'scaleFactor', 0.5, 3).name('Scale Factor');
         

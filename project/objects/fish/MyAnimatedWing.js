@@ -26,9 +26,8 @@ export class MyAnimatedWing extends MyRotationAnimatedObject {
         this.element = new MyRectTriangle(this.scene);
     }
 
-    update(t, lastDelta, movementState) {
-        movementState = movementState || MovementState.FORWARD;
-        if (movementState === MovementState.FORWARD)
+    update(t, lastDelta, rotate) {
+        if (rotate)
             super.update(t, lastDelta);
     }
 
