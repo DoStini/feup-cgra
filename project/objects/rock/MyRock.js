@@ -24,6 +24,7 @@ export class MyRock extends CGFobject {
     this.rotation = rotation;
     this.offset = 0;
     this.fishRotation = 0;
+    this.canPickup = true;
     this.initBuffers();
   }
 

@@ -9,6 +9,7 @@ import {MyRock} from "../../objects/rock/MyRock.js";
 import { MyMovingObject } from './MyMovingObject.js'
 import MovementState from './HorizontalMovementState.js';
 import VerticalMovementState from './VerticalMovementState.js';
+import { MyCastle } from '../castle/MyCastle.js';
 
 /**
 * MyMovingFish
@@ -31,16 +32,22 @@ export class MyMovingFish extends MyMovingObject {
         /** @type {Vector3} */ this.pickedUpRockPos = null;
     }
 
+    resetRock() {
+        this.pickedUpRock.fishRotation = 0;
+        this.pickedUpRock.offset = 0;
+        this.pickedUpRockPos = null;
+        this.pickedUpRock = null;
+    }
+
     reset() {
         super.reset();
+
         if(this.pickedUpRock) {
             this.pickedUpRock.position = this.pickedUpRockPos.clone();
-            this.pickedUpRock.fishRotation = 0;
-            this.pickedUpRock.offset = 0;
 
-            this.pickedUpRockPos = null;
-            this.pickedUpRock = null;
+            this.resetRock();
         }
+
         this.state = VerticalMovementState.UP;
     }
 
@@ -48,12 +55,15 @@ export class MyMovingFish extends MyMovingObject {
         /** @type {Vector3} */ let castlePosition = this.scene.castle.getCenterPosition();
         let castleX = [castlePosition.x-this.scene.castle.length/2,castlePosition.x+this.scene.castle.length/2]
         let castleZ = [castlePosition.z-this.scene.castle.length/2,castlePosition.z+this.scene.castle.length/2]
+        /** @type {MyCastle} */ let castle = this.scene.castle;
 
         if(this.position.x > castleX[1] || this.position.x < castleX[0] || this.position.z > castleZ[1] || this.position.z < castleZ[0]) {
             return;
         }
 
-        console.log("in");
+        if(castle.dropRock(this.pickedUpRock)) {
+            this.resetRock();
+        }
     }
 
     pickupRock() {
@@ -63,6 +73,8 @@ export class MyMovingFish extends MyMovingObject {
         
 
         this.scene.rocks.rocks.forEach((/** @type {MyRock} */ rock, index) => {
+            if(!rock.canPickup) return;
+            
             let distanceSquared = this.position.diffSquared(rock.position);
             if(distanceSquared < minDistance) {
                 minDistance = distanceSquared;

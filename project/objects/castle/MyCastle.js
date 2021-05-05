@@ -10,6 +10,7 @@ import { MyPlane } from "../../shapes/MyPlane.js";
 import { MyUnitCube } from "./MyUnitCube.js";
 import { MyCone } from "./MyCone.js";
 import { Vector3 } from "../../utils/Vector3.js"
+import { MyRock } from "../rock/MyRock.js";
 
 /**
  * MyCylindert
@@ -24,11 +25,26 @@ import { Vector3 } from "../../utils/Vector3.js"
         this.length = length;
         this.area = length*length;
         this.position = position;
+        this.curRockIndex = 0;
+        this.rockPositions = 40;
         this.init();
 	}
 
     getArea = () => this.area;
     getCenterPosition = () => this.position;
+
+    dropRock(/** @type {MyRock} */ rock) {
+        if(this.curRockIndex >= this.rockPositions) return false;
+
+        let newPosition = this.rockPositions[this.curRockIndex];
+
+        rock.position = newPosition;
+        rock.canPickup = false;
+
+        this.curRockIndex++;
+
+        return true;
+    }
 
     init() {
         this.wallMat = new Material(this.scene, CastleWall, {
@@ -53,10 +69,10 @@ import { Vector3 } from "../../utils/Vector3.js"
         this.walls = new Array(4).fill(0).map(_ => new MyUnitCube(this.scene, this.wallMat));
         this.roofs = new Array(4).fill(0).map(_ => new MyCone(this.scene, 8, 8, this.roofMat));
 
-        this.rockPositions = new Array(40).fill(0).map(() => {
-            let xLimit = [this.position.x - this.length/2, this.position.x + this.length/2];
-            let yLimit = [this.position.y - this.length/2, this.position.y + this.length/2];
-            let pos = new Vector3(0, 0.1, 0).setRandomX(xLimit[0], xLimit[1]).setRandomZ(yLimit[0], yLimit[1]);
+        this.rockPositions = new Array(this.rockPositions).fill(0).map(() => {
+            let xLimit = [this.position.x - this.length/2.15, this.position.x + this.length/2.15];
+            let zLimit = [this.position.z - this.length/2.15, this.position.z + this.length/2.15];
+            let pos = new Vector3(0, 0.1, 0).setRandomX(xLimit[0], xLimit[1]).setRandomZ(zLimit[0], zLimit[1]);
 
             return pos;
         })
