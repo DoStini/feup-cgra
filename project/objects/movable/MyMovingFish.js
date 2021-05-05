@@ -36,6 +36,11 @@ export class MyMovingFish extends MyMovingObject {
             if (this.state === VerticalMovementState.UP)
                 this.state = VerticalMovementState.GOING_DOWN;
         }
+        if(this.scene.gui.isKeyPressed("KeyC")) {
+            if(this.state === VerticalMovementState.DOWN) {
+                console.log("trying to pick up rock");
+            }
+        }
     }
 
     updateUp(delta) {
