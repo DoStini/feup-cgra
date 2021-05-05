@@ -27,6 +27,7 @@ export class MyMovingFish extends MyMovingObject {
         this.supLimit = supLimit;
         this.infLimit = infLimit;
         this.verticalVelocity = 2;
+        /** @type {MyRock} */ this.pickedUpRock = null;
     }
 
     checkKeys(delta) {
@@ -40,20 +41,26 @@ export class MyMovingFish extends MyMovingObject {
                 this.state = VerticalMovementState.GOING_DOWN;
         }
         if(this.scene.gui.isKeyPressed("KeyC")) {
-            if(this.state === VerticalMovementState.DOWN) {
+            if(this.state === VerticalMovementState.DOWN && !this.pickedUpRock) {
                 let minPositionX = Infinity, minPositionZ = Infinity, minDistance = Infinity;
                 /** @type {MyRock} */ let closestRock = null;
+                let closestRockIndex = 0;
                 
 
-                this.scene.rocks.rocks.forEach((/** @type {MyRock} */ rock) => {
+                this.scene.rocks.rocks.forEach((/** @type {MyRock} */ rock, index) => {
                     let distanceSquared = this.position.diffSquared(rock.position);
                     if(distanceSquared < minDistance) {
                         minDistance = distanceSquared;
                         minPositionX = rock.position.x;
                         minPositionZ = rock.position.z;
-                        closestRock = rock;
+                        closestRockIndex = index;
                     }
                 });
+
+                if(minDistance <= 1.5) {
+                    closestRock = this.scene.rocks.rocks[closestRockIndex];
+                    this.pickedUpRock = closestRock;
+                }
             }
         }
     }
@@ -87,5 +94,12 @@ export class MyMovingFish extends MyMovingObject {
         const velocityFactor = Math.max(this.velocity/this.maxVelocity, 0.1);
 
         this.object.update(t, delta, velocityFactor, this.horizontalState);
+        if(this.pickedUpRock) {
+            this.pickedUpRock.position.x = this.position.x;
+            this.pickedUpRock.position.y = this.position.y;
+            this.pickedUpRock.position.z = this.position.z;
+            this.pickedUpRock.offset = this.object.length/2;
+            this.pickedUpRock.fishRotation = this.direction;
+        }
     }
 }

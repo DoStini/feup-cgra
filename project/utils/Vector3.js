@@ -18,6 +18,9 @@ export class Vector3 {
         this.y *= val;
         this.z *= val;    
     }
+    clone() {
+        return new Vector3(this.x, this.y, this.z);
+    }
 
     /**
      * @param {Vector3} other
