@@ -28,6 +28,20 @@ export class MyMovingFish extends MyMovingObject {
         this.infLimit = infLimit;
         this.verticalVelocity = 2;
         /** @type {MyRock} */ this.pickedUpRock = null;
+        /** @type {Vector3} */ this.pickedUpRockPos = null;
+    }
+
+    reset() {
+        super.reset();
+        if(this.pickedUpRock) {
+            this.pickedUpRock.position = this.pickedUpRockPos.clone();
+            this.pickedUpRock.fishRotation = 0;
+            this.pickedUpRock.offset = 0;
+
+            this.pickedUpRockPos = null;
+            this.pickedUpRock = null;
+        }
+        this.state = VerticalMovementState.UP;
     }
 
     checkKeys(delta) {
@@ -60,6 +74,7 @@ export class MyMovingFish extends MyMovingObject {
                 if(minDistance <= 1.5) {
                     closestRock = this.scene.rocks.rocks[closestRockIndex];
                     this.pickedUpRock = closestRock;
+                    this.pickedUpRockPos = closestRock.position.clone();
                 }
             }
         }
