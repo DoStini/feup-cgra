@@ -1,6 +1,7 @@
 import { CGFobject, CGFshader, CGFtexture } from "../../../lib/CGF.js";
 import { degreeToRad, random } from "../../utils/math/MathUtils.js";
 import { rotateXMatrix, rotateYMatrix, rotateZMatrix, scaleMatrix, translateMatrix } from "../../utils/matrix/MatrixGenerator.js";
+import { Vector3 } from "../../utils/Vector3.js";
 //import { exports } from "../../../lib/CGF.js"
 
 export class MyRock extends CGFobject {
@@ -9,6 +10,7 @@ export class MyRock extends CGFobject {
    * @param  {CGFscene} scene - MyScene object
    * @param  {integer} slices - number of slices around Y axis
    * @param  {integer} stacks - number of stacks along Y axis, from the center to the poles (half of sphere)
+   * @param {Vector3} position
    */
   constructor(scene, slices, stacks, position, rotation, minRand, maxRand) {
     super(scene);

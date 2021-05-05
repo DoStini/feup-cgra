@@ -1,8 +1,11 @@
+//@ts-check
+
 import {CGFobject} from '../../../lib/CGF.js';
 import { rotateXMatrix, rotateYMatrix, translateMatrix, scaleMatrix } from '../../utils/matrix/MatrixGenerator.js';
 import { degreeToRad } from '../../utils/math/MathUtils.js';
 import { Vector3 } from '../../utils/Vector3.js';
 import { MyFish } from '../fish/MyFish.js';
+import {MyRock} from "../../objects/rock/MyRock.js";
 import { MyMovingObject } from './MyMovingObject.js'
 import MovementState from './HorizontalMovementState.js';
 import VerticalMovementState from './VerticalMovementState.js';
@@ -14,7 +17,7 @@ import VerticalMovementState from './VerticalMovementState.js';
  * @param object - The object itself
  * @param direction - The initial angle (degrees - z to x positive)
  * @param velocity - The initial velocity of the object
- * @param position - The initial position of the object
+ * @param {Vector3} position - The initial position of the object
 */
 export class MyMovingFish extends MyMovingObject {    
     constructor(scene, direction, velocity, position, fishColor, infLimit, supLimit) {
@@ -38,7 +41,19 @@ export class MyMovingFish extends MyMovingObject {
         }
         if(this.scene.gui.isKeyPressed("KeyC")) {
             if(this.state === VerticalMovementState.DOWN) {
-                console.log("trying to pick up rock");
+                let minPositionX = Infinity, minPositionZ = Infinity, minDistance = Infinity;
+                /** @type {MyRock} */ let closestRock = null;
+                
+
+                this.scene.rocks.rocks.forEach((/** @type {MyRock} */ rock) => {
+                    let distanceSquared = this.position.diffSquared(rock.position);
+                    if(distanceSquared < minDistance) {
+                        minDistance = distanceSquared;
+                        minPositionX = rock.position.x;
+                        minPositionZ = rock.position.z;
+                        closestRock = rock;
+                    }
+                });
             }
         }
     }
