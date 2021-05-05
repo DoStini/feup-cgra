@@ -123,27 +123,27 @@ export class MyFish extends CGFobject {
     update(t, lastDelta, velocityFactor, movementState) {
         const rRot = this.rightWing.rotation, lRot = this.leftWing.rotation;
         if (movementState !== HorizontalMovementState.RIGHT) {
-            if (this.lRotVel === 0) {
-                if (this.aproximateValue(rRot, lRot, 1) 
-                    && this.leftWing.direction === this.rightWing.direction) {
-                        this.leftWing.rotation = this.rightWing.rotation;
-                        this.lRotVel = 1;
-                    } // Waiting until both of the wings are in the same rotation
+            if (this.lRotVel === 0 && this.aproximateValue(rRot, lRot, 5)) {
+                this.leftWing.direction = this.rightWing.direction
+                this.leftWing.rotation = this.rightWing.rotation;
+                this.lRotVel = 1;
+                // Waiting until both of the wings are in the same rotation
             }
         } else if (movementState === HorizontalMovementState.RIGHT) {
             this.lRotVel = 0;
+            this.rRotVel = 1;
         }
         if (movementState !== HorizontalMovementState.LEFT) {
-            if (this.rRotVel === 0) {
-                if (this.aproximateValue(rRot, lRot, 1)
-                    && this.leftWing.direction === this.rightWing.direction) {
-                        this.rightWing.rotation = this.leftWing.rotation;
-                        this.rRotVel = 1;
-                } // Waiting until both of the wings are in the same rotation
+            if (this.rRotVel === 0 && this.aproximateValue(rRot, lRot, 5)) {
+                this.leftWing.direction = this.rightWing.direction
+                this.rightWing.rotation = this.leftWing.rotation;
+                this.rRotVel = 1;
+                        // Waiting until both of the wings are in the same rotation
             }
         }
         else if(movementState === HorizontalMovementState.LEFT) {
             this.rRotVel = 0;
+            this.lRotVel = 1;
         }
         this.leftWing.update(t, lastDelta, this.lRotVel);
         this.rightWing.update(t, lastDelta, this.rRotVel);
