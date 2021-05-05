@@ -44,6 +44,41 @@ export class MyMovingFish extends MyMovingObject {
         this.state = VerticalMovementState.UP;
     }
 
+    dropRock() {
+        /** @type {Vector3} */ let castlePosition = this.scene.castle.getCenterPosition();
+        let castleX = [castlePosition.x-this.scene.castle.length/2,castlePosition.x+this.scene.castle.length/2]
+        let castleZ = [castlePosition.z-this.scene.castle.length/2,castlePosition.z+this.scene.castle.length/2]
+
+        if(this.position.x > castleX[1] || this.position.x < castleX[0] || this.position.z > castleZ[1] || this.position.z < castleZ[0]) {
+            return;
+        }
+
+        console.log("in");
+    }
+
+    pickupRock() {
+        let minPositionX = Infinity, minPositionZ = Infinity, minDistance = Infinity;
+        /** @type {MyRock} */ let closestRock = null;
+        let closestRockIndex = 0;
+        
+
+        this.scene.rocks.rocks.forEach((/** @type {MyRock} */ rock, index) => {
+            let distanceSquared = this.position.diffSquared(rock.position);
+            if(distanceSquared < minDistance) {
+                minDistance = distanceSquared;
+                minPositionX = rock.position.x;
+                minPositionZ = rock.position.z;
+                closestRockIndex = index;
+            }
+        });
+
+        if(minDistance <= 1.5) {
+            closestRock = this.scene.rocks.rocks[closestRockIndex];
+            this.pickedUpRock = closestRock;
+            this.pickedUpRockPos = closestRock.position.clone();
+        }
+    }
+
     checkKeys(delta) {
         super.checkKeys(delta);
         if (this.scene.gui.isKeyPressed("KeyP")) {
@@ -55,27 +90,9 @@ export class MyMovingFish extends MyMovingObject {
                 this.state = VerticalMovementState.GOING_DOWN;
         }
         if(this.scene.gui.isKeyPressed("KeyC")) {
-            if(this.state === VerticalMovementState.DOWN && !this.pickedUpRock) {
-                let minPositionX = Infinity, minPositionZ = Infinity, minDistance = Infinity;
-                /** @type {MyRock} */ let closestRock = null;
-                let closestRockIndex = 0;
-                
-
-                this.scene.rocks.rocks.forEach((/** @type {MyRock} */ rock, index) => {
-                    let distanceSquared = this.position.diffSquared(rock.position);
-                    if(distanceSquared < minDistance) {
-                        minDistance = distanceSquared;
-                        minPositionX = rock.position.x;
-                        minPositionZ = rock.position.z;
-                        closestRockIndex = index;
-                    }
-                });
-
-                if(minDistance <= 1.5) {
-                    closestRock = this.scene.rocks.rocks[closestRockIndex];
-                    this.pickedUpRock = closestRock;
-                    this.pickedUpRockPos = closestRock.position.clone();
-                }
+            if(this.state === VerticalMovementState.DOWN) {
+                if(!this.pickedUpRock) this.pickupRock();
+                else this.dropRock();
             }
         }
     }
