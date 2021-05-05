@@ -9,6 +9,7 @@ import CastleRoof from "../../materials/castle/CastleRoof.js";
 import { MyPlane } from "../../shapes/MyPlane.js";
 import { MyUnitCube } from "./MyUnitCube.js";
 import { MyCone } from "./MyCone.js";
+import { Vector3 } from "../../utils/Vector3.js"
 
 /**
  * MyCylindert
@@ -51,6 +52,14 @@ import { MyCone } from "./MyCone.js";
         this.towers = new Array(4).fill(0).map(_ => new MyCylinder(this.scene, 8, this.towerMat));
         this.walls = new Array(4).fill(0).map(_ => new MyUnitCube(this.scene, this.wallMat));
         this.roofs = new Array(4).fill(0).map(_ => new MyCone(this.scene, 8, 8, this.roofMat));
+
+        this.rockPositions = new Array(40).fill(0).map(() => {
+            let xLimit = [this.position.x - this.length/2, this.position.x + this.length/2];
+            let yLimit = [this.position.y - this.length/2, this.position.y + this.length/2];
+            let pos = new Vector3(0, 0.1, 0).setRandomX(xLimit[0], xLimit[1]).setRandomZ(yLimit[0], yLimit[1]);
+
+            return pos;
+        })
     }
 
     display() {
