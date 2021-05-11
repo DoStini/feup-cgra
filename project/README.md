@@ -101,7 +101,6 @@
 ### 1 - MyFish
 
 ![Screenshot 1](docs/images/proj-t4g02-1.png)
-<<<<<<< HEAD
 
 ### 2 - MySandFloor (sand) and MyCastle (nest)
 
@@ -125,6 +124,3 @@
 
 ![Screenshot 1](docs/images/proj-t4g02-6-1.png)
 ![Screenshot 1](docs/images/proj-t4g02-6-2.png)
-
-=======
->>>>>>> 8f6db23ebccd7e4e0b98d944fe9e44734f5f54f1

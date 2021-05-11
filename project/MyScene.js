@@ -84,12 +84,12 @@ export class MyScene extends CGFscene {
         }, 180, 50, -25, 25);
 
         this.pillars = [
-            new MyPillar(this, new Vector3(-20, 0, 2), 0.5, 10),
-            new MyPillar(this, new Vector3(-20, 0, 0), 0.5, 10),
-            new MyPillar(this, new Vector3(-10, 0, 2), 0.5, 10),
-            new MyPillar(this, new Vector3(-10, 0, 0), 0.5, 10),
-            new MyPillar(this, new Vector3(-5, 0, 2), 0.5, 10),
-            new MyPillar(this, new Vector3(-5, 0, 0), 0.5, 10),
+            new MyPillar(this, new Vector3(20, 0, -2), 0.5, 10),
+            new MyPillar(this, new Vector3(20, 0, 0), 0.5, 10),
+            new MyPillar(this, new Vector3(10, 0, -2), 0.5, 10),
+            new MyPillar(this, new Vector3(10, 0, 0), 0.5, 10),
+            new MyPillar(this, new Vector3(5, 0, -2), 0.5, 10),
+            new MyPillar(this, new Vector3(5, 0, 0), 0.5, 10),
         ];
 
         this.defaultAppearance = new CGFappearance(this);
