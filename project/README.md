@@ -97,6 +97,26 @@
 
 - Algae are generated in groups. Just like the rocks, their positions are generated and can't spawn in the forbidden area. However, in each position, a random number of algae from 1 to 5 are generated around that position in an area of a square of 0.2 units width.
 
+### Part 6
+
+#### Animations
+
+- Controlling the animation of the back tail was easy to achieve, since we only needed to send the speed factor, speed/maxSpeed.
+- Controlling the side fins was however quite tricky. We introduced a state variable that indicated which rotation the fish was performinig (LEFT, RIGHT) or FORWARD, if not rotating. When the rotation states were applied, we had to stop rotating the respective fin. To do this, we introduced 2 variables, rRotVel and lRotVel, whose job was to indicate if the corresponding fin should move or not. For example, when LEFT state was applied, this variable would be 0.
+- To guarantee that the fins were synchronized after rotating the fish, we needed to make sure that a stopped fin waited for the other to be in the same rotation as them. To acomplish this, there were 2 situations:
+  - When a fin stops rotating, its respective velocity will be 0 until the other fin has the some rotation. After this, the corresponding rotVel with be set to 1 again, and the directions and angle will be set.
+  - With this, we found that if we rotated left and right too quickly the fins would wait for each other, stopping forever. To solve this issue, after each state rotation state change we switched the velocity of the other fin to be 1. Because of this, when the fish starts rotating left and right, the fins will alternate.
+
+#### Rock Pick-up
+
+- To search for the nearest rock, a linear search is used.
+- When the rock is picked up a reference of the rock is stored in the fish. If the fish has picked up a rock then in every update we update its position, rotation relative to the center of the fish (to rotate the rock with the fish) and the offset from the center of the fish to its mouth. First, after all the base transformations of the rock are applied but before its position is set, the rock is translated by the offset. This is needed to rotate the rock around the fish's center, which is the next step. Finally, the rock is translated by the fish's center.
+- When the fish is in the lower limit and inside the castle (nest), it can drop its rock setting its position to the next available spot, randomly generated beforehand. Doing this makes the rock not able to be picked up again.
+
+#### Fish reset
+
+- When the fish picks up a rock, the rock's original position is stored in the fish. This is how, when the fish's position is reset, it is reset to its place.
+
 ## Screenshots
 
 ### 1 - MyFish
@@ -124,5 +144,10 @@
 ### 6 - Other elements (MyAlgaeSet)
 
 ![Screenshot 1](docs/images/proj-t4g02-6-1.png)
-![Screenshot 1](docs/images/proj-t4g02-6-2.png)
+![Screenshot 2](docs/images/proj-t4g02-6-2.png)
 
+### 7 - Additional Controls
+
+![Screenshot 1](docs/images/proj-t4g02-7-1.png)
+
+![Screenshot 2](docs/images/proj-t4g02-7-2.png)

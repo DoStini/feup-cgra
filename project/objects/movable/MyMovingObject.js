@@ -93,8 +93,8 @@ export class MyMovingObject extends CGFobject {
 
         if (this.velocity > this.maxVelocity)
             this.velocity = this.maxVelocity;
-        else if (this.velocity < -this.maxVelocity)
-            this.velocity = -this.maxVelocity;
+        else if (this.velocity < 0)
+            this.velocity = 0;
 
         const vel = new Vector3(
                 this.velocity*Math.sin(degreeToRad(this.direction)),
