@@ -73,7 +73,7 @@ export class MyScene extends CGFscene {
         this.rocks = new MyRockSet(this, {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
-        }, 500, 200, -25, 25);
+        }, 500, 100, -25, 25);
         this.algae = new MyAlgaeSet(this, {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
