@@ -61,6 +61,7 @@ export class MyAlgaeSet extends CGFobject {
     }
 
     update(t) {
-        this.algaeShader.setUniformsValues({ algaeTimeFactor: t/100 });
+        console.log(t, Math.sin(t))
+        this.algaeShader.setUniformsValues({ algaeTimeFactor: t});
     }
 }

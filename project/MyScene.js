@@ -203,7 +203,7 @@ export class MyScene extends CGFscene {
         this.movmObject.update(this.lastPhysicsUpdate, this.lastDelta);
         this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
         this.waterCeiling.update(this.lastPhysicsUpdate);
-        this.algae.update(this.lastDelta);
+        this.algae.update(this.lastPhysicsUpdate);
     }
 
     /**

@@ -11,7 +11,7 @@ uniform vec3 direction;
 uniform float algaeTimeFactor;
 
 void main(){
-    vec3 vertex=aVertexPosition+sin(algaeTimeFactor)*50.;
+    vec3 vertex=aVertexPosition+sin(algaeTimeFactor)*direction*5.;
     gl_Position=uPMatrix*uMVMatrix*vec4(vertex,1.);
 }
 

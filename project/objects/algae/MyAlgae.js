@@ -40,6 +40,7 @@ export class MyAlgae extends CGFobject {
             direction: [this.direction.x, this.direction.y, this.direction.z], 
         });
 
+    this.scene.setActiveShader(this.shader);
     this.shape.display();
     
     this.scene.popMatrix()
