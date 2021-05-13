@@ -18,6 +18,13 @@ export class Vector3 {
         this.y *= val;
         this.z *= val;    
     }
+    normalize = () => {
+        const mag = this.magnitude();
+        this.x /= mag;
+        this.y /= mag;
+        this.z /= mag;
+        return this;
+    }
     setRandomX = (min, max) => {
         this.x = random(min, max); 
         return this;

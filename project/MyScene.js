@@ -79,10 +79,17 @@ export class MyScene extends CGFscene {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
         }, 500, 200, -25, 25);
-        this.algae = new MyAlgaeSet(this, {
-            position: this.castle.getCenterPosition(),
-            area: this.castle.getArea(),
-        }, 180, 50, -25, 25);
+        
+        this.algaeShader = new CGFshader(this.gl, "shaders/algae/algae.vert", "shaders/algae/algae.frag");
+
+        this.algae = new MyAlgaeSet(this, 
+            this.algaeShader,
+            {
+                position: this.castle.getCenterPosition(),
+                area: this.castle.getArea(),
+            }, 180, 50, -25, 25);
+
+
 
         this.pillars = [
             new MyPillar(this, new Vector3(20, 0, -2), 0.5, 10),
@@ -196,6 +203,7 @@ export class MyScene extends CGFscene {
         this.movmObject.update(this.lastPhysicsUpdate, this.lastDelta);
         this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
         this.waterCeiling.update(this.lastPhysicsUpdate);
+        this.algae.update(this.lastDelta);
     }
 
     /**
@@ -229,7 +237,9 @@ export class MyScene extends CGFscene {
 
         this.sandFloor.display();
 
+        this.setActiveShader(this.algaeShader);
         this.algae.display();
+        this.setActiveShader(this.defaultShader);
 
         this.pushMatrix();
 
