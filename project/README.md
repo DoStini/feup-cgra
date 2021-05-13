@@ -117,6 +117,21 @@
 
 - When the fish picks up a rock, the rock's original position is stored in the fish. This is how, when the fish's position is reset, it is reset to its place.
 
+### Part 7
+
+#### - Shader
+
+- w component of light position: if its 0 then it is directional light, the position is actually the direction, meaning its position is not taken into account in calculatin diffuse and specular lighting, attenuation is disabled. [where learned](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glLight.xml)
+- spot cutoff : maximum spread angle of a light source. it ranges from 0 to 90. if it is 180, then it distributes light uniformly.
+- spot direction : direction of the light (where the light is pointing to)
+- spot exponent : is how focused the beam of light is, 0 is less focused (more distributed) and 128 is very focused.
+- model matrix : object local coordinate to world space
+- view matrix : world space to camera space
+- projection matrix : camera space to screen space
+- normal : transpose inverse of the model-view matrix.
+Nota: todas as contribuições da fonte GL_LIGHT0 serão atenuadas, i.e., especular, difusa e mesmo a ambiente
+- to calculate the actual normals of the object after applying all of its transformations, we multiply the normals by the tranposed inverse of the model view matrix (normal matrix). [reference](https://paroj.github.io/gltut/Illumination/Tut09%20Normal%20Transformation.html).
+
 ## Screenshots
 
 ### 1 - MyFish
