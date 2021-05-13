@@ -16,6 +16,7 @@ import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
 import { MyRockSet } from "./objects/rock/MyRockSet.js";
 import { MyPillar } from "./objects/MyPillar.js";
 import {MyAlgaeSet} from "./objects/algae/MyAlgaeSet.js";
+import { MyStackablePyramid } from "./objects/algae/MyStackablePyramid.js";
 
 /**
 * MyScene
@@ -118,6 +119,8 @@ export class MyScene extends CGFscene {
         this.waterCeiling = new MyWaterCeiling(this, 20);
 
         this.linearRender = true;
+
+        this.pyramid = new MyStackablePyramid(this, 5, 4);
 
         this.initDelta();
         //Objects connected to MyInterface
@@ -227,6 +230,14 @@ export class MyScene extends CGFscene {
         this.sandFloor.display();
 
         this.algae.display();
+
+        this.pushMatrix();
+
+        this.translate(0, 2, 0)
+        this.pyramid.enableNormalViz();
+        this.pyramid.display();
+
+        this.popMatrix()
 
         this.castle.display();
 
