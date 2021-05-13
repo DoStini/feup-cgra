@@ -53,7 +53,7 @@ vec4 gouraudShading(vec4 vertex){
                                              // by the mvmatrix, which converts it from 
                                              // local to camera space.
 
-    vec4 result = vec4(0.);
+    vec4 result = vec4(0.,0.,0.,1.);
 
     for(int i = 0; i < NUMBER_OF_LIGHTS; i++) {
         if(uLight[i].enabled) { // better to use conditional then calculate needlesly.
@@ -110,7 +110,7 @@ vec4 gouraudShading(vec4 vertex){
 	result += uGlobalAmbient * uFrontMaterial.ambient + uFrontMaterial.emission;
     result = clamp(result, vec4(0.0), vec4(1.0));
     
-    return result;
+    return vec4(result.rgb, 1.);
 }
 
 void main(){

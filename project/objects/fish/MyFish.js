@@ -83,9 +83,9 @@ export class MyFish extends CGFobject {
 
     displayDorsal() {
         this.scene.pushMatrix();
-        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z - 0.12*this.length));
-        this.scene.multMatrix(scaleMatrix(-0.25*this.length, 0.25*this.length, 0.25*this.length));
-        this.scene.multMatrix(rotateYMatrix(degreeToRad(-90)));
+        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z + 0.12*this.length));
+        this.scene.multMatrix(scaleMatrix(0.25*this.length, 0.25*this.length, 0.25*this.length));
+        this.scene.multMatrix(rotateYMatrix(degreeToRad(90)));
         this.dorsal.display();
 
         this.scene.popMatrix();
@@ -160,20 +160,22 @@ export class MyFish extends CGFobject {
 
         this.displayBody();
 
-        this.scene.setActiveShader(this.eyeShader);
-        this.displayEyes();
-
-        this.scene.activeTexture = null;
-
         this.scene.setActiveShader(this.untexturedBodyShader);
-        
+
+        this.scene.defaultAppearance.apply();
+
         this.displayTail();
 
         this.displayWings();
 
         this.displayDorsal();
 
+        this.scene.setActiveShader(this.eyeShader);
+        this.displayEyes();
+
         this.scene.popMatrix();
+
+        this.scene.activeTexture = null;
 
         this.scene.setActiveShader(this.scene.defaultShader);
     }
