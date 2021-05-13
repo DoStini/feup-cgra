@@ -28,7 +28,8 @@ export class MyFish extends CGFobject {
         this.tex = new CGFtexture(this.scene, "textures/fish_texture.jpg"); // https://gumroad.com/juliosillet?sort=page_layout#ufEtG
         this.bodyShader = new CGFshader(this.scene.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
         this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
-
+        this.untexturedBodyShader = new CGFshader(this.scene.gl, "shaders/fish_body.vert", "shaders/fish_untextured.frag");
+        this.untexturedBodyShader.setUniformsValues({ uColor: fishColor });
         this.eyeShader = new CGFshader(this.scene.gl, "shaders/fish_eye.vert", "shaders/fish_eye.frag");
 
         this.length = length;
@@ -154,7 +155,6 @@ export class MyFish extends CGFobject {
         this.scene.pushMatrix();
 
         this.tex.bind(2);
-        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: true });
         
         this.scene.setActiveShader(this.bodyShader);
 
@@ -165,8 +165,7 @@ export class MyFish extends CGFobject {
 
         this.scene.activeTexture = null;
 
-        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: false });
-        this.scene.setActiveShader(this.bodyShader);
+        this.scene.setActiveShader(this.untexturedBodyShader);
         
         this.displayTail();
 

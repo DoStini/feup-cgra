@@ -7,19 +7,16 @@ varying vec3 vVertexPosition;
 
 uniform sampler2D uSampler2;
 uniform vec4 uColor;
-uniform bool drawTex;
 
 void main() {
     vec4 color = uColor;
 
-    if(drawTex && vVertexPosition.y < 0.2) {
+    if(vVertexPosition.y < 0.2) {
         vec2 tex = vec2(vVertexPosition.x, vVertexPosition.y);
         color = texture2D(uSampler2, vTextureCoord);
         //color = vec4(vTextureCoord, 1., 1.);
-        color.b += 0.3;
-        if(color.b > 1.0) color.b = 1.0;
-        color.r += 0.1;
-        if(color.r > 1.0) color.r = 1.0;
+        color.b = clamp(color.b + 0.3, 0., 1.);
+        color.r = clamp(color.r + 0.1, 0., 1.);
     }
 	gl_FragColor = color;
 }
