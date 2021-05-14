@@ -4,6 +4,7 @@ import { MyRectTriangle } from '../../shapes/MyRectTriangle.js';
 import { degreeToRad } from '../../utils/math/MathUtils.js';
 import { rotateYMatrix, scaleMatrix, translateMatrix } from '../../utils/matrix/MatrixGenerator.js';
 import { Vector3 } from '../../utils/Vector3.js';
+import MovementState from '../movable/HorizontalMovementState.js';
 import { MySphere } from '../MySphere.js';
 /**
 * MyRotationAnimatedObject
@@ -27,8 +28,9 @@ export class MyRotationAnimatedObject extends CGFobject {
         this.direction = 1;
     }
 
-    update(t, lastDelta) {
-        this.rotation += this.direction * this.rotSpeed * lastDelta;
+    update(t, lastDelta, factor) {
+        factor = factor || 1.0;
+        this.rotation += this.direction * this.rotSpeed * lastDelta * factor;
         if (this.rotation > this.maxRot) {
             this.direction *= -1;
             this.rotation = this.maxRot;

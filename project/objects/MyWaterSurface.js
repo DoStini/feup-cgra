@@ -50,6 +50,7 @@ export class MyWaterCeiling extends CGFobject {
 
         this.scene.pushMatrix();
         this.scene.multMatrix(translateMatrix(0,10,0));
+        //this.scene.multMatrix(rotateYMatrix(degreeToRad(180)));
         this.scene.multMatrix(rotateXMatrix(degreeToRad(90)));
         this.scene.multMatrix(scaleMatrix(50,50,50));
         this.object.display();
