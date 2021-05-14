@@ -17,6 +17,7 @@ import { MyRockSet } from "./objects/rock/MyRockSet.js";
 import { MyPillar } from "./objects/MyPillar.js";
 import {MyAlgaeSet} from "./objects/algae/MyAlgaeSet.js";
 import { MyStackablePyramid } from "./objects/algae/MyStackablePyramid.js";
+import { MyAlgae } from "./objects/algae/MyAlgae.js";
 
 /**
 * MyScene
@@ -127,8 +128,6 @@ export class MyScene extends CGFscene {
 
         this.linearRender = true;
 
-        this.pyramid = new MyStackablePyramid(this, 5, 4);
-
         this.initDelta();
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -237,17 +236,8 @@ export class MyScene extends CGFscene {
 
         this.sandFloor.display();
 
-        this.setActiveShader(this.algaeShader);
         this.algae.display();
         this.setActiveShader(this.defaultShader);
-
-        this.pushMatrix();
-
-        this.translate(0, 2, 0)
-        this.pyramid.enableNormalViz();
-        this.pyramid.display();
-
-        this.popMatrix()
 
         this.castle.display();
 

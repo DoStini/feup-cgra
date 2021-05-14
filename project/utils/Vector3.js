@@ -16,7 +16,8 @@ export class Vector3 {
     mult = (val) => {
         this.x *= val;
         this.y *= val;
-        this.z *= val;    
+        this.z *= val;
+        return this;
     }
     normalize = () => {
         const mag = this.magnitude();
