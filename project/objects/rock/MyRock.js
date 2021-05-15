@@ -1,6 +1,7 @@
 import { CGFobject, CGFshader, CGFtexture } from "../../../lib/CGF.js";
 import { degreeToRad, random } from "../../utils/math/MathUtils.js";
 import { rotateXMatrix, rotateYMatrix, rotateZMatrix, scaleMatrix, translateMatrix } from "../../utils/matrix/MatrixGenerator.js";
+import { Vector3 } from "../../utils/Vector3.js";
 //import { exports } from "../../../lib/CGF.js"
 
 export class MyRock extends CGFobject {
@@ -9,6 +10,7 @@ export class MyRock extends CGFobject {
    * @param  {CGFscene} scene - MyScene object
    * @param  {integer} slices - number of slices around Y axis
    * @param  {integer} stacks - number of stacks along Y axis, from the center to the poles (half of sphere)
+   * @param {Vector3} position
    */
   constructor(scene, slices, stacks, position, rotation, minRand, maxRand) {
     super(scene);
@@ -20,6 +22,9 @@ export class MyRock extends CGFobject {
     this.position = position;
     this.scale = [random(0.05, 0.1),random(0.05, 0.1),random(0.05, 0.1)]; // The sphere has a preset radius of 1, so to get 0.2 rock diameter, we need to divide by 2
     this.rotation = rotation;
+    this.offset = 0;
+    this.fishRotation = 0;
+    this.canPickup = true;
     this.initBuffers();
   }
 
@@ -96,7 +101,6 @@ export class MyRock extends CGFobject {
 
     this.finalMatrix = mat4.create();
 
-    mat4.multiply(this.finalMatrix, this.finalMatrix, translateMatrix(this.position.x,this.position.y,this.position.z));
     mat4.multiply(this.finalMatrix, this.finalMatrix, rotateZMatrix(degreeToRad(this.rotation[2])));
     mat4.multiply(this.finalMatrix, this.finalMatrix, rotateYMatrix(degreeToRad(this.rotation[1])));
     mat4.multiply(this.finalMatrix, this.finalMatrix, rotateXMatrix(degreeToRad(this.rotation[0])));
@@ -108,6 +112,9 @@ export class MyRock extends CGFobject {
   display() {
       this.scene.pushMatrix();
       
+      this.scene.multMatrix(translateMatrix(this.position.x,this.position.y,this.position.z));
+      this.scene.multMatrix(rotateYMatrix(degreeToRad(this.fishRotation)));
+      this.scene.multMatrix(translateMatrix(0,0,this.offset));
       this.scene.multMatrix(this.finalMatrix);
       super.display();
       

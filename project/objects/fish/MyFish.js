@@ -7,31 +7,33 @@ import { Vector3 } from '../../utils/Vector3.js';
 import { MySphere } from '../MySphere.js';
 import { MyAnimatedWing } from './MyAnimatedWing.js';
 import { MyAnimatedTail } from './MyAnimatedTail.js';
+import HorizontalMovementState from '../movable/HorizontalMovementState.js';
 
 /**
 * MyFish
 * @constructor
  * @param scene - Reference to MyScene object
- * @param bodyShader - Shader of the fish
- * @param eyeShader - Shader of the eye
  * @param fishColor - Color of the body of the fish
- * @param tex - Fish's texture
  * @param length - length of the fish
  * @param width - width of the fish
  * @param height - Height of the fish
  * @param postion - Starting position of the fish
 */
 export class MyFish extends CGFobject {
-    constructor(scene, bodyShader, eyeShader, fishColor, tex, length, width, height, position) {
+    constructor(scene, fishColor, length, width, height, position) {
         super(scene);
         this.scene = scene;
-        this.bodyShader = bodyShader;
-        this.eyeShader = eyeShader;
         this.fishColor = fishColor;
+
+        this.tex = new CGFtexture(this.scene, "textures/fish_texture.jpg"); // https://gumroad.com/juliosillet?sort=page_layout#ufEtG
+        this.bodyShader = new CGFshader(this.scene.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
+        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
+
+        this.eyeShader = new CGFshader(this.scene.gl, "shaders/fish_eye.vert", "shaders/fish_eye.frag");
+
         this.length = length;
         this.width = width;
         this.height = height;
-        this.tex = tex;
         this.position = position || new Vector3(0, 3, 0);
         this.init();
     }
@@ -40,10 +42,12 @@ export class MyFish extends CGFobject {
         this.body = new MySphere(this.scene, 32, 16);
         this.leftEye = new MySphere(this.scene, 8, 4);
         this.rightEye = new MySphere(this.scene, 8, 4);
-        this.tail = new MyAnimatedTail(this.scene, -40, 40, 80);
+        this.tail = new MyAnimatedTail(this.scene, -40, 40, 120);
         this.leftWing = new MyAnimatedWing(this.scene, -40, -20, 40);
         this.rightWing = new MyAnimatedWing(this.scene, -40, -20, 40);
         this.dorsal = new MyRectTriangle(this.scene);
+        this.rRotVel = 1;
+        this.lRotVel = 1;
     }
 
     displayBody() {
@@ -112,16 +116,46 @@ export class MyFish extends CGFobject {
         this.scene.popMatrix();
     }
     
-    update(t, lastDelta) {
-        this.leftWing.update(t, lastDelta);
-        this.rightWing.update(t, lastDelta);
-        this.tail.update(t, lastDelta);
+    aproximateValue(v1, v2, interval) {
+        return Math.abs(v2 - v1) < interval;
+    }
+
+    update(t, lastDelta, velocityFactor, movementState) {
+        const rRot = this.rightWing.rotation, lRot = this.leftWing.rotation;
+        if (movementState !== HorizontalMovementState.RIGHT) {
+            if (this.rRotVel === 0 && this.aproximateValue(rRot, lRot, 5)) {
+                this.leftWing.direction = this.rightWing.direction
+                this.leftWing.rotation = this.rightWing.rotation;
+                this.rRotVel = 1;
+                // Waiting until both of the wings are in the same rotation
+            }
+        } else if (movementState === HorizontalMovementState.RIGHT) {
+            this.rRotVel = 0;
+            this.lRotVel = 1;
+        }
+        if (movementState !== HorizontalMovementState.LEFT) {
+            if (this.lRotVel === 0 && this.aproximateValue(rRot, lRot, 5)) {
+                this.leftWing.direction = this.rightWing.direction
+                this.rightWing.rotation = this.leftWing.rotation;
+                this.lRotVel = 1;
+                        // Waiting until both of the wings are in the same rotation
+            }
+        }
+        else if(movementState === HorizontalMovementState.LEFT) {
+            this.lRotVel = 0;
+            this.rRotVel = 1;
+        }
+        this.leftWing.update(t, lastDelta, this.rRotVel);
+        this.rightWing.update(t, lastDelta, this.lRotVel);
+        this.tail.update(t, lastDelta, velocityFactor);
     }
 
     display() {
         this.scene.pushMatrix();
 
+        this.tex.bind(2);
         this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: true });
+        
         this.scene.setActiveShader(this.bodyShader);
 
         this.displayBody();
@@ -146,5 +180,3 @@ export class MyFish extends CGFobject {
     }
 
 }
-
-

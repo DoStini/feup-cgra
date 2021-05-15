@@ -1,4 +1,4 @@
-import { random } from "./math/MathUtils.js";
+import { degreeToRad, random } from "./math/MathUtils.js";
 
 export class Vector3 {
     constructor(x,y,z) {
@@ -25,6 +25,19 @@ export class Vector3 {
         this.y /= mag;
         this.z /= mag;
         return this;
+    }
+    clone() {
+        return new Vector3(this.x, this.y, this.z);
+    }
+
+    /**
+     * @param {Vector3} other
+     */
+    diffSquared(other) {
+        const deltaX = this.x - other.x;
+        const deltaZ = this.z - other.z;
+
+        return deltaX*deltaX + deltaZ*deltaZ;
     }
     setRandomX = (min, max) => {
         this.x = random(min, max); 

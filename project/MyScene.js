@@ -1,5 +1,5 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
-import { MyMovingObject } from "./objects/MyMovingObject.js";
+import { MyMovingObject } from "./objects/movable/MyMovingObject.js";
 import { MyPyramid } from "./objects/MyPyramid.js";
 import { MySphere } from "./objects/MySphere.js";
 import { MyCubeMap } from "./objects/MyCubeMap.js";
@@ -16,8 +16,7 @@ import { MyWaterCeiling } from "./objects/MyWaterSurface.js";
 import { MyRockSet } from "./objects/rock/MyRockSet.js";
 import { MyPillar } from "./objects/MyPillar.js";
 import {MyAlgaeSet} from "./objects/algae/MyAlgaeSet.js";
-import { MyStackablePyramid } from "./objects/algae/MyStackablePyramid.js";
-import { MyAlgae } from "./objects/algae/MyAlgae.js";
+import { MyMovingFish } from "./objects/movable/MyMovingFish.js";
 
 /**
 * MyScene
@@ -29,11 +28,11 @@ export class MyScene extends CGFscene {
     }
 
     reset() {
-        this.movmObject.reset();
+        this.movmFish.reset();
     }
 
     checkKeys() {
-        this.movmObject.checkKeys(this.lastDelta);
+        this.movmFish.checkKeys(this.lastDelta);
 
         if (this.gui.isKeyPressed("KeyR")) {
             this.reset();
@@ -68,11 +67,6 @@ export class MyScene extends CGFscene {
             TMODE: 'REPEAT',
         });
         this.cylinder = new MyCylinder(this, 25, this.cylinderMaterial);
-
-        this.movmObject = new MyMovingObject(
-            this,
-            new MyPyramid(this, 3),
-            0, 0, new Vector3(0, 0, -0.5));
 
         this.sandFloor = new MySandFloor(this, 30, 6.5, 1, 50);
         this.castle = new MyCastle(this, new Vector3(-2, 0, -2), 2);
@@ -113,16 +107,13 @@ export class MyScene extends CGFscene {
         this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.sphereAppearance.setShininess(120);
         this.sphereAppearance.loadTexture('textures/earth.jpg');
-
-        this.fishTex = new CGFtexture(this, "textures/fish_texture.jpg"); // https://gumroad.com/juliosillet?sort=page_layout#ufEtG
-
-        this.fishBodyShader = new CGFshader(this.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
-        this.fishEyeShader = new CGFshader(this.gl, "shaders/fish_eye.vert", "shaders/fish_eye.frag");
         
         const fishColor = [237 / 255, 165 / 255, 21 / 255, 1.0];
 
-        this.fishBodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
-        this.fish = new MyFish(this, this.fishBodyShader, this.fishEyeShader, fishColor, this.fishTex, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
+        this.fish = new MyFish(this, fishColor, 0.5, 0.2, 0.30, new Vector3(0, 3, 0));
+
+        this.movmFish = new MyMovingFish(
+            this, 0, 0, new Vector3(0, 3, 0), fishColor, 0.5, 3);
 
         this.waterCeiling = new MyWaterCeiling(this, 20);
 
@@ -134,8 +125,8 @@ export class MyScene extends CGFscene {
         this.dragCoefficient = 0.5;
         this.speedFactor = 1;
         this.useDrag = false;
-        this.displayVehicle = false;
-        this.displayFish = true;
+        this.displayVehicle = true;
+        this.displayFish = false;
         this.displayCylinder = false;
         this.displaySphere = false;
         this.displaySkybox = true;
@@ -199,7 +190,7 @@ export class MyScene extends CGFscene {
     update(t) {
         this.updateDelta(t);
         this.checkKeys();
-        this.movmObject.update(this.lastPhysicsUpdate, this.lastDelta);
+        this.movmFish.update(this.lastPhysicsUpdate, this.lastDelta);
         this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
         this.waterCeiling.update(this.lastPhysicsUpdate);
         this.algae.update(this.lastPhysicsUpdate);
@@ -220,8 +211,6 @@ export class MyScene extends CGFscene {
         this.applyViewMatrix();
 
         this.lights[0].update();
-
-        this.fishTex.bind(2);
 
         this.defaultAppearance.apply();
         
@@ -256,8 +245,7 @@ export class MyScene extends CGFscene {
 
         if (this.displayVehicle) {
             this.defaultAppearance.apply();
-
-            this.movmObject.display();
+            this.movmFish.display();
         }
 
         if (this.displayCylinder) {
