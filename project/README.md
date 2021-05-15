@@ -151,3 +151,10 @@
 ![Screenshot 1](docs/images/proj-t4g02-7-1.png)
 
 ![Screenshot 2](docs/images/proj-t4g02-7-2.png)
+
+
+### Improvements
+
+- We decided to add a simple texture to the castle to make it look more realistic, with a texture that gives the idea that the roof is metallic and rusty. [Source](http://texturelib.com/texture/?path=/Textures/roof/roof_0029)
+
+![Castle Roof](docs/images/castle_roof.png)

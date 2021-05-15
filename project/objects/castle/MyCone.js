@@ -20,19 +20,27 @@ export class MyCone extends CGFobject {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
-
+        this.texCoords = [];
+        
         var ang = 0;
         var alphaAng = 2*Math.PI/this.slices;
 
-        for(var i = 0; i < this.slices; i++){
+        for(var i = 0; i < this.slices + 1; i++){
 
             this.vertices.push(Math.cos(ang), 0, -Math.sin(ang));
-            this.indices.push(i, (i+1) % this.slices, this.slices);
+            this.indices.push(i, (i+1) % this.slices, this.slices+i+1);
             this.normals.push(Math.cos(ang), Math.cos(Math.PI/4.0), -Math.sin(ang));
+            this.texCoords.push((this.slices-i)/this.slices,0);
+            this.texCoords.push((this.slices-i)/this.slices,1);
+
             ang+=alphaAng;
         }
-        this.vertices.push(0,1,0);
-        this.normals.push(0,1,0);
+        for(var i = 0; i < this.slices+1; i++){
+            this.vertices.push(0,1,0);
+            this.normals.push(0,1,0);
+            
+            ang+=alphaAng;
+        }
 
 
         this.primitiveType = this.scene.gl.TRIANGLES;

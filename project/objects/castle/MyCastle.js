@@ -62,7 +62,11 @@ import { MyRock } from "../rock/MyRock.js";
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           } );
-        this.roofMat = new Material(this.scene, CastleRoof);
+        this.roofMat = new Material(this.scene, CastleRoof, {
+            tex: '/project/textures/castle/castle_roof.jpg',
+            SMODE: 'REPEAT',
+            TMODE: 'REPEAT',
+          } );
 
         this.door = new MyUnitCube(this.scene, this.doorMat);
         this.towers = new Array(4).fill(0).map(_ => new MyCylinder(this.scene, 8, this.towerMat));
