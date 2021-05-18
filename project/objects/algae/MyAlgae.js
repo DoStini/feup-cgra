@@ -31,12 +31,8 @@ export class MyAlgae extends CGFobject {
   }
 
   pickColor() {
-    const color = [random(0, 160)/255, 1.0, random(0, 140)/255, 1.];
-    
-    if (Math.round(random(0,1)) === 1)
-        color[0] = 0;
-    else
-        color[2] = 0;
+    const color = [0.0, 0.0, 0.0, 1.0];
+    color[Math.floor(random(0,2))] =  random(0, 160)/255;
     return color;
   }
 
@@ -50,8 +46,6 @@ export class MyAlgae extends CGFobject {
             variance: this.displace,
             speed: this.animationSpeed
         });
-
-    this.scene.setActiveShader(this.shader);
 
     this.scene.multMatrix(this.finalMatrix);
     this.shape.display();

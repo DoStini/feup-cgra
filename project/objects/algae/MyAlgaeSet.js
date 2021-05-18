@@ -57,6 +57,7 @@ export class MyAlgaeSet extends CGFobject {
 
     display() {
         this.material.safeApply();
+        this.scene.setActiveShader(this.algaeShader);
         this.algae.forEach(algae_ => algae_.display());
     }
 
