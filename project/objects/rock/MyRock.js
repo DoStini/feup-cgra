@@ -12,7 +12,7 @@ export class MyRock extends CGFobject {
    * @param  {integer} stacks - number of stacks along Y axis, from the center to the poles (half of sphere)
    * @param {Vector3} position
    */
-  constructor(scene, slices, stacks, position, rotation, minRand, maxRand) {
+  constructor(scene, slices, stacks, position, rotation, rockSizeFactor, minRand, maxRand) {
     super(scene);
     this.scene = scene;
     this.latDivs = stacks * 2;
@@ -20,7 +20,11 @@ export class MyRock extends CGFobject {
     this.minRand = minRand || 0.7;
     this.maxRand = maxRand || 1.0; // Reassuring that the rock doesnt exceed 0.2 units size
     this.position = position;
-    this.scale = [random(0.05, 0.1),random(0.05, 0.1),random(0.05, 0.1)]; // The sphere has a preset radius of 1, so to get 0.2 rock diameter, we need to divide by 2
+    rockSizeFactor = rockSizeFactor || 1;
+    this.scale = [random(0.05, 0.1)*rockSizeFactor,
+                    random(0.05, 0.1)*rockSizeFactor,
+                    random(0.05, 0.1)*rockSizeFactor];
+    // The sphere has a preset radius of 1, so to get 0.2 rock diameter, we need to divide by 2
     this.rotation = rotation;
     this.offset = 0;
     this.fishRotation = 0;

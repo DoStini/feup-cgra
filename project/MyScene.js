@@ -73,7 +73,12 @@ export class MyScene extends CGFscene {
         this.rocks = new MyRockSet(this, {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
-        }, 500, 200, -25, 25);
+        }, 500, 200, 4, 4, -25, 25);
+
+        this.bigRocks = new MyRockSet(this, {
+            position: this.castle.getCenterPosition(),
+            area: this.castle.getArea(),
+        }, 20, 10, 8, 16, -25, 25, 10, 0.85, 1.0);
         
         this.algaeShader = new CGFshader(this.gl, "shaders/algae/algae.vert", "shaders/algae/algae.frag");
 
@@ -231,6 +236,8 @@ export class MyScene extends CGFscene {
         this.castle.display();
 
         this.rocks.display();
+        
+        this.bigRocks.display();
 
         this.pillars.forEach(pillar => pillar.display());
 

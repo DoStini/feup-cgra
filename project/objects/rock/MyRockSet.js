@@ -10,17 +10,24 @@ export class MyRockSet extends CGFobject {
      * @method constructor
      * @param  {CGFscene} scene - MyScene object
      * @param {Object} forbiddenArea - Object containing position, width and height {position: Vector3, area: number > 0}
-     * @param  {integer} baseNumRocks - number of rocks
+     * @param  {integer} baseNumRocks - number of 
      * @param  {integer} threshold - variation of the number of rocks
+     * @param {integer} slices - Number of slices of the rocks
+     * @param {integer} stacks - Number of stacks of the rocks
      */
-    constructor(scene, forbiddenArea, baseNumRocks, threshold, minLim, maxLim) {
+    constructor(scene, forbiddenArea, baseNumRocks, threshold, slices, stacks, minLim, maxLim, rockSizeFactor, minRandom, maxRandom) {
         super(scene);
         this.scene = scene;
         this.forbiddenArea = forbiddenArea;
         this.numRocks = baseNumRocks + Math.round(random(-threshold, threshold));
         this.minLim = minLim;
         this.maxLim = maxLim;
+        this.slices = slices;
+        this.stacks = stacks;
         this.material = new Material(this.scene, RockMaterial);
+        this.rockSizeFactor = rockSizeFactor || 1;
+        this.minRandom = minRandom || 0.7;
+        this.maxRandom = maxRandom || 1.0;
         this.genRocks();
     }
 
@@ -36,8 +43,8 @@ export class MyRockSet extends CGFobject {
                             while (!this.validPosition(pos)) {
                                 pos = new Vector3(0, 0.1, 0).setRandomX(this.minLim, this.maxLim).setRandomZ(this.minLim, this.maxLim);
                             }
-                            return new MyRock(this.scene, 4, 4, pos,
-                                            [random(0, 360),random(0, 360),random(0, 360)]);  
+                            return new MyRock(this.scene, this.slices, this.stacks, pos,
+                                            [random(0, 360),random(0, 360),random(0, 360)], this.rockSizeFactor, this.minRandom, this.maxRandom);
                         });
     }
 
