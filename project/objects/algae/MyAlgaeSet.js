@@ -13,7 +13,7 @@ export class MyAlgaeSet extends CGFobject {
      * @param  {integer} baseNumAlgae - number of algae
      * @param  {integer} threshold - variation of the number of algae
      */
-    constructor(scene, forbiddenArea, baseNumAlgae, threshold, minLim, maxLim) {
+    constructor(scene, algaeShader, forbiddenArea, baseNumAlgae, threshold, minLim, maxLim) {
         super(scene);
         this.scene = scene;
         this.forbiddenArea = forbiddenArea;
@@ -23,6 +23,7 @@ export class MyAlgaeSet extends CGFobject {
         this.algaePerGroup = 5;
         this.algaeRadius = 0.2;
         this.material = new Material(this.scene, AlgaeMaterial);
+        this.algaeShader = algaeShader;
         this.genAlgae();
     }
 
@@ -49,13 +50,18 @@ export class MyAlgaeSet extends CGFobject {
                     singlePos = new Vector3().setRandomX(pos.x-this.algaeRadius, pos.x+this.algaeRadius).setRandomZ(pos.z-this.algaeRadius, pos.z+this.algaeRadius);
                 }
                 
-                this.algae.push(new MyAlgae(this.scene, singlePos));
+                this.algae.push(new MyAlgae(this.scene, singlePos, this.algaeShader));
             }
         }
     }
 
     display() {
         this.material.safeApply();
+        this.scene.setActiveShader(this.algaeShader);
         this.algae.forEach(algae_ => algae_.display());
+    }
+
+    update(t) {
+        this.algaeShader.setUniformsValues({ algaeTimeFactor: t/1000%255});
     }
 }

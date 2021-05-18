@@ -73,19 +73,26 @@ export class MyScene extends CGFscene {
         this.rocks = new MyRockSet(this, {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
-        }, 500, 100, -25, 25);
-        this.algae = new MyAlgaeSet(this, {
-            position: this.castle.getCenterPosition(),
-            area: this.castle.getArea(),
-        }, 180, 50, -25, 25);
+        }, 500, 200, -25, 25);
+        
+        this.algaeShader = new CGFshader(this.gl, "shaders/algae/algae.vert", "shaders/algae/algae.frag");
+
+        this.algae = new MyAlgaeSet(this, 
+            this.algaeShader,
+            {
+                position: this.castle.getCenterPosition(),
+                area: this.castle.getArea(),
+            }, 180, 50, -25, 25);
+
+
 
         this.pillars = [
-            new MyPillar(this, new Vector3(-20, 0, 2), 0.5, 10),
-            new MyPillar(this, new Vector3(-20, 0, 0), 0.5, 10),
-            new MyPillar(this, new Vector3(-10, 0, 2), 0.5, 10),
-            new MyPillar(this, new Vector3(-10, 0, 0), 0.5, 10),
-            new MyPillar(this, new Vector3(-5, 0, 2), 0.5, 10),
-            new MyPillar(this, new Vector3(-5, 0, 0), 0.5, 10),
+            new MyPillar(this, new Vector3(20, 0, -2), 0.5, 10),
+            new MyPillar(this, new Vector3(20, 0, 0), 0.5, 10),
+            new MyPillar(this, new Vector3(10, 0, -2), 0.5, 10),
+            new MyPillar(this, new Vector3(10, 0, 0), 0.5, 10),
+            new MyPillar(this, new Vector3(5, 0, -2), 0.5, 10),
+            new MyPillar(this, new Vector3(5, 0, 0), 0.5, 10),
         ];
 
         this.defaultAppearance = new CGFappearance(this);
@@ -186,6 +193,7 @@ export class MyScene extends CGFscene {
         this.movmFish.update(this.lastPhysicsUpdate, this.lastDelta);
         this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
         this.waterCeiling.update(this.lastPhysicsUpdate);
+        this.algae.update(this.lastPhysicsUpdate);
     }
 
     /**
@@ -218,6 +226,7 @@ export class MyScene extends CGFscene {
         this.sandFloor.display();
 
         this.algae.display();
+        this.setActiveShader(this.defaultShader);
 
         this.castle.display();
 
