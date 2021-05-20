@@ -28,7 +28,8 @@ export class MyFish extends CGFobject {
         this.tex = new CGFtexture(this.scene, "textures/fish_texture.jpg"); // https://gumroad.com/juliosillet?sort=page_layout#ufEtG
         this.bodyShader = new CGFshader(this.scene.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
         this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
-
+        this.untexturedBodyShader = new CGFshader(this.scene.gl, "shaders/fish_body.vert", "shaders/fish_untextured.frag");
+        this.untexturedBodyShader.setUniformsValues({ uColor: fishColor });
         this.eyeShader = new CGFshader(this.scene.gl, "shaders/fish_eye.vert", "shaders/fish_eye.frag");
 
         this.length = length;
@@ -82,9 +83,9 @@ export class MyFish extends CGFobject {
 
     displayDorsal() {
         this.scene.pushMatrix();
-        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z - 0.12*this.length));
-        this.scene.multMatrix(scaleMatrix(-0.25*this.length, 0.25*this.length, 0.25*this.length));
-        this.scene.multMatrix(rotateYMatrix(degreeToRad(-90)));
+        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z + 0.12*this.length));
+        this.scene.multMatrix(scaleMatrix(0.25*this.length, 0.25*this.length, 0.25*this.length));
+        this.scene.multMatrix(rotateYMatrix(degreeToRad(90)));
         this.dorsal.display();
 
         this.scene.popMatrix();
@@ -154,27 +155,27 @@ export class MyFish extends CGFobject {
         this.scene.pushMatrix();
 
         this.tex.bind(2);
-        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: true });
         
         this.scene.setActiveShader(this.bodyShader);
 
         this.displayBody();
 
-        this.scene.setActiveShader(this.eyeShader);
-        this.displayEyes();
+        this.scene.setActiveShader(this.untexturedBodyShader);
 
-        this.scene.activeTexture = null;
+        this.scene.defaultAppearance.apply();
 
-        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: false });
-        this.scene.setActiveShader(this.bodyShader);
-        
         this.displayTail();
 
         this.displayWings();
 
         this.displayDorsal();
 
+        this.scene.setActiveShader(this.eyeShader);
+        this.displayEyes();
+
         this.scene.popMatrix();
+
+        this.scene.activeTexture = null;
 
         this.scene.setActiveShader(this.scene.defaultShader);
     }

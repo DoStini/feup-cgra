@@ -25,10 +25,7 @@ void main() {
     vec2 limits = vec2(-0.5, 0.5);
     texCoord = vTextureCoord + weight*offset(mask, limits);
 
-    if (texCoord.y < 0.0) texCoord.y = -texCoord.y;
-    if (texCoord.x < 0.0) texCoord.x = -texCoord.x;
-    if (texCoord.x > 1.0) texCoord.x = 2.0 - texCoord.x;
-    if (texCoord.y > 1.0) texCoord.y = 2.0 - texCoord.y;
+    texCoord = abs(min(texCoord, 2.0 - texCoord));
 
     color = texture2D(uWaterSampler, texCoord);
 	gl_FragColor = color;

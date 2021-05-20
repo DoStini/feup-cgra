@@ -4,22 +4,19 @@ precision highp float;
 
 varying vec2 vTextureCoord;
 varying vec3 vVertexPosition;
+varying vec4 vFinalColor;
 
 uniform sampler2D uSampler2;
 uniform vec4 uColor;
-uniform bool drawTex;
 
 void main() {
-    vec4 color = uColor;
+    vec2 tex = vec2(vVertexPosition.x, vVertexPosition.y);
+    vec4 color = texture2D(uSampler2, vTextureCoord);
 
-    if(drawTex && vTextureCoord.t > 0.4) {
-        vec2 tex = vec2(vVertexPosition.x, vVertexPosition.y);
-        color = texture2D(uSampler2, vTextureCoord);
-        //color = vec4(vTextureCoord, 1., 1.);
-        color.b += 0.3;
-        if(color.b > 1.0) color.b = 1.0;
-        color.r += 0.1;
-        if(color.r > 1.0) color.r = 1.0;
-    }
-	gl_FragColor = color;
+    color.b = color.b + 0.3;
+    color.r = color.r + 0.1;
+
+    color = clamp(color, vec4(0.), vec4(1.));
+
+	gl_FragColor = vFinalColor*mix(color, uColor, step(0.2, vVertexPosition.y));
 }
