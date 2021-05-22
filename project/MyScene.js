@@ -17,6 +17,7 @@ import { MyRockSet } from "./objects/rock/MyRockSet.js";
 import { MyPillar } from "./objects/MyPillar.js";
 import {MyAlgaeSet} from "./objects/algae/MyAlgaeSet.js";
 import { MyMovingFish } from "./objects/movable/MyMovingFish.js";
+import { CGFcamera2 } from "./MyCamera.js";
 
 /**
 * MyScene
@@ -145,7 +146,7 @@ export class MyScene extends CGFscene {
         this.lights[0].update();
     }
     initCameras() {
-        this.camera = new CGFcamera(1.75, 0.1, 500, vec3.fromValues(2, 2, 2), vec3.fromValues(0, 2, 0));
+        this.camera = new CGFcamera2(1.75, 0.1, 500, vec3.fromValues(2, 2, 2), vec3.fromValues(0, 2, 0));
     }
 
     setDefaultAppearance() {

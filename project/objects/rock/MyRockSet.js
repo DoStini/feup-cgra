@@ -24,7 +24,11 @@ export class MyRockSet extends CGFobject {
         this.maxLim = maxLim;
         this.slices = slices;
         this.stacks = stacks;
-        this.material = new Material(this.scene, RockMaterial);
+        this.material = new Material(this.scene, RockMaterial, {
+            tex: "/project/textures/rock/seashell.jpg",
+            SMODE: 'REPEAT',
+            TMODE: 'REPEAT',
+        });
         this.rockSizeFactor = rockSizeFactor || 1;
         this.minRandom = minRandom || 0.7;
         this.maxRandom = maxRandom || 1.0;

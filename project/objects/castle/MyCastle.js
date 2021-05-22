@@ -11,6 +11,7 @@ import { MyUnitCube } from "./MyUnitCube.js";
 import { MyCone } from "./MyCone.js";
 import { Vector3 } from "../../utils/Vector3.js"
 import { MyRock } from "../rock/MyRock.js";
+import DefaultMaterial from "../../materials/DefaultMaterial.js";
 
 /**
  * MyCylindert
@@ -106,7 +107,6 @@ import { MyRock } from "../rock/MyRock.js";
                 this.scene.multMatrix(scaleMatrix(1.75, 0.4*towerHeight, 1.75));
                 this.roofs[idx].display();
                 //this.scene.popMatrix();
-
                 this.scene.popMatrix();
                 idx++;
             }
