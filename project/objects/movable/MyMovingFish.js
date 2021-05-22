@@ -135,7 +135,7 @@ export class MyMovingFish extends MyMovingObject {
         else if (this.state === VerticalMovementState.GOING_UP)
             this.updateUp(delta);
 
-        const velocityFactor = Math.max(this.velocity/this.maxVelocity, 0.1);
+        const velocityFactor = Math.max(this.velocity/this.maxVelocity, 0.05);
 
         this.object.update(t, delta, velocityFactor, this.horizontalState);
         if(this.pickedUpRock) {
