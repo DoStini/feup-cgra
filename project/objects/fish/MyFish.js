@@ -83,9 +83,9 @@ export class MyFish extends CGFobject {
 
     displayDorsal() {
         this.scene.pushMatrix();
-        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z + 0.12*this.length));
+        this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z - 0.12*this.length));
         this.scene.multMatrix(scaleMatrix(0.25*this.length, 0.25*this.length, 0.25*this.length));
-        this.scene.multMatrix(rotateYMatrix(degreeToRad(90)));
+        this.scene.multMatrix(rotateYMatrix(degreeToRad(-90)));
         this.dorsal.display();
 
         this.scene.popMatrix();
