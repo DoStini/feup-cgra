@@ -11,6 +11,7 @@ import { MyUnitCube } from "./MyUnitCube.js";
 import { MyCone } from "./MyCone.js";
 import { Vector3 } from "../../utils/Vector3.js"
 import { MyRock } from "../rock/MyRock.js";
+import DefaultMaterial from "../../materials/DefaultMaterial.js";
 
 /**
  * MyCylindert
@@ -62,7 +63,11 @@ import { MyRock } from "../rock/MyRock.js";
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           } );
-        this.roofMat = new Material(this.scene, CastleRoof);
+        this.roofMat = new Material(this.scene, CastleRoof, {
+            tex: '/project/textures/castle/castle_roof.jpg',
+            SMODE: 'REPEAT',
+            TMODE: 'REPEAT',
+          } );
 
         this.door = new MyUnitCube(this.scene, this.doorMat);
         this.towers = new Array(4).fill(0).map(_ => new MyCylinder(this.scene, 8, this.towerMat));
@@ -102,7 +107,6 @@ import { MyRock } from "../rock/MyRock.js";
                 this.scene.multMatrix(scaleMatrix(1.75, 0.4*towerHeight, 1.75));
                 this.roofs[idx].display();
                 //this.scene.popMatrix();
-
                 this.scene.popMatrix();
                 idx++;
             }

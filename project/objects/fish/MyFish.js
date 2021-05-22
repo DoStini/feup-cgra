@@ -28,7 +28,8 @@ export class MyFish extends CGFobject {
         this.tex = new CGFtexture(this.scene, "textures/fish_texture.jpg"); // https://gumroad.com/juliosillet?sort=page_layout#ufEtG
         this.bodyShader = new CGFshader(this.scene.gl, "shaders/fish_body.vert", "shaders/fish_body.frag");
         this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: fishColor });
-
+        this.untexturedBodyShader = new CGFshader(this.scene.gl, "shaders/fish_body.vert", "shaders/fish_untextured.frag");
+        this.untexturedBodyShader.setUniformsValues({ uColor: fishColor });
         this.eyeShader = new CGFshader(this.scene.gl, "shaders/fish_eye.vert", "shaders/fish_eye.frag");
 
         this.length = length;
@@ -42,7 +43,7 @@ export class MyFish extends CGFobject {
         this.body = new MySphere(this.scene, 32, 16);
         this.leftEye = new MySphere(this.scene, 8, 4);
         this.rightEye = new MySphere(this.scene, 8, 4);
-        this.tail = new MyAnimatedTail(this.scene, -40, 40, 120);
+        this.tail = new MyAnimatedTail(this.scene, -40, 40, 240);
         this.leftWing = new MyAnimatedWing(this.scene, -40, -20, 40);
         this.rightWing = new MyAnimatedWing(this.scene, -40, -20, 40);
         this.dorsal = new MyRectTriangle(this.scene);
@@ -83,7 +84,7 @@ export class MyFish extends CGFobject {
     displayDorsal() {
         this.scene.pushMatrix();
         this.scene.multMatrix(translateMatrix(this.position.x, this.position.y + this.height*0.48, this.position.z - 0.12*this.length));
-        this.scene.multMatrix(scaleMatrix(-0.25*this.length, 0.25*this.length, 0.25*this.length));
+        this.scene.multMatrix(scaleMatrix(0.25*this.length, 0.25*this.length, 0.25*this.length));
         this.scene.multMatrix(rotateYMatrix(degreeToRad(-90)));
         this.dorsal.display();
 
@@ -154,27 +155,27 @@ export class MyFish extends CGFobject {
         this.scene.pushMatrix();
 
         this.tex.bind(2);
-        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: true });
         
         this.scene.setActiveShader(this.bodyShader);
 
         this.displayBody();
 
-        this.scene.setActiveShader(this.eyeShader);
-        this.displayEyes();
+        this.scene.setActiveShader(this.untexturedBodyShader);
 
-        this.scene.activeTexture = null;
+        this.scene.defaultAppearance.apply();
 
-        this.bodyShader.setUniformsValues({ uSampler2: 2, uColor: this.fishColor, drawTex: false });
-        this.scene.setActiveShader(this.bodyShader);
-        
         this.displayTail();
 
         this.displayWings();
 
         this.displayDorsal();
 
+        this.scene.setActiveShader(this.eyeShader);
+        this.displayEyes();
+
         this.scene.popMatrix();
+
+        this.scene.activeTexture = null;
 
         this.scene.setActiveShader(this.scene.defaultShader);
     }

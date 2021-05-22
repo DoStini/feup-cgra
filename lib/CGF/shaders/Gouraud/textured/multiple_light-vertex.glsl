@@ -60,24 +60,24 @@ vec4 lighting(vec4 vertex, vec3 E, vec3 N) {
             float spot_effect = 1.0;
             vec3 L = vec3(0.0);
 
-            if (uLight[i].position.w == 1.0) {
-                L = (uLight[i].position - vertex).xyz;
-                float dist = length(L);
-                L = normalize(L);
+            //if (uLight[i].position.w == 1.0) {
+            L = (uLight[i].position - vertex).xyz;
+            float dist = length(L);
+            L = normalize(L);
 
-                if (uLight[i].spot_cutoff != 180.0) {
-                    vec3 sd = normalize(vec3(uLight[i].spot_direction));
-                    float cos_cur_angle = dot(sd, -L);
-                    float cos_inner_cone_angle = cos(radians(clamp(uLight[i].spot_cutoff, 0.0, 89.0)));
+            if (uLight[i].spot_cutoff != 180.0) {
+                vec3 sd = normalize(vec3(uLight[i].spot_direction));
+                float cos_cur_angle = dot(sd, -L);
+                float cos_inner_cone_angle = cos(radians(clamp(uLight[i].spot_cutoff, 0.0, 89.0)));
 
-                    spot_effect = pow(clamp(cos_cur_angle/ cos_inner_cone_angle, 0.0, 1.0), clamp(uLight[i].spot_exponent, 0.0, 128.0));
-                }
-
-                att = 1.0 / (uLight[i].constant_attenuation + uLight[i].linear_attenuation * dist + uLight[i].quadratic_attenuation * dist * dist);
-
-            } else {
-                L = normalize(uLight[i].position.xyz);
+                spot_effect = pow(clamp(cos_cur_angle/ cos_inner_cone_angle, 0.0, 1.0), clamp(uLight[i].spot_exponent, 0.0, 128.0));
             }
+
+            att = 1.0 / (uLight[i].constant_attenuation + uLight[i].linear_attenuation * dist + uLight[i].quadratic_attenuation * dist * dist);
+
+            // } else {
+            //     L = normalize(uLight[i].position.xyz);
+            // }
 
             float lambertTerm = max(dot(N, L), 0.0);
 
@@ -85,19 +85,12 @@ vec4 lighting(vec4 vertex, vec3 E, vec3 N) {
 
             vec4 Id = uLight[i].diffuse * uFrontMaterial.diffuse * lambertTerm;
 
-            vec4 Is = vec4(0.0, 0.0, 0.0, 0.0);
+            vec3 R = reflect(-L, N);
+            float shininess = pow(max(dot(R, E), 0.0), uFrontMaterial.shininess);
 
-            if (lambertTerm > 0.0) {
-                vec3 R = reflect(-L, N);
-                float specular = pow( max( dot(R, E), 0.0 ), uFrontMaterial.shininess);
-
-                Is = uLight[i].specular * uFrontMaterial.specular * specular;
-            }
-
-            if (uLight[i].position.w == 1.0) 
-               result += att * max(spot_effect * (Id + Is), Ia);
-            else
-               result += att * spot_effect * (Ia + Id + Is);
+            vec4 Is =vec4(0.0, 0.0, 0.0, 1.0) + step(0., lambertTerm)*(uLight[i].specular * uFrontMaterial.specular * shininess);
+  
+            result += att * spot_effect * (Ia + Id + Is);
         }
     }
 

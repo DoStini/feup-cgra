@@ -17,6 +17,7 @@ import { MyRockSet } from "./objects/rock/MyRockSet.js";
 import { MyPillar } from "./objects/MyPillar.js";
 import {MyAlgaeSet} from "./objects/algae/MyAlgaeSet.js";
 import { MyMovingFish } from "./objects/movable/MyMovingFish.js";
+import { CGFcamera2 } from "./MyCamera.js";
 
 /**
 * MyScene
@@ -52,7 +53,7 @@ export class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
 
-        this.setUpdatePeriod(1);
+        this.setUpdatePeriod(10);
 
         this.enableTextures(true);
 
@@ -73,11 +74,23 @@ export class MyScene extends CGFscene {
         this.rocks = new MyRockSet(this, {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
-        }, 500, 100, -25, 25);
-        this.algae = new MyAlgaeSet(this, {
+        }, 500, 200, 4, 4, -25, 25);
+
+        this.bigRocks = new MyRockSet(this, {
             position: this.castle.getCenterPosition(),
             area: this.castle.getArea(),
-        }, 180, 50, -25, 25);
+        }, 20, 10, 8, 16, -25, 25, 10, 0.85, 1.0);
+        
+        this.algaeShader = new CGFshader(this.gl, "shaders/algae/algae.vert", "shaders/algae/algae.frag");
+
+        this.algae = new MyAlgaeSet(this, 
+            this.algaeShader,
+            {
+                position: this.castle.getCenterPosition(),
+                area: this.castle.getArea(),
+            }, 180, 50, -25, 25);
+
+
 
         this.pillars = [
             new MyPillar(this, new Vector3(20, 0, -2), 0.5, 10),
@@ -129,11 +142,12 @@ export class MyScene extends CGFscene {
         this.lights[0].setPosition(15, 2, 5, 1);
         this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
         this.lights[0].enable();
+        this.lights[0].setConstantAttenuation(0.5);
         this.lights[0].setVisible(true);
         this.lights[0].update();
     }
     initCameras() {
-        this.camera = new CGFcamera(1.75, 0.1, 500, vec3.fromValues(2, 2, 2), vec3.fromValues(0, 2, 0));
+        this.camera = new CGFcamera2(1.75, 0.1, 500, vec3.fromValues(2, 2, 2), vec3.fromValues(0, 2, 0));
     }
 
     setDefaultAppearance() {
@@ -186,6 +200,7 @@ export class MyScene extends CGFscene {
         this.movmFish.update(this.lastPhysicsUpdate, this.lastDelta);
         this.fish.update(this.lastPhysicsUpdate, this.lastDelta);
         this.waterCeiling.update(this.lastPhysicsUpdate);
+        this.algae.update(this.lastPhysicsUpdate);
     }
 
     /**
@@ -218,10 +233,13 @@ export class MyScene extends CGFscene {
         this.sandFloor.display();
 
         this.algae.display();
+        this.setActiveShader(this.defaultShader);
 
         this.castle.display();
 
         this.rocks.display();
+        
+        this.bigRocks.display();
 
         this.pillars.forEach(pillar => pillar.display());
 

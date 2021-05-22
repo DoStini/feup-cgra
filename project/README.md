@@ -116,6 +116,28 @@
 
 - When the fish picks up a rock, the rock's original position is stored in the fish. This is how, when the fish's position is reset, it is reset to its place.
 
+### Part 7
+
+#### - Shader
+
+- w component of light position: if its 0 then it is directional light, the position is actually the direction, meaning its position is not taken into account in calculatin diffuse and specular lighting, attenuation is disabled. [where learned](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glLight.xml)
+- spot cutoff : maximum spread angle of a light source. it ranges from 0 to 90. if it is 180, then it distributes light uniformly.
+- spot direction : direction of the light (where the light is pointing to)
+- spot exponent : is how focused the beam of light is, 0 is less focused (more distributed) and 128 is very focused.
+- model matrix : object local coordinate to world space
+- view matrix : world space to camera space
+- projection matrix : camera space to screen space
+- normal : transpose inverse of the model-view matrix.
+  Nota: todas as contribuições da fonte GL_LIGHT0 serão atenuadas, i.e., especular, difusa e mesmo a ambiente
+- to calculate the actual normals of the object after applying all of its transformations, we multiply the normals by the tranposed inverse of the model view matrix (normal matrix). [reference](https://paroj.github.io/gltut/Illumination/Tut09%20Normal%20Transformation.html).
+
+#### Moving Algae
+
+- To put the algae to move, we had to first create a stackable pyramid.
+  - To achieve this, we adapated the Pyramid given in a previous practical class. We had to add an extra for loop (for vertical vertices). We understood that for each pyramid vertex, we had to generate 2 vertices. The vertices are being joined by the following method: after the first stack, it will connect the vertices in 2 smaller triangles with the previous stack, hence the formula `2*(j*this.slices+i), 2*((j-1)*this.slices+i), 2*(j*this.slices+i)+1` for one triangle and `2*(j*this.slices+i)+1, 2*((j-1)*this.slices+i), 2*((j-1)*this.slices+i)+1`. These are taking into account that each "vertex" has actually two vertices, and finds joins the 2 upper vertices with the lower left vertex and the other triangle will be connected by the 2 vertices in the previous stack with the right vertex of the current stack. We also take into account that the last stack is actually only "one vertex"
+- The shader uses the current physics time with sin function to move the vertices. We calculate how much each vertex moves by using a x\*e^x type function, where the lower vertices will be moved by a factor of 0 (won't move) and the upper vertices will be moved with a factor of 1. This type of function allows the algae to be curved.
+- Since we should use only one shader for performance reasons, we created random colors, directions and speeds in each algae instance, and use setUniforms to pass those informations to the shader before drawing each one of the algae.
+
 ## Screenshots
 
 ### 1 - MyFish
@@ -140,13 +162,31 @@
 
 ![Screenshot 1](docs/images/proj-t4g02-5.png)
 
-### 6 - Other elements (MyAlgaeSet)
+### 5 - Other elements (MyAlgaeSet)
 
 ![Screenshot 1](docs/images/proj-t4g02-6-1.png)
 ![Screenshot 2](docs/images/proj-t4g02-6-2.png)
 
-### 7 - Additional Controls
+### 6 - Additional Controls
 
 ![Screenshot 1](docs/images/proj-t4g02-7-1.png)
 
 ![Screenshot 2](docs/images/proj-t4g02-7-2.png)
+
+### 7 - Aditional Features
+
+![Algae](docs/images/proj-t4g02-8-1.png)
+
+![Fish Shader](docs/images/proj-t4g02-8-2.png)
+
+![Fish Shader 2](docs/images/proj-t4g02-8-3.png)
+
+### Some Improvements
+
+- We decided to add a simple texture to the castle to make it look more realistic, with a texture that gives the idea that the roof is metallic and rusty. [Source](http://texturelib.com/texture/?path=/Textures/roof/roof_0029)
+
+![Castle Roof](docs/images/castle_roof.png)
+
+- We also added rock textures. [Source](https://drive.google.com/drive/folders/1i8ITAJvBiu8AcNkRSdTgX9PCrwYqv4ED)
+
+![Rock with texture](docs/images/rock.png)

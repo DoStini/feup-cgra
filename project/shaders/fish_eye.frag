@@ -2,13 +2,8 @@
 precision highp float;
 #endif
 
-varying vec2 vTextureCoord;
 varying vec3 vVertexPosition;
 
 void main() {
-    vec4 color = vec4(1.0);
-    if (vVertexPosition.y > 0.8) {
-        color = vec4(0.0, 0.0, 0.0, 1.0);
-    }
-	gl_FragColor = color;
+	gl_FragColor = vec4(vec3(1.-step(0.8, vVertexPosition.y)), 1.0);
 }
