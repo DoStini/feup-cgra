@@ -104,6 +104,11 @@ export class MyInterface extends CGFinterface {
         selectBox.add(this.scene, 'displayCylinder').name('Display Cylinder');
         selectBox.add(this.scene, 'displaySphere').name('Display Sphere');
         selectBox.add(this.scene, 'displaySkybox').name('Display Skybox');
+        selectBox.add(this.scene, 'displayWater').name('Display Water');
+        selectBox.add(this.scene, 'displaySand').name('Display Sand');
+        selectBox.add(this.scene, 'displayRocks').name('Display Rocks');
+        selectBox.add(this.scene, 'displayAlgae').name('Display Algae');
+        selectBox.add(this.scene, 'displayPillars').name('Display Pillars');
 
         const skybox = this.gui.addFolder('Skybox');
         skybox.add(this.scene.skybox, 'selectedTexture', this.scene.skybox.texNames).name('Skybox Texture')

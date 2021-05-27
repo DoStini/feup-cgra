@@ -136,6 +136,11 @@ export class MyScene extends CGFscene {
         this.displayCylinder = false;
         this.displaySphere = false;
         this.displaySkybox = true;
+        this.displayWater = true;
+        this.displaySand = true;
+        this.displayRocks = true;
+        this.displayAlgae = true;
+        this.displayPillars = true;
     }
 
     initLights() {
@@ -226,22 +231,30 @@ export class MyScene extends CGFscene {
             this.fish.display();
         }
         
-        this.waterCeiling.display();
+        if (this.displayWater) {
+            this.waterCeiling.display();
+            this.setActiveShader(this.defaultShader);
+        }
+
+        if (this.displaySand) {
+            this.sandFloor.display();
+
+            this.castle.display();
+        }
+
+        if (this.displayAlgae) {
+            this.algae.display();
+            this.setActiveShader(this.defaultShader);
+        }
+
+        if (this.displayRocks) {
+            this.rocks.display();
         
-        this.setActiveShader(this.defaultShader);
-
-        this.sandFloor.display();
-
-        this.algae.display();
-        this.setActiveShader(this.defaultShader);
-
-        this.castle.display();
-
-        this.rocks.display();
+            this.bigRocks.display();    
+        }
         
-        this.bigRocks.display();
-
-        this.pillars.forEach(pillar => pillar.display());
+        if (this.displayPillars)
+            this.pillars.forEach(pillar => pillar.display());
 
         // Draw axis
         if (this.displayAxis)
@@ -258,14 +271,7 @@ export class MyScene extends CGFscene {
         }
 
         if (this.displayCylinder) {
-            this.pushMatrix();
-
-            // let cylinderScale = scaleMatrix(1,2,1);
-            // this.multMatrix(cylinderScale);
-
             this.cylinder.display();
-
-            this.popMatrix();
         }
 
         if (this.displaySkybox) {
