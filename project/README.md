@@ -142,51 +142,51 @@
 
 ### 1 - MyFish
 
-![Screenshot 1](docs/images/proj-t4g02-1.png)
+![Screenshot 1](screenshots/proj-t4g02-1.png)
 
 ### 2 - MySandFloor (sand) and MyCastle (nest)
 
-![Screenshot 1](docs/images/proj-t4g02-2-1.png)
-![Screenshot 2](docs/images/proj-t4g02-2-2.png)
+![Screenshot 1](screenshots/proj-t4g02-2-1.png)
+![Screenshot 2](screenshots/proj-t4g02-2-2.png)
 
 ### 3 - MyWaterSurface (water)
 
-![Screenshot 1](docs/images/proj-t4g02-3.png)
+![Screenshot 1](screenshots/proj-t4g02-3.png)
 
 ### 4 - MyRock (rock) and MyRockSet
 
-![Screenshot 1](docs/images/proj-t4g02-4-1.png)
-![Screenshot 2](docs/images/proj-t4g02-4-2.png)
+![Screenshot 1](screenshots/proj-t4g02-4-1.png)
+![Screenshot 2](screenshots/proj-t4g02-4-2.png)
 
 ### 5 - MyPillar
 
-![Screenshot 1](docs/images/proj-t4g02-5.png)
+![Screenshot 1](screenshots/proj-t4g02-5.png)
 
 ### 5 - Other elements (MyAlgaeSet)
 
-![Screenshot 1](docs/images/proj-t4g02-6-1.png)
-![Screenshot 2](docs/images/proj-t4g02-6-2.png)
+![Screenshot 1](screenshots/proj-t4g02-6-1.png)
+![Screenshot 2](screenshots/proj-t4g02-6-2.png)
 
 ### 6 - Additional Controls
 
-![Screenshot 1](docs/images/proj-t4g02-7-1.png)
+![Screenshot 1](screenshots/proj-t4g02-7-1.png)
 
-![Screenshot 2](docs/images/proj-t4g02-7-2.png)
+![Screenshot 2](screenshots/proj-t4g02-7-2.png)
 
 ### 7 - Aditional Features
 
-![Algae](docs/images/proj-t4g02-8-1.png)
+![Algae](screenshots/proj-t4g02-8-1.png)
 
-![Fish Shader](docs/images/proj-t4g02-8-2.png)
+![Fish Shader](screenshots/proj-t4g02-8-2.png)
 
-![Fish Shader 2](docs/images/proj-t4g02-8-3.png)
+![Fish Shader 2](screenshots/proj-t4g02-8-3.png)
 
 ### Some Improvements
 
 - We decided to add a simple texture to the castle to make it look more realistic, with a texture that gives the idea that the roof is metallic and rusty. [Source](http://texturelib.com/texture/?path=/Textures/roof/roof_0029)
 
-![Castle Roof](docs/images/castle_roof.png)
+![Castle Roof](screenshots/castle_roof.png)
 
 - We also added rock textures. [Source](https://drive.google.com/drive/folders/1i8ITAJvBiu8AcNkRSdTgX9PCrwYqv4ED)
 
-![Rock with texture](docs/images/rock.png)
+![Rock with texture](screenshots/rock.png)
