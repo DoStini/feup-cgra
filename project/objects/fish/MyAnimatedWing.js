@@ -1,5 +1,5 @@
 import {CGFobject} from '../../../lib/CGF.js';
-import { rotateXMatrix } from '../../../tp4/Utils/Matrix/MatrixGenerator.js';
+import { rotateXMatrix } from '../../utils/matrix/MatrixGenerator.js';
 import { MyRectTriangle } from '../../shapes/MyRectTriangle.js';
 import { degreeToRad } from '../../utils/math/MathUtils.js';
 import { rotateYMatrix, scaleMatrix, translateMatrix } from '../../utils/matrix/MatrixGenerator.js';

@@ -1,11 +1,4 @@
 import {CGFobject} from '../../../lib/CGF.js';
-import { rotateXMatrix } from '../../../tp4/Utils/Matrix/MatrixGenerator.js';
-import { MyRectTriangle } from '../../shapes/MyRectTriangle.js';
-import { degreeToRad } from '../../utils/math/MathUtils.js';
-import { rotateYMatrix, scaleMatrix, translateMatrix } from '../../utils/matrix/MatrixGenerator.js';
-import { Vector3 } from '../../utils/Vector3.js';
-import MovementState from '../movable/HorizontalMovementState.js';
-import { MySphere } from '../MySphere.js';
 /**
 * MyRotationAnimatedObject
 * @constructor

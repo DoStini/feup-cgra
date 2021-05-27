@@ -1,5 +1,4 @@
 import {CGFobject} from '../../lib/CGF.js';
-import { rotateXMatrix } from '../../tp4/Utils/Matrix/MatrixGenerator.js';
 /**
 * MyPyramid
 * @constructor
