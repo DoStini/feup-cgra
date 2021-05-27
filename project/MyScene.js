@@ -63,7 +63,7 @@ export class MyScene extends CGFscene {
         this.skybox = new MyCubeMap(this);
         this.quad = new MyQuad(this);
         this.cylinderMaterial = new Material(this, DefaultMaterial, {
-            tex: "/project/textures/FEUP.jpg",
+            tex: "textures/FEUP.jpg",
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
         });

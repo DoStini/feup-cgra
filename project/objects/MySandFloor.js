@@ -25,8 +25,8 @@ export class MySandFloor extends CGFobject {
 
     init() {
         this.plane = new MyPlane(this.scene, this.nrDivs);
-        this.sandTex = new CGFtexture(this.scene, '/project/textures/sand.png');
-        this.sandBump = new CGFtexture(this.scene, '/project/textures/maps/sandMap.png');
+        this.sandTex = new CGFtexture(this.scene, 'textures/sand.png');
+        this.sandBump = new CGFtexture(this.scene, 'textures/maps/sandMap.png');
 
         this.planeShader = new CGFshader(this.scene.gl, '/project/shaders/sand.vert', '/project/shaders/sand.frag');
         this.planeShader.setUniformsValues({uSandSampler: 1, uSandBumpSampler: 2, uDisplacement: this.displacement, uMaxHeight: this.maxHeight, uBlendMultiplier : this.blendMultiplier});
