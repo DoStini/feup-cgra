@@ -49,22 +49,22 @@ import DefaultMaterial from "../../materials/DefaultMaterial.js";
 
     init() {
         this.wallMat = new Material(this.scene, CastleWall, {
-            tex: '/project/textures/castle/castleWall.jpg',
+            tex: 'textures/castle/castleWall.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           });
         this.towerMat = new Material(this.scene, CastleWall, {
-            tex: '/project/textures/castle/castleTower.jpg',
+            tex: 'textures/castle/castleTower.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           } );
         this.doorMat = new Material(this.scene, CastleWall, {
-            tex: '/project/textures/castle/castleDoor.jpg',
+            tex: 'textures/castle/castleDoor.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           } );
         this.roofMat = new Material(this.scene, CastleRoof, {
-            tex: '/project/textures/castle/castle_roof.jpg',
+            tex: 'textures/castle/castle_roof.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
           } );

@@ -19,7 +19,7 @@ export class MyPillar extends CGFobject {
         this.radius = radius;
         this.height = height;
         this.material = new Material(scene, PillarMaterial,{
-            tex: '/project/textures/wood_moss.jpg',
+            tex: 'textures/wood_moss.jpg',
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
         }); // Texture from https://texturehaven.com/tex/?t=wooden_rough_planks

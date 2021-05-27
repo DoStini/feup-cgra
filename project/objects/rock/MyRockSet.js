@@ -25,7 +25,7 @@ export class MyRockSet extends CGFobject {
         this.slices = slices;
         this.stacks = stacks;
         this.material = new Material(this.scene, RockMaterial, {
-            tex: "/project/textures/rock/seashell.jpg",
+            tex: "textures/rock/seashell.jpg",
             SMODE: 'REPEAT',
             TMODE: 'REPEAT',
         });
